@@ -42,6 +42,7 @@
 *.idb
 *.pdb
 
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
@@ -52,3 +53,4 @@ Mkfile.old
 dkms.conf
 
 .vscode
+.DS_Store

@@ -1,0 +1,9 @@
+Sobre la orden "echo" y como usar -n
+https://stackoverflow.com/questions/23361003/how-to-not-print-a-trailing-newline-after-echo-something
+
+Funciones externas permitidas y qué hacen:
+fork:    https://www.geeksforgeeks.org/fork-system-call/
+wait:    https://www.geeksforgeeks.org/wait-system-call-c/
+waitpid: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait.2.html
+wait3 wait4: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait4.2.html
+signal kill:  https://www.geeksforgeeks.org/signals-c-language/
