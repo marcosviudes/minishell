@@ -16,6 +16,7 @@ TEST_DIR	= $(SRC_DIR)test/
 
 SRC			= main.c\
 			prompt.c\
+			get_next_line.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\
@@ -49,11 +50,13 @@ normi: fclean
 
 clean:
 	@make -C $(LIBFT_DIR) clean
-	$(RM) $(NAME) $(OBJS)
+	$(RM) $(OBJS)
 	$(RM) test*
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean
+	$(RM) $(NAME)
+
 re: fclean all
 
 

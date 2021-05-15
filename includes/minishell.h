@@ -6,7 +6,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/stat.h>
-# include <sys/wait.h>	//necesario para wait();
+# include <sys/wait.h>		//necesario para wait();
 # include <sys/ioctl.h>
 # include <sys/types.h>
 # include <dirent.h>
@@ -17,10 +17,11 @@
 # include <curses.h>
 
 # include <libft.h>
+# include <get_next_line.h>
 # include <dllst.h>
 
-# define BUFSIZE 1024
-
+# define BUFSIZE		8
+# define HISTORY_PATH	"./minishell_history"
 typedef struct s_shell
 {
 	struct termios	native;
@@ -29,6 +30,7 @@ typedef struct s_shell
 	char			*buff;
 	int				prompt_len;
 	int				read_bytes;
+	t_dllist		*history_head;
 }				t_shell;
 
 void	prompt_config(t_shell *shell, char *prompt_str);
