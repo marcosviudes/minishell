@@ -21,7 +21,8 @@
 # include <dllst.h>
 
 # define BUFSIZE		8
-# define HISTORY_PATH	"./minishell_history"
+# define BUFFER_SIZE	8
+# define HISTORY_PATH	"./minishell_history.txt"
 typedef struct s_shell
 {
 	struct termios	native;
@@ -30,11 +31,13 @@ typedef struct s_shell
 	char			*buff;
 	int				prompt_len;
 	int				read_bytes;
-	t_dllist		*history_head;
+	t_dllist		*history;
 }				t_shell;
 
 void	prompt_config(t_shell *shell, char *prompt_str);
 void	prompt_put(t_shell *shell);
 
+t_dllist	*history_import(char* string, int max_len);
+void		history_print_all(t_dllist *history);
 # define TERM_NAME "terminator$ "
 #endif

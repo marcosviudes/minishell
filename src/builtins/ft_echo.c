@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dllstadd_front.c                                   :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 21:18:42 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/16 19:31:45 by mviudes          ###   ########.fr       */
+/*   Created: 2021/05/16 13:26:43 by mviudes           #+#    #+#             */
+/*   Updated: 2021/05/16 13:27:05 by mviudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dllst.h>
-
-void	dllstadd_front(t_dllist **head, t_dllist *new)
+int		ft_echo(char **args)
 {
-	new->next = (*head);
-	new->prev = NULL;
-	if ((*head) != NULL)
-		(*head)->prev = new;
-	(*head) = new;
+	return(0);
 }

@@ -17,6 +17,7 @@ TEST_DIR	= $(SRC_DIR)test/
 SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
+			history.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\
@@ -24,7 +25,9 @@ SRC			= main.c\
 			$(LIST_DIR)dllst_next.c\
 			$(LIST_DIR)dllst_prev.c\
 			$(LIST_DIR)dllstadd_back.c\
-			$(LIST_DIR)dllstadd_front.c
+			$(LIST_DIR)dllstadd_front.c\
+			$(LIST_DIR)dllstdel_first.c\
+			$(LIST_DIR)dllstdel_last.c
 
 TEST		= $(TEST_DIR)test1.c\
 			$(TEST_DIR)test2.c
@@ -57,8 +60,9 @@ fclean: clean
 	@make -C $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
 
-re: fclean all
-
+re:
+	make fclean
+	make all
 
 test1:
 	gcc ./src/tests/test1.c -Iincludes -o test1

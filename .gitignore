@@ -54,3 +54,4 @@ dkms.conf
 
 .vscode
 .DS_Store
+minishell_history.txt

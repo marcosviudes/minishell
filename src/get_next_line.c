@@ -6,12 +6,13 @@
 /*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 19:08:31 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/15 11:38:25 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/16 22:02:37 by mviudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <get_next_line.h>
 #include <libft.h>
+
 
 int	print_line(char **file, char **line, int i)
 {
@@ -43,7 +44,7 @@ int	get_next_line(int fd, char **line)
 	int			i;
 	static char	*file[4096];
 	char		*temp;
-	char		buf[1 + 1];
+	char		buf[BUFFER_SIZE+ 1];
 
 	i = 1;
 	while (i > 0)
@@ -62,3 +63,53 @@ int	get_next_line(int fd, char **line)
 	}
 	return (print_line(&file[fd], line, i));
 }
+/*
+char			*ft_strcdup(const char *src, int c)
+{
+	int			i;
+	int			j;
+	char		*s2;
+
+	i = 0;
+	j = 0;
+	while (src[i] && src[i] != c)
+		i++;
+	s2 = malloc((i + 1) * sizeof(char));
+	if (!(s2))
+		return (0);
+	while (j < i)
+	{
+		s2[j] = src[j];
+		j++;
+	}
+	s2[j] = '\0';
+	return (s2);
+}
+
+int				get_next_line(int fd, char **line)
+{
+	static char	*str[4096];
+	char		buff[BUFFER_SIZE + 1];
+	int			i;
+	char		*tmp;
+
+	!str[fd] ? str[fd] = ft_strcdup("", '\0') : str[fd];
+	while ((i = read(fd, buff, BUFFER_SIZE)) > 0)
+	{
+		buff[i] = '\0';
+		tmp = ft_strjoin(str[fd], buff);
+		free(str[fd]);
+		if (ft_strchr((str[fd] = tmp), '\n'))
+			break ;
+	}
+	if (i < 0 || line == NULL)
+		return (-1);
+	*line = ft_strcdup(str[fd], '\n');
+	tmp = NULL;
+	if (str[fd][ft_strlen(*line)] != '\0')
+		tmp = ft_strcdup(ft_strchr(str[fd], '\n') + 1, '\0');
+	free(str[fd]);
+	if ((str[fd] = tmp) == NULL)
+		return (0);
+	return (1);
+}*/

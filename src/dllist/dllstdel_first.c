@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dllstadd_front.c                                   :+:      :+:    :+:   */
+/*   dllstddel_first.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 21:18:42 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/16 19:31:45 by mviudes          ###   ########.fr       */
+/*   Created: 2021/05/16 20:52:32 by mviudes           #+#    #+#             */
+/*   Updated: 2021/05/16 21:06:58 by mviudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dllst.h>
 
-void	dllstadd_front(t_dllist **head, t_dllist *new)
+void	dllstddel_first(t_dllist **first)
 {
-	new->next = (*head);
-	new->prev = NULL;
-	if ((*head) != NULL)
-		(*head)->prev = new;
-	(*head) = new;
+	t_dllist *temp;
+
+	if(!first || !*first)
+		return ;
+	while((*first)->prev != NULL)
+		*first = (*first)->prev;
+	temp = *first;
+	(*first) = (*first)->next;
+	(*first)->prev = NULL;
+	free(temp->buff);
+	free(temp);
 }

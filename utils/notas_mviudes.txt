@@ -1,1 +1,9 @@
+#TODO
+	fix and protect dllist funcitons
+	remove no norminize GNL
+	
+#UTIL COMMANDS
+	while true ; do leaks minishell ; sleep 1  ; done
+	make -j4
+
 Errno handling:	https://www.youtube.com/watch?v=IZiUT-ipnj0

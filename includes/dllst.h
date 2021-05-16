@@ -6,7 +6,7 @@
 /*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 21:04:48 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/12 22:42:17 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/16 21:13:19 by mviudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ t_dllist	*dllst_next(t_dllist *lst);
 t_dllist	*dllst_prev(t_dllist *lst);
 void		dllstadd_back(t_dllist **lst, t_dllist *new);
 void		dllstadd_front(t_dllist **alst, t_dllist *new);
+void		dllstddel_first(t_dllist **first);
+void		dllstddel_last(t_dllist **last);
 #endif
