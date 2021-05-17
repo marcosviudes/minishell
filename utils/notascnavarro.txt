@@ -5,5 +5,10 @@ Funciones externas permitidas y qué hacen:
 fork:    https://www.geeksforgeeks.org/fork-system-call/
 wait:    https://www.geeksforgeeks.org/wait-system-call-c/
 waitpid: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait.2.html
-wait3 wait4: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait4.2.html
-signal kill:  https://www.geeksforgeeks.org/signals-c-language/
+wait3, wait4: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait4.2.html
+signal, kill:  https://www.geeksforgeeks.org/signals-c-language/
+getcwd:         , chdir, stat, lstat, fstat, execve,
+dup, dup2, pipe, opendir, readdir, closedir,
+strerror, errno, isatty, ttyname, ttyslot, ioctl,
+getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+tgetnum, tgetstr, tgoto, tputs
