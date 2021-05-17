@@ -2,13 +2,28 @@ Sobre la orden "echo" y como usar -n
 https://stackoverflow.com/questions/23361003/how-to-not-print-a-trailing-newline-after-echo-something
 
 Funciones externas permitidas y qué hacen:
-fork:    https://www.geeksforgeeks.org/fork-system-call/
-wait:    https://www.geeksforgeeks.org/wait-system-call-c/
-waitpid: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait.2.html
-wait3, wait4: http://manpages.ubuntu.com/manpages/bionic/es/man2/wait4.2.html
-signal, kill:  https://www.geeksforgeeks.org/signals-c-language/
-getcwd:         , chdir, stat, lstat, fstat, execve,
-dup, dup2, pipe, opendir, readdir, closedir,
-strerror, errno, isatty, ttyname, ttyslot, ioctl,
-getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
-tgetnum, tgetstr, tgoto, tputs
+fork:           https://www.geeksforgeeks.org/fork-system-call/
+wait:           https://www.geeksforgeeks.org/wait-system-call-c/
+waitpid:        http://manpages.ubuntu.com/manpages/bionic/es/man2/wait.2.html
+wait3, wait4:   http://manpages.ubuntu.com/manpages/bionic/es/man2/wait4.2.html
+signal, kill:   https://www.geeksforgeeks.org/signals-c-language/
+getcwd:         https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-getcwd-get-path-name-working-directory
+chdir:          https://www.geeksforgeeks.org/chdir-in-c-language-with-examples/
+stat:           https://codeforwin.org/2018/03/c-program-find-file-properties-using-stat-function.html
+lstat:          https://linux.die.net/man/2/lstat
+fstat:          https://baulderasec.wordpress.com/programacion/programacion-con-linux/3-trabajando-con-los-archivos/acceso-de-bajo-nivel-a-archivos/fstat-stat-y-lstat/
+execve:         http://manpages.ubuntu.com/manpages/bionic/es/man2/execve.2.html
+dup, dup2:      https://www.geeksforgeeks.org/dup-dup2-linux-system-call/
+pipe:           https://www.geeksforgeeks.org/pipe-system-call/
+opendir, readdir, closedir: https://pasky.wordpress.com/2009/08/05/funciones-opendir-readdir-y-closedir-en-c/
+strerror:       https://www.tutorialspoint.com/c_standard_library/c_function_strerror.htm
+errno:          https://man7.org/linux/man-pages/man3/errno.3.html
+isatty:         https://linux.die.net/man/3/isatty
+ttyname:        https://linux.die.net/man/3/ttyname
+ttyslot:        https://linux.die.net/man/3/ttyslot
+ioctl:          https://linux.die.net/man/2/ioctl
+getenv:         https://www.tutorialspoint.com/c_standard_library/c_function_getenv.htm
+tcsetattr:      https://www.ibm.com/docs/en/zos/2.2.0?topic=functions-tcsetattr-set-attributes-terminal
+tcgetattr:      https://www.ibm.com/docs/en/zos/2.1.0?topic=functions-tcgetattr-get-attributes-terminal
+tgetent, tgetflag, tgetnumt, tgetstrt, goto, tputs:
+                https://linux.die.net/man/3/tgetent
