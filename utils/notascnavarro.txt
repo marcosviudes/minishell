@@ -12,3 +12,11 @@ dup, dup2, pipe, opendir, readdir, closedir,
 strerror, errno, isatty, ttyname, ttyslot, ioctl,
 getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
 tgetnum, tgetstr, tgoto, tputs
+
+prueba pa ver como se ve la rama
+asdr
+fva
+ signalsgarg
+  asdr
+
+;
