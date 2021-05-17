@@ -23,6 +23,7 @@
 # define BUFSIZE		8
 # define BUFFER_SIZE	8
 # define HISTORY_PATH	"./minishell_history.txt"
+
 typedef struct s_shell
 {
 	struct termios	native;

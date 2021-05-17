@@ -6,7 +6,7 @@
 /*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 21:26:16 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/16 22:03:29 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/17 15:41:31 by mviudes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ void	free_all(t_shell *shell)
 
 /* The fucniton disabled the normal function of the terminal
  * with tcgetattr get the configuration of the native terminal
- *  ECHO	: disables the display of characters
- *  ICANON	: allow reading byte-by-byte
- *  ISIG	: disable ctrl-C signal; wich terminate the program
+ *	ECHO	: disables the display of characters
+ *	ICANON	: allow reading byte-by-byte
+ *	ISIG	: disable ctrl-C signal; wich terminate the program
  *	OPOST	: 
  *	VMIN	:
- * 	VTIMR	: disable timeout for read function
+ *	VTIMR	: disable timeout for read function
  */
-
 
 int	set_terminal_mode(t_shell *shell)
 {
@@ -42,6 +41,7 @@ int	set_terminal_mode(t_shell *shell)
 	tcsetattr(STDIN_FILENO,  TCSANOW, &shell->my_term);
 	return(0);
 }
+
 /*
 int	set_terminal_mode(t_shell *shell)
 {
@@ -58,7 +58,6 @@ int	set_terminal_mode(t_shell *shell)
 	tcsetattr(STDIN_FILENO,  TCSANOW, &my_term);
 	return(0);
 }*/
-
 
 
 t_shell	*init_structure(t_shell *shell)
@@ -100,7 +99,7 @@ int	main(int argc, char **argv)
 	shell = init_structure(shell);
 	set_terminal_mode(shell);
 	shell->history = history_import(argv[1], 20);
-	history_print_all(shell->history);
+//	history_print_all(shell->history);
 	prompt_config(shell, TERM_NAME);
 	while (1)
 	{
