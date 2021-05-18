@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/27 21:26:16 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/18 17:16:44 by cnavarro         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <minishell.h>
+#include <curses.h>
+#include <term.h>
 
 void	free_all(t_shell *shell)
 {
@@ -18,13 +8,13 @@ void	free_all(t_shell *shell)
 	free(shell);
 }
 
-/* The fucniton disabled the normal function of the terminal
+/* The function disabled the normal function of the terminal
  * with tcgetattr get the configuration of the native terminal
  *	ECHO	: disables the display of characters
  *	ICANON	: allow reading byte-by-byte
  *	ISIG	: disable ctrl-C signal; wich terminate the program
  *	OPOST	: 
- *	VMIN	:
+ *	VMIN	: set the read to one char reading
  *	VTIMR	: disable timeout for read function
  */
 
@@ -36,8 +26,9 @@ int	set_terminal_mode(t_shell *shell)
 	shell->my_term.c_lflag &= ~(ICANON);
 	shell->my_term.c_lflag &= ~(ISIG);
 	shell->my_term.c_lflag &= ~(OPOST);
-	shell->my_term.c_cc[VMIN] = 0;
-	shell->my_term.c_cc[VTIME] = 1;
+	shell->my_term.c_cc[VMIN] = 1;
+	shell->my_term.c_cc[VTIME] = 0;
+	tgetent(NULL, getenv("TERM"));
 	tcsetattr(STDIN_FILENO,  TCSANOW, &shell->my_term);
 	return(0);
 }
@@ -46,7 +37,7 @@ int	set_terminal_mode(t_shell *shell)
 int	set_terminal_mode(t_shell *shell)
 {
 	struct termios my_term;
-	
+
 	tcgetattr(STDIN_FILENO, &shell->native);
 	my_term = shell->native;
 	my_term.c_lflag &= ~(ECHO);
@@ -67,7 +58,7 @@ t_shell	*init_structure(t_shell *shell)
 	return(shell);
 }
 
-void	read_in(t_shell *shell)
+/*void	read_stdin(t_shell *shell)
 {
 		shell->buff = ft_calloc(1, BUFSIZE + 1);
 		while(ft_strncmp(shell->buff, "\n", 2) != 0)
@@ -91,7 +82,7 @@ void	read_in(t_shell *shell)
 		}
 		free(shell->buff);
 }
-
+*/
 int	main(int argc, char **argv)
 {
 	t_shell	*shell;
@@ -107,7 +98,7 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		prompt_put(shell);
-		read_in(shell);
+		read_stdin(shell);
 	}
 	free_all(shell);
 	system("leaks minishell");

@@ -32,6 +32,7 @@ typedef struct s_shell
 	struct termios	my_term;
 	char			*prompt;
 	char			*buff;
+	char			*line;
 	int				prompt_len;
 	int				read_bytes;
 	t_dllist		*history;
@@ -55,6 +56,9 @@ int	tcps_right(t_shell *shell);
 int	tcps_left(t_shell *shell);
 t_dllist	*history_import(char* string, int max_len);
 void		history_print_all(t_dllist *history);
+void		read_stdin(t_shell *shell);
+
+int	set_terminal_mode(t_shell *shell);
 # define TERM_NAME "terminator$ "
 # define TERCAPS_MAX 3
 #endif
