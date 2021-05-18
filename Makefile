@@ -18,6 +18,7 @@ SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
 			history.c\
+			read_stdin.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\
@@ -41,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) ./includes/minishell.h
 	make -C $(LIBFT_DIR)
-	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT_A) -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT_A) -ltermcap -o $(NAME)
 
 
 .PHONY:	all clean fclean re
