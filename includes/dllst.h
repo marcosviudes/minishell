@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dllst.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 21:04:48 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/16 21:13:19 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/18 16:49:11 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct s_dllist
+typedef struct	s_dllist
 {
 	char			*buff;
 	struct s_dllist	*prev;
 	struct s_dllist	*next;
-}					t_dllist;
+}				t_dllist;
 
 void		ft_dllstclear(t_dllist **lst, void(*del)(void*));
 t_dllist	*dllst_first(t_dllist *lst);

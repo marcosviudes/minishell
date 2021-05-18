@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 15:27:35 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/17 15:45:48 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/18 15:58:55 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ t_builtin *init_builtin(void)
 	builtin[2].func = (*builtin_exit);
 	builtin[3].name = "pwd";
 	builtin[3].func = (*builtin_pwd);
-​
-​
 }
 ​
 int main(void)

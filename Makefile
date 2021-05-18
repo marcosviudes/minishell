@@ -18,6 +18,7 @@ SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
 			history.c\
+			tercaps.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\

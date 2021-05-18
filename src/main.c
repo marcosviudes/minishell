@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 21:26:16 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/17 15:41:31 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/18 17:16:44 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	set_terminal_mode(t_shell *shell)
 t_shell	*init_structure(t_shell *shell)
 {
 	shell = malloc(sizeof(t_shell));
+	shell->tcps = init_tercaps(shell);
 	return(shell);
 }
 
@@ -74,6 +75,8 @@ void	read_in(t_shell *shell)
 			shell->read_bytes = read(STDIN_FILENO, shell->buff, BUFSIZE);
 			shell->buff[shell->read_bytes] = '\0';
 			write(STDOUT_FILENO, shell->buff, shell->read_bytes);
+			if (!ft_isprint(shell->buff[0]) && shell->buff[0] != '\0')
+				tercaps(&shell->buff[0], shell);
 			if(shell->buff[0] == 'q')
 			{
 				system("leaks minishell");
@@ -92,11 +95,11 @@ void	read_in(t_shell *shell)
 int	main(int argc, char **argv)
 {
 	t_shell	*shell;
-
+	
 	(void)argc;
 	(void)argv;
 	shell = NULL;
-	shell = init_structure(shell);
+	shell = init_structure(shell); 
 	set_terminal_mode(shell);
 	shell->history = history_import(argv[1], 20);
 //	history_print_all(shell->history);
@@ -110,4 +113,3 @@ int	main(int argc, char **argv)
 	system("leaks minishell");
 	return (0);
 }
-

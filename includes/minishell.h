@@ -24,6 +24,8 @@
 # define BUFFER_SIZE	8
 # define HISTORY_PATH	"./minishell_history.txt"
 
+typedef struct	s_tercaps t_tercaps;
+
 typedef struct s_shell
 {
 	struct termios	native;
@@ -33,12 +35,26 @@ typedef struct s_shell
 	int				prompt_len;
 	int				read_bytes;
 	t_dllist		*history;
+	t_tercaps		*tcps;
 }				t_shell;
 
-void	prompt_config(t_shell *shell, char *prompt_str);
-void	prompt_put(t_shell *shell);
+typedef struct	s_tercaps
+{
+	char	*name;
+	int		(*func)(t_shell *shell);
+}				t_tercaps;
 
+void		prompt_config(t_shell *shell, char *prompt_str);
+void		prompt_put(t_shell *shell);
+void		tercaps(char *str, t_shell *shell);
+t_tercaps	*init_tercaps(t_shell *shell);
+
+int	tcps_up(t_shell *shell);
+int	tcps_down(t_shell *shell);
+int	tcps_right(t_shell *shell);
+int	tcps_left(t_shell *shell);
 t_dllist	*history_import(char* string, int max_len);
 void		history_print_all(t_dllist *history);
 # define TERM_NAME "terminator$ "
+# define TERCAPS_MAX 3
 #endif
