@@ -48,7 +48,7 @@ typedef struct	s_tercaps
 void		prompt_config(t_shell *shell, char *prompt_str);
 void		prompt_put(t_shell *shell);
 void		tercaps(char *str, t_shell *shell);
-t_tercaps	*init_tercaps(t_shell *shell);
+void		init_tercaps(t_shell *shell);
 
 int	tcps_up(t_shell *shell);
 int	tcps_down(t_shell *shell);
@@ -60,5 +60,5 @@ void		read_stdin(t_shell *shell);
 
 int	set_terminal_mode(t_shell *shell);
 # define TERM_NAME "terminator$ "
-# define TERCAPS_MAX 3
+# define TERCAPS_MAX 4
 #endif
