@@ -54,7 +54,7 @@ int	set_terminal_mode(t_shell *shell)
 t_shell	*init_structure(t_shell *shell)
 {
 	shell = malloc(sizeof(t_shell));
-	shell->tcps = init_tercaps(shell);
+	init_tercaps(shell);
 	return(shell);
 }
 

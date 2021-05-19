@@ -50,11 +50,11 @@ void		prompt_put(t_shell *shell);
 void		tercaps(char *str, t_shell *shell);
 void		init_tercaps(t_shell *shell);
 
-int	tcps_up(t_shell *shell);
-int	tcps_down(t_shell *shell);
-int	tcps_right(t_shell *shell);
-int	tcps_left(t_shell *shell);
-t_dllist	*history_import(char* string, int max_len);
+int		tcps_up(t_shell *shell);
+int		tcps_down(t_shell *shell);
+int		tcps_right(t_shell *shell);
+int		tcps_left(t_shell *shell);
+void	*history_import(char* string, int max_len);
 void		history_print_all(t_dllist *history);
 void		read_stdin(t_shell *shell);
 
