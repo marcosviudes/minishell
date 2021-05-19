@@ -28,6 +28,7 @@ int	set_terminal_mode(t_shell *shell)
 	shell->my_term.c_lflag &= ~(OPOST);
 	shell->my_term.c_cc[VMIN] = 1;
 	shell->my_term.c_cc[VTIME] = 0;
+	tgetent(NULL, getenv("TERM"));
 	tcsetattr(STDIN_FILENO,  TCSANOW, &shell->my_term);
 	return(0);
 }
@@ -53,11 +54,11 @@ int	set_terminal_mode(t_shell *shell)
 t_shell	*init_structure(t_shell *shell)
 {
 	shell = malloc(sizeof(t_shell));
-	init_tercaps(shell);
+	shell->tcps = init_tercaps(shell);
 	return(shell);
 }
-/*
-void	read_stdin(t_shell *shell)
+
+/*void	read_stdin(t_shell *shell)
 {
 		shell->buff = ft_calloc(1, BUFSIZE + 1);
 		while(ft_strncmp(shell->buff, "\n", 2) != 0)

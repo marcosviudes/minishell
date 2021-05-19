@@ -24,7 +24,6 @@ void	read_stdin(t_shell *shell)
 //			ft_strlcpy(shell->line, buff, ft_strlen(buff));
 //		ft_putstr_fd(buff, 2);
 		if (!ft_isprint(buff[0]))
-		//if(buff[0] == '\e')
 				tercaps(buff, shell);
 		else
 			write(STDOUT_FILENO, buff, ft_strlen(buff));
