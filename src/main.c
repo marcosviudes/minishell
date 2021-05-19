@@ -83,6 +83,19 @@ t_shell	*init_structure(t_shell *shell)
 		free(shell->buff);
 }
 */
+
+void	loop_shell(t_shell *shell)
+{
+	while (1)
+	{
+		prompt_put(shell);
+		read_stdin(shell);
+		//lexical_analyze(shell);
+		//parse(shell);
+		//execute(shell);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_shell	*shell;
@@ -95,11 +108,7 @@ int	main(int argc, char **argv)
 	shell->history = history_import(argv[1], 20);
 //	history_print_all(shell->history);
 	prompt_config(shell, TERM_NAME);
-	while (1)
-	{
-		prompt_put(shell);
-		read_stdin(shell);
-	}
+	loop_shell(shell);
 	free_all(shell);
 	system("leaks minishell");
 	return (0);
