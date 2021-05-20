@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tercaps.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:18:24 by cnavarro          #+#    #+#             */
-/*   Updated: 2021/05/19 13:05:40 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/05/20 17:01:09 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	init_tercaps(t_shell *shell)
 	shell->tcps[2].func = (*tcps_right);
 	shell->tcps[3].name = tgetstr("kl", NULL);
 	shell->tcps[3].func = (*tcps_left);
+	//shell->tcps[4].name = tgetstr("kb", NULL);
+	//shell->tcps[4].func = (*tcps_backspace);
 }
 
 void tercaps(char *str, t_shell *shell)
@@ -52,23 +54,42 @@ void tercaps(char *str, t_shell *shell)
 
 int	tcps_up(t_shell *shell)
 {
-	write(1, "up\n", 3);
+	//write(1, "up\n", 3);
 	return (1);
 }
 
 int	tcps_down(t_shell *shell)
 {
-	write(1, "down\n", 5);
+	//write(1, "down\n", 5);
 	return (0);
 }
 
 int	tcps_right(t_shell *shell)
 {
-	write(1, "right\n", 6);
+	if (shell->cx < shell->line_max)
+	{
+		tputs(tgetstr("%i", NULL), 1, ft_putchar);
+		shell->cx++;
+	}
 	return (1);
 }
+
 int	tcps_left(t_shell *shell)
 {
-	write(1, "left\n", 5);
-	return (0);
+	if (shell->cx > 0)
+	{
+		tputs(tgetstr("#4", NULL), 1, ft_putchar);
+		shell->cx--;
+	}
+	return (1);
+}
+
+int	tcps_backspace(t_shell *shell)
+{
+	if (shell->cx > 0)
+	{
+		tputs(tgetstr("#4", NULL), 1, ft_putchar);
+		shell->cx--;
+	}
+	return (1);
 }

@@ -12,9 +12,9 @@
 # include <dirent.h>
 # include <signal.h>
 # include <errno.h>
-# include <term.h>
 # include <termios.h>
 # include <curses.h>
+# include <term.h>
 
 # include <libft.h>
 # include <get_next_line.h>
@@ -35,6 +35,8 @@ typedef struct s_shell
 	char			*line;
 	int				prompt_len;
 	int				read_bytes;
+	int				cx;
+	int				line_max;
 	t_dllist		*history;
 	t_tercaps		*tcps;
 }				t_shell;
@@ -50,15 +52,17 @@ void		prompt_put(t_shell *shell);
 void		tercaps(char *str, t_shell *shell);
 void		init_tercaps(t_shell *shell);
 
-int		tcps_up(t_shell *shell);
-int		tcps_down(t_shell *shell);
-int		tcps_right(t_shell *shell);
-int		tcps_left(t_shell *shell);
+int			tcps_up(t_shell *shell);
+int			tcps_down(t_shell *shell);
+int			tcps_right(t_shell *shell);
+int			tcps_left(t_shell *shell);
+int			tcps_backspace(t_shell *shell);
+
 t_dllist	*history_import(char* string, int max_len);
 void		history_print_all(t_dllist *history);
 void		read_stdin(t_shell *shell);
 
-int	set_terminal_mode(t_shell *shell);
+int			set_terminal_mode(t_shell *shell);
 # define TERM_NAME "terminator$ "
 # define TERCAPS_MAX 4
 #endif

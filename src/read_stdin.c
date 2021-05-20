@@ -9,6 +9,8 @@ void	read_stdin(t_shell *shell)
 	int		i;
 
 	i = 0;
+	shell->cx = 0;
+	shell->line_max = 0;
 	buff[BUFSIZE] =  '\0';
 	
 	ft_bzero(line, 2048);
@@ -28,13 +30,15 @@ void	read_stdin(t_shell *shell)
 		else
 		{
 			write(STDOUT_FILENO, buff, ft_strlen(buff));
-			line[i] = buff[0]; 
+			line[i] = buff[0];
+			shell->cx++;
+			i++;
 		}
 		//shell->line = ft_memcpy(shell->line, buff, ft_strlen(buff));
 //		shell->line[shell->read_bytes] = buff[0];
 //		buff[shell->read_bytes + 1] = '\0';
 		//write(STDOUT_FILENO, buff, shell->read_bytes);
-		i++;
+		shell->line_max = i;
 	}
 	shell->line = ft_strdup(line);
 	write(2, shell->line , ft_strlen(shell->line));
