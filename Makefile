@@ -2,7 +2,7 @@ NAME		= minishell
 
 CC			= gcc
 CFLAGS		= -g3#-Wall -Wextra -Werror -g3#-Wpedantic -O3
-DFLAGS		= -g 
+DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft
 
 RM			= rm -rf
@@ -17,9 +17,6 @@ TEST_DIR	= $(SRC_DIR)test/
 SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
-			history.c\
-			tercaps.c\
-			read_stdin.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\
@@ -43,15 +40,10 @@ all: $(NAME)
 
 $(NAME): $(OBJS) ./includes/minishell.h
 	make -C $(LIBFT_DIR)
-	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT_A) -ltermcap -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT_A) -ltermcap -lreadline -o $(NAME)
 
 
 .PHONY:	all clean fclean re
-
-normi: fclean
-	norminette src/*
-	norminette includes/*
-	norminette libft/*.c libft/*.h
 
 clean:
 	@make -C $(LIBFT_DIR) clean
