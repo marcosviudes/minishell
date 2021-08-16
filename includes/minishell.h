@@ -29,9 +29,9 @@ typedef struct s_shell
 	char			*buff;
 	char			*line;
 	int				prompt_len;
-
 }				t_shell;
 
+//HIST_ENTRY **history;
 
 //void		prompt_config(t_shell *shell, char *prompt_str);
 #endif

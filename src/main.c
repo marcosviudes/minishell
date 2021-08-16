@@ -19,7 +19,8 @@ void	loop_shell(t_shell *shell)
 {
 	while (1)
 	{
-		readline("terminator$");
+		shell->line = readline("terminator$ ");
+		add_history(shell->line);
 		//lexical_analyze(shell);
 		//parse(shell);
 		//execute(shell);
