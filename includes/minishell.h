@@ -29,7 +29,12 @@ typedef struct s_shell
 	char			*buff;
 	char			*line;
 	int				prompt_len;
+	char			**line_splitted;
 }				t_shell;
+
+void	lexical_analyzer(t_shell *shell);
+char	**ft_insert_string(char **table, char *str);
+void	ft_free_matrix(char **matrix);
 
 //HIST_ENTRY **history;
 

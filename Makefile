@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= gcc
-CFLAGS		= -g3#-Wall -Wextra -Werror -g3#-Wpedantic -O3
+CFLAGS		= -g3 -Wall -Wextra -Werror -g#-Wpedantic -O3
 DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft
 
@@ -17,6 +17,8 @@ TEST_DIR	= $(SRC_DIR)test/
 SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
+			lexycal.c\
+			utils.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\

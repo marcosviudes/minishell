@@ -17,11 +17,20 @@ t_shell	*init_structure(t_shell *shell)
 
 void	loop_shell(t_shell *shell)
 {
-	while (1)
+	int i;
+	
+	i = 0;
+	while (TRUE)
 	{
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
-		//lexical_analyze(shell);
+		lexical_analyzer(shell);
+		while (shell->line_splitted[i])
+		{
+			printf("%s\n", shell->line_splitted[i]);
+			i++;
+		}
+		free(shell->line_splitted);
 		//parse(shell);
 		//execute(shell);
 	}
