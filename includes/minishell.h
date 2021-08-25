@@ -35,6 +35,8 @@ typedef struct s_shell
 void	lexical_analyzer(t_shell *shell);
 char	**ft_insert_string(char **table, char *str);
 void	ft_free_matrix(char **matrix);
+int		quotation_marks(t_shell *shell, int i);
+void	ft_strerror(char *str, int num);
 
 //HIST_ENTRY **history;
 

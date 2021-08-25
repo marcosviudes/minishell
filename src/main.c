@@ -19,12 +19,12 @@ void	loop_shell(t_shell *shell)
 {
 	int i;
 	
-	i = 0;
 	while (TRUE)
 	{
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
 		lexical_analyzer(shell);
+		i = 0;
 		while (shell->line_splitted[i])
 		{
 			printf("%s\n", shell->line_splitted[i]);
@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 {
 	t_shell	*shell;
 	
+	ft_calloc(sizeof(t_shell), 1);
 	(void)argc;
 	(void)argv;
 	shell = NULL;
