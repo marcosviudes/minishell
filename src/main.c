@@ -40,7 +40,6 @@ int	main(int argc, char **argv)
 {
 	t_shell	*shell;
 	
-	ft_calloc(sizeof(t_shell), 1);
 	(void)argc;
 	(void)argv;
 	shell = NULL;

@@ -23,20 +23,42 @@
 # define BUFFER_SIZE	8
 # define TERM_NAME		"terminator$ "
 
-typedef struct s_shell
+typedef struct	s_info
+{
+	char			*string;
+	char			type;
+	int				marks;
+	struct	s_info	*next;
+}				t_info;
+
+typedef struct	s_shell
 {
 	char			*prompt;
 	char			*buff;
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
+	t_info			*info;
 }				t_shell;
+
+/*
+type:
+	-w: word
+	-s: simbolo
+	-t: token 
+marks:
+	-0: normal
+	-1: comillas dobles
+	-2: comillas simples
+*/
+
 
 void	lexical_analyzer(t_shell *shell);
 char	**ft_insert_string(char **table, char *str);
 void	ft_free_matrix(char **matrix);
 int		quotation_marks(t_shell *shell, int i);
 void	ft_strerror(char *str, int num);
+void	add_node(t_shell *shell, int i, char car);
 
 //HIST_ENTRY **history;
 

@@ -68,20 +68,33 @@ int	 create_word(t_shell *shell, int i)
 void	lexical_analyzer(t_shell *shell)
 {
 	int i;
+	int count;
 
 	shell->line_splitted = ft_calloc(sizeof(char *), 1);
+	shell->info = ft_calloc(sizeof(t_info), 1);
+	count = 0;
 	i = 0;
 	while (shell->line[i])
 	{
 		if (shell->line[i] == 34 || shell->line[i] == 39)
+		{
 			i = quotation_marks(shell, i);
+			add_node(shell, count, 'w');
+			count++;
+		}
 		else if (!its_not_special(shell->line[i]) && shell->line[i] != ' ')
+		{
 			i = create_symbol(shell, i);
-		else if (ft_isprint(shell->line[i])
-			&& shell->line[i] != ' ')
+			add_node(shell, count, 's');
+			count++;
+		}
+		else if (ft_isprint(shell->line[i]) && shell->line[i] != ' ')
+		{
 			i = create_word(shell, i);
+			add_node(shell, count, 'w');
+			count++;
+		}
 		else
 			i++;
 	}
-	//lexycal_errors();
 }

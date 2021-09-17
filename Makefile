@@ -20,6 +20,7 @@ SRC			= main.c\
 			lexycal.c\
 			utils.c\
 			quotation_marks.c\
+			listing.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\
