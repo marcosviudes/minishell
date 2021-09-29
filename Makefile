@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g3 #-Wpedantic -O3
+CFLAGS		= -Wall -Wextra -Werror #-fsanitize=address -g3 #-Wpedantic -O3
 DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft
 
@@ -21,6 +21,7 @@ SRC			= main.c\
 			utils.c\
 			quotation_marks.c\
 			listing.c\
+			parse.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\

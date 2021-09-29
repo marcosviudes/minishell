@@ -31,7 +31,7 @@ void	loop_shell(t_shell *shell)
 			i++;
 		}
 		free(shell->line_splitted);
-		//parse(shell);
+		parse(shell);
 		//execute(shell);
 	}
 }
