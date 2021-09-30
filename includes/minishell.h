@@ -80,7 +80,13 @@ void	add_node(t_shell *shell, int i, char car);
 
 //HIST_ENTRY **history;
 
-void parse(t_shell *shell);
-char	**ft_insert_string2(char **table, char *str);;
+//parse
+void	parse(t_shell *shell);
+char	**ft_insert_string2(char **table, char *str);
+void	print_command(void *cmd);
+void	info_free(t_info *info);
+void	info_add_prev(t_info **info);
+void	print_list(t_info *info);
+void	free_table(void *arg);
 //void		prompt_config(t_shell *shell, char *prompt_str);
 #endif
