@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strjoinchar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/06 16:37:30 by cnavarro          #+#    #+#             */
-/*   Updated: 2021/09/22 14:02:47 by cnavarro         ###   ########.fr       */
+/*   Created: 2021/06/10 16:36:34 by cnavarro          #+#    #+#             */
+/*   Updated: 2021/06/10 17:24:46 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "libft.h"
 
-void	*ft_calloc(size_t n, size_t s)
+char	*ft_strjoinchar(char *s, char c)
 {
-	void	*ptr;
+	char	*dest;
+	int		i;
 
-	ptr = malloc(n * s);
-	if (ptr == NULL)
-		return (NULL);
-	ft_bzero(ptr, n * s);
-	return (ptr);
+	i = 0;
+	dest = malloc(ft_strlen(s) + 2);
+	while (s[i] != '\0')
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = c;
+	dest[i + 1] = '\0';
+	free(s);
+	return (dest);
 }

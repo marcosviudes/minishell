@@ -52,13 +52,17 @@ marks:
 	-2: comillas simples
 */
 
-
 void	lexical_analyzer(t_shell *shell);
 char	**ft_insert_string(char **table, char *str);
 void	ft_free_matrix(char **matrix);
 int		quotation_marks(t_shell *shell, int i);
 void	ft_strerror(char *str, int num);
 void	add_node(t_shell *shell, int i, char car);
+void	env_transform(t_shell *shell, char **envp);
+char	*get_before_dolar(char *string);
+char	*get_after_dolar(char *pdolar);
+char	*exception(char *string, char *pdolar, char **envp);
+char	*ft_finalstring(char *string, char *pdolar, char **envp);
 
 //HIST_ENTRY **history;
 

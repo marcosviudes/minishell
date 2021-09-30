@@ -21,6 +21,8 @@ SRC			= main.c\
 			utils.c\
 			quotation_marks.c\
 			listing.c\
+			enviroment.c\
+			enviroment2.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
 			$(LIST_DIR)dllst_last.c\

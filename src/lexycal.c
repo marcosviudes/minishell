@@ -72,6 +72,8 @@ void	lexical_analyzer(t_shell *shell)
 
 	shell->line_splitted = ft_calloc(sizeof(char *), 1);
 	shell->info = ft_calloc(sizeof(t_info), 1);
+	//shell->info->string = malloc(sizeof(char));
+	//shell->info->string[0] = '\0';
 	count = 0;
 	i = 0;
 	while (shell->line[i])
