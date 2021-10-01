@@ -101,4 +101,14 @@ void signal_handler_sigquit(int signum);
 void signal_handler_sigkill(int signum);
 void signal_handler_sigint(int signum);
 
+//builtings
+/*
+int	ft_echo(int argc, char **argv);
+int	ft_cd(int argc, char **argv, char **envp);
+int	ft_pwd(char **envp);
+int	ft_export(int argc, char **argv, char **envp);
+int	ft_unset(int argc, char **argv, char **envp);
+int	ft_env(int argc, char **argv, char **envp);
+int	ft_exit(int argc, char **argv, char **envp);
+*/
 #endif
