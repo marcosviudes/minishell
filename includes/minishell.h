@@ -46,6 +46,7 @@ typedef struct	s_shell
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
+	t_list			*cmd_list;
 	t_info			*info;
 }				t_shell;
 

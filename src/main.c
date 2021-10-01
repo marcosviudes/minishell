@@ -40,8 +40,7 @@ void	loop_shell(t_shell *shell, char **envp)
 			printf("--------------------------------\n");
 			aux = aux->next;
 		}
-		
-		//parse(shell);
+		parse(shell);
 		//execute(shell);
 	}
 }

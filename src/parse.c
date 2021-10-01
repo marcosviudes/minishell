@@ -121,13 +121,14 @@ void free_table(void *arg)
 void	parse(t_shell *shell)
 {
 	int			i;
-	t_list		*cmd_list;
+	//t_list		*cmd_list;
 	t_list		*node;
 	t_info		*temp;
 	t_cmd_table	*table;
 	int			command_flag;
 	int			redirection_flag;
 
+	shell->cmd_list = NULL;
 	command_flag = 1;
 	redirection_flag = 0;
 	table = NULL;
@@ -156,7 +157,7 @@ void	parse(t_shell *shell)
 					redirection_flag = 0;
 					command_flag = 1;
 					node = ft_lstnew(table);
-					ft_lstadd_back(&cmd_list, node);
+					ft_lstadd_back(&shell->cmd_list, node);
 					table = ft_calloc(sizeof(t_cmd_table), 1);
 				}
 		}
@@ -189,7 +190,7 @@ void	parse(t_shell *shell)
 		temp = temp->next;
 	}
 	node = ft_lstnew(table);
-	ft_lstadd_back(&cmd_list, node);
-	ft_lstiter(cmd_list, &print_command);
-	ft_lstclear(&cmd_list, &free_table);
+	ft_lstadd_back(&shell->cmd_list, node);
+	ft_lstiter(shell->cmd_list, &print_command);
+	ft_lstclear(&shell->cmd_list, &free_table);
 }

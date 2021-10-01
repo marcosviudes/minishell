@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror #-fsanitize=address -g3 #-Wpedantic -O3
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g3 #-Wpedantic -O3
 DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft  -I ~/.brew/opt/readline/include
 
