@@ -2,6 +2,8 @@
 #include <curses.h>
 #include <term.h>
 
+t_shell *g_shell;
+
 void	free_all(t_shell *shell)
 {
 	free(shell->prompt);
@@ -22,17 +24,13 @@ void	loop_shell(t_shell *shell, char **envp)
 
 	while (TRUE)
 	{
+		signal_init();
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
 		lexical_analyzer(shell);
 		env_transform(shell, envp);
 		aux = shell->info;
 		i = 0;
-		while (shell->line_splitted[i])
-		{
-			printf("%s\n", shell->line_splitted[i]);
-			i++;
-		}
 		free(shell->line_splitted);
 		while (aux != NULL)
 		{
@@ -56,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = NULL;
 	shell = init_structure(shell);
+	g_shell = shell;
 	loop_shell(shell, envp);
 	free_all(shell);
 	system("leaks minishell");

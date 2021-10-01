@@ -23,12 +23,20 @@
 # define BUFFER_SIZE	8
 # define TERM_NAME		"terminator$ "
 
+# define GREAT			1
+# define LESS			2
+# define GREAT_GREAT	3
+# define LESS_LESS		4
+# define PIPE			5
+
+typedef struct s_info t_info;
 typedef struct	s_info
 {
 	char			*string;
 	char			type;
 	int				marks;
 	struct	s_info	*next;
+	t_info			*prev;
 }				t_info;
 
 typedef struct	s_shell
@@ -40,6 +48,16 @@ typedef struct	s_shell
 	char			**line_splitted;
 	t_info			*info;
 }				t_shell;
+
+
+typedef struct s_cmd_table
+{
+	char		*command;
+	char		**args;
+	char		*outfile;
+	char		*infile;
+}				t_cmd_table;
+
 
 /*
 type:
@@ -66,5 +84,20 @@ char	*ft_finalstring(char *string, char *pdolar, char **envp);
 
 //HIST_ENTRY **history;
 
+//parse
+void	parse(t_shell *shell);
+char	**ft_insert_string2(char **table, char *str);
+void	print_command(void *cmd);
+void	info_free(t_info *info);
+void	info_add_prev(t_info **info);
+void	print_list(t_info *info);
+void	free_table(void *arg);
 //void		prompt_config(t_shell *shell, char *prompt_str);
+
+//signal
+void signal_init(void);
+void signal_handler_sigquit(int signum);
+void signal_handler_sigkill(int signum);
+void signal_handler_sigint(int signum);
+
 #endif

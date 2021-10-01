@@ -24,6 +24,11 @@ void	ft_free_matrix(char **matrix)
 	int	i;
 
 	i = 0;
+	if(!matrix)
+	{
+		free(matrix);
+		return;
+	}
 	while (matrix[i])
 		i++;
 	while (i >= 0)
