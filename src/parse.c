@@ -116,14 +116,15 @@ void free_table(void *arg)
 	ft_free_matrix(table->args);
 	free(table->outfile);
 	free(table->infile);
+	free(table); 
 }
 void	parse(t_shell *shell)
 {
-	int		i;
-	t_list 	*cmd_list;
-	t_list *node;
+	int			i;
+	t_list		*cmd_list;
+	t_list		*node;
 	t_info		*temp;
-	t_cmd_table *table;
+	t_cmd_table	*table;
 	int			command_flag;
 	int			redirection_flag;
 
