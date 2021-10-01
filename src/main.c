@@ -2,6 +2,8 @@
 #include <curses.h>
 #include <term.h>
 
+t_shell *g_shell;
+
 void	free_all(t_shell *shell)
 {
 	free(shell->prompt);
@@ -21,6 +23,7 @@ void	loop_shell(t_shell *shell)
 	
 	while (TRUE)
 	{
+		signal_init();
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
 		lexical_analyzer(shell);
@@ -44,6 +47,7 @@ int	main(int argc, char **argv)
 	(void)argv;
 	shell = NULL;
 	shell = init_structure(shell); 
+	g_shell = shell;
 	loop_shell(shell);
 	free_all(shell);
 	system("leaks minishell");
