@@ -75,7 +75,7 @@ void	info_free(t_info *info)
 	system("leaks minishell");
 }
 
-void	info_add_prev(t_info **info)
+/*void	info_add_prev(t_info **info)
 {
 	t_info	*temp;
 	t_info 	*aux;
@@ -89,6 +89,22 @@ void	info_add_prev(t_info **info)
 		*info = (*info)->next;
 	}
 	*info = aux;
+}*/
+
+void	info_add_prev(t_info *info)
+{
+	t_info	*temp;
+	t_info 	*aux;
+
+	temp = NULL;
+	aux = info;
+	while(info != NULL)
+	{
+		info->prev = temp;
+		temp = info;
+		info = info->next;
+	}
+	info = aux;
 }
 
 void print_list(t_info *info)
@@ -118,10 +134,17 @@ void free_table(void *arg)
 	free(table->infile);
 	free(table); 
 }
+
+void	free_info_list(t_info *info)
+{
+	if(info->next)
+		free_info_list(info->next);
+	free(info->string);
+	free(info);
+}
+
 void	parse(t_shell *shell)
 {
-	int			i;
-	//t_list		*cmd_list;
 	t_list		*node;
 	t_info		*temp;
 	t_cmd_table	*table;
@@ -133,9 +156,8 @@ void	parse(t_shell *shell)
 	redirection_flag = 0;
 	table = NULL;
 	temp = shell->info;
-	info_add_prev(&shell->info);
+	info_add_prev(shell->info);
 	print_list(shell->info);
-	i = 0;
 	printf("\n");
 	while(temp != NULL)
 	{
@@ -153,13 +175,13 @@ void	parse(t_shell *shell)
 			if(ft_strncmp(temp->string, "<<", 3) == 0)
 				redirection_flag = LESS_LESS;
 			if(ft_strncmp(temp->string, "|", 2) == 0)
-				{
-					redirection_flag = 0;
-					command_flag = 1;
-					node = ft_lstnew(table);
-					ft_lstadd_back(&shell->cmd_list, node);
-					table = ft_calloc(sizeof(t_cmd_table), 1);
-				}
+			{
+				redirection_flag = 0;
+				command_flag = 1;
+				node = ft_lstnew(table);
+				ft_lstadd_back(&shell->cmd_list, node);
+				table = ft_calloc(sizeof(t_cmd_table), 1);
+			}
 		}
 		else if(temp->type == 'w')
 		{
@@ -193,4 +215,5 @@ void	parse(t_shell *shell)
 	ft_lstadd_back(&shell->cmd_list, node);
 	ft_lstiter(shell->cmd_list, &print_command);
 	ft_lstclear(&shell->cmd_list, &free_table);
+//	free_info_list(shell->info);
 }

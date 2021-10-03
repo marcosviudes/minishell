@@ -17,13 +17,13 @@ TEST_DIR	= $(SRC_DIR)test/
 SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
-			lexycal.c\
-			utils.c\
-			quotation_marks.c\
-			listing.c\
-			enviroment.c\
-			enviroment2.c\
-			parse.c\
+			lexical/lexycal.c\
+			lexical/utils.c\
+			lexical/quotation_marks.c\
+			lexical/listing.c\
+			lexical/enviroment.c\
+			lexical/enviroment2.c\
+			parse/parse.c\
 			signal/signal_managment.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
