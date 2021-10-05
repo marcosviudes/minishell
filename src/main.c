@@ -13,10 +13,12 @@ void	execute(t_shell *shell)
 	t_cmd_table *temp;
 
 	temp = shell->cmd_list->content;
+	if (!temp->command)
+		return ;
 	if (ft_strncmp("export", temp->command, 6) == 0)
 		ft_export(temp->args);
 	if (ft_strncmp("env", temp->command, 3) == 0)
-		ft_env(temp->args);
+		ft_env();
 }
 
 void	loop_shell(t_shell *shell)

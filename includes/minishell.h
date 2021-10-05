@@ -102,6 +102,7 @@ void	sort_list(t_sort *list);
 void	print_order_list(t_sort *list);
 void	free_list(t_sort *list);
 void	add_line_to_list(char *line, t_sort **ordered_list);
+int		ft_env(void);
 /*
 int	ft_echo(int argc, char **argv);
 int	ft_cd(int argc, char **argv, char **envp);
