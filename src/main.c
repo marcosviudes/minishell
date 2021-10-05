@@ -19,6 +19,10 @@ void	execute(t_shell *shell)
 		ft_export(temp->args);
 	if (ft_strncmp("env", temp->command, 3) == 0)
 		ft_env();
+	if (ft_strncmp("pwd", temp->command, 3) == 0)
+		ft_pwd();
+	if (ft_strncmp("echo", temp->command, 4) == 0)
+		ft_echo(temp->args);
 }
 
 void	loop_shell(t_shell *shell)

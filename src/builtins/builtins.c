@@ -1,5 +1,27 @@
 #include <minishell.h>
 
+
+int	ft_pwd(void)
+{
+	int i;
+	char *aux;
+
+	aux = NULL;
+	i = 0;
+	while (g_shell->ownenvp[i])
+	{
+		if (ft_strnstr(g_shell->ownenvp[i], "PWD=", 4))
+		{
+			aux = ft_substr(g_shell->ownenvp[i], 4, ft_strlen(g_shell->ownenvp[i]) - 4);
+			printf("%s\n", aux);
+			free(aux);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	ft_echo(char **argv)
 {
 	int i;
@@ -9,16 +31,16 @@ int	ft_echo(char **argv)
 	i = 0;
 	while (i < argc)
 	{
-		printf("%s", argv[i]);
+		printf("%s\n", argv[i]);
 		i++;
 	}
-	write(1, "\n", 1);
 	return (0);
 }
 
 //cd tiene que recibir argc = 0 si el argv es nulo, si recibe una cadena vacia ("") en argv y argc = 1 no funcionara
 //cd solo necesita un argumento.
 //pero se puede cambiar.
+/*
 int	ft_cd(char **argv)
 {
 	int i;
@@ -47,24 +69,4 @@ int	ft_cd(char **argv)
 	}
 	return (1);
 }
-
-int	ft_pwd(char **envp)
-{
-	int i;
-	char *aux;
-
-	aux = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strnstr(envp[i], "PWD=", 4))
-		{
-			aux = ft_substr(envp[i], 4, ft_strlen(envp[i]) - 4);
-			printf("%s", aux);
-			free(aux);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
+*/

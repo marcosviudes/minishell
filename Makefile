@@ -26,6 +26,7 @@ SRC			= main.c\
 			parse.c\
 			builtins/export.c\
 			builtins/export2.c\
+			builtins/builtins.c\
 			builtins/builtins2.c\
 			signal/signal_managment.c\
 			$(LIST_DIR)dllst_clear.c\
