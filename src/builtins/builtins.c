@@ -1,9 +1,11 @@
 #include <minishell.h>
 
-int	ft_echo(int argc, char **argv)
+int	ft_echo(char **argv)
 {
 	int i;
+	int	argc;
 
+	argc = count_lines(argv);
 	i = 0;
 	while (i < argc)
 	{
@@ -17,11 +19,13 @@ int	ft_echo(int argc, char **argv)
 //cd tiene que recibir argc = 0 si el argv es nulo, si recibe una cadena vacia ("") en argv y argc = 1 no funcionara
 //cd solo necesita un argumento.
 //pero se puede cambiar.
-int	ft_cd(int argc, char **argv, char **envp)
+int	ft_cd(char **argv)
 {
 	int i;
 	char *aux;
+	int	argc;
 
+	argc = count_lines(argv);
 	i = 0;
 	aux = NULL;
 	if (argc == 0)
@@ -29,11 +33,11 @@ int	ft_cd(int argc, char **argv, char **envp)
 		chdir("..");
 		return (0);
 	}
-	while (envp[i])
+	while (g_shell->ownenvp[i])
 	{
-		if (ft_strnstr(envp[i], "PWD=", 4))
+		if (ft_strnstr(g_shell->ownenvp[i], "PWD=", 4))
 		{
-			aux = ft_substr(envp[i], 4, ft_strlen(envp[i]) - 4);
+			aux = ft_substr(g_shell->ownenvp[i], 4, ft_strlen(g_shell->ownenvp[i]) - 4);
 			aux = ft_strjoin(aux, ft_strjoin("/", argv[0]));
 			chdir(aux);
 			free(aux);

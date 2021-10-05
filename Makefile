@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g3 #-Wpedantic -O3
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g3 #-Wpedantic -O3 
 DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft  -I ~/.brew/opt/readline/include
 
@@ -24,8 +24,8 @@ SRC			= main.c\
 			enviroment.c\
 			enviroment2.c\
 			parse.c\
-			builtins/builtins.c\
-			builtins/builtins2.c\
+			builtins/export.c\
+			builtins/export2.c\
 			signal/signal_managment.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\

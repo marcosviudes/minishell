@@ -27,7 +27,7 @@ void	ft_free_matrix(char **matrix)
 	if(!matrix)
 	{
 		free(matrix);
-		return;
+		return ;
 	}
 	while (matrix[i])
 		i++;
@@ -43,4 +43,16 @@ void	ft_strerror(char *str, int num)
 {
 	ft_putstr_fd(str, 1);
 	exit(num);
+}
+
+int	count_lines(char **table)
+{
+	int i;
+
+	i = 0;
+	if (!table)
+		return (0);
+	while(table[i])
+		i++;
+	return (i);
 }

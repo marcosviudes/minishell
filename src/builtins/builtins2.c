@@ -5,7 +5,7 @@ int	ft_unset(int argc, char **argv, char **envp)
 	return (0);
 }
 
-int	ft_env(int argc, char **argv, char **envp)
+int	ft_env(char **argv, char **envp)
 {
 	int i;
 
@@ -19,9 +19,10 @@ int	ft_env(int argc, char **argv, char **envp)
 	return (0);
 }
 
-int	ft_exit(int argc, char **argv, char **envp)
+int	ft_exit(void)
 {
 	//free(cosas);
+	printf("exit\n");
 	exit(0);
 	return (0);
 }

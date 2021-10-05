@@ -2,22 +2,24 @@
 #include <curses.h>
 #include <term.h>
 
-t_shell *g_shell;
-
 void	free_all(t_shell *shell)
 {
 	free(shell->prompt);
 	free(shell);
 }
 
-t_shell	*init_structure(t_shell *shell)
+void	execute(t_shell *shell)
 {
-	shell = malloc(sizeof(t_shell));
+	t_cmd_table *temp;
 
-	return(shell);
+	temp = shell->cmd_list->content;
+	if (ft_strncmp("export", temp->command, 6) == 0)
+		ft_export(temp->args);
+	if (ft_strncmp("env", temp->command, 3) == 0)
+		ft_env(temp->args);
 }
 
-void	loop_shell(t_shell *shell, char **envp)
+void	loop_shell(t_shell *shell)
 {
 	int i;
 	t_info *aux;
@@ -28,10 +30,12 @@ void	loop_shell(t_shell *shell, char **envp)
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
 		lexical_analyzer(shell);
-		env_transform(shell, envp);
+		env_transform(shell);
 		aux = shell->info;
 		i = 0;
-		free(shell->line_splitted);
+		ft_free_matrix(shell->line_splitted);
+		//DEBUG LEXYCAL + ENV
+		/*
 		while (aux != NULL)
 		{
 			printf("String: %s\n", aux->string);
@@ -40,22 +44,48 @@ void	loop_shell(t_shell *shell, char **envp)
 			printf("--------------------------------\n");
 			aux = aux->next;
 		}
+		*/
 		parse(shell);
-		//execute(shell);
+		execute(shell);
 	}
+}
+
+char	**fill_env(char **envp)
+{
+	char	**new_envp;
+	int		i;
+	int		j;
+
+	j = 0;
+	i = 0;
+	while (envp[i])
+		i++;
+	new_envp = malloc(sizeof(char *) * (i + 1));
+	while(j < i)
+	{
+		new_envp[j] = ft_strdup(envp[j]);
+		j++;
+	}
+	new_envp[j] = NULL;
+	return (new_envp);
+}
+t_shell	*init_structure(t_shell *shell, char **envp)
+{
+	shell = malloc(sizeof(t_shell));
+	shell->ownenvp = fill_env(envp);
+	return(shell);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	
+
 	(void)argc;
 	(void)argv;
 	shell = NULL;
-	shell = init_structure(shell);
+	shell = init_structure(shell, envp);
 	g_shell = shell;
-	loop_shell(shell, envp);
+	loop_shell(shell);
 	free_all(shell);
-	system("leaks minishell");
 	return (0);
 }

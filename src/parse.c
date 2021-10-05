@@ -72,7 +72,6 @@ void	info_free(t_info *info)
 	if(info->string)
 		free(info->string);
 	free(info);
-	system("leaks minishell");
 }
 
 void	info_add_prev(t_info **info)
@@ -192,5 +191,5 @@ void	parse(t_shell *shell)
 	node = ft_lstnew(table);
 	ft_lstadd_back(&shell->cmd_list, node);
 	ft_lstiter(shell->cmd_list, &print_command);
-	ft_lstclear(&shell->cmd_list, &free_table);
+//	ft_lstclear(&shell->cmd_list, &free_table);
 }
