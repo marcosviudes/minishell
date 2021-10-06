@@ -26,14 +26,25 @@ int	ft_echo(char **argv)
 {
 	int i;
 	int	argc;
+	int flag;
 
+	flag = 0;
 	argc = count_lines(argv);
 	i = 0;
-	while (i < argc)
+	if (ft_strncmp(argv[i], "-n", 2) == 0)
 	{
-		printf("%s\n", argv[i]);
+		flag = 1;
 		i++;
 	}
+	while (i < argc)
+	{
+		printf("%s", argv[i]);
+		if (i + 1 != argc)
+			printf(" ");
+		i++;
+	}
+	if (flag == 0)
+			printf("\n");
 	return (0);
 }
 
