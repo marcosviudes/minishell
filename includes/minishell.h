@@ -46,19 +46,26 @@ typedef struct	s_shell
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
+
+	int				num_of_pipes;
 	t_list			*cmd_list;
 	t_info			*info;
 }				t_shell;
 
 
-typedef struct s_cmd_table
+typedef struct s_table_cmd
 {
 	char		*command;
 	char		**args;
-	char		*outfile;
-	char		*infile;
-}				t_cmd_table;
+	t_list		*outfile;
+	t_list		*infile;
+}				t_table_cmd;
 
+typedef struct	s_table_redir
+{
+	char		*file;
+	int			append;
+}				t_table_redir;
 
 /*
 type:
@@ -101,4 +108,6 @@ void signal_handler_sigquit(int signum);
 void signal_handler_sigkill(int signum);
 void signal_handler_sigint(int signum);
 
+//executer
+//void	execute(t_shell *shell);
 #endif

@@ -44,13 +44,23 @@ char	**ft_insert_string2(char **table, char *str)
  * wc
  */
 
+void	print_redir(void *redir)
+{
+	t_table_redir *temp;
+	
+	temp = (t_table_redir*)redir;
+	if(!temp)
+		return;
+	printf("%s-%i\t", temp->file, temp->append);
+}
+
 void	print_command(void *cmd)
 {
-	t_cmd_table *temp;
+	t_table_cmd *temp;
 	int			i;
 
 	i = 0;
-	temp = (t_cmd_table*)cmd;
+	temp = (t_table_cmd*)cmd;
 	if(!temp)
 		return;
 	printf("CMD:	%s\n", temp->command);
@@ -60,9 +70,12 @@ void	print_command(void *cmd)
 			printf("ARG:	%s\n", temp->args[i]);
 			i++;
 		}
-	printf("OUT:	%s\n", temp->outfile);
-	printf("IN:	%s\n", temp->infile);
-	printf("\n");
+	printf("OUT: ");
+	ft_lstiter(temp->outfile, &print_redir);
+	printf("%p \n", temp->outfile);
+	printf("IN:  ");
+	ft_lstiter(temp->infile, &print_redir);
+	printf("%p \n", temp->infile);
 }
 
 void	info_free(t_info *info)
@@ -120,14 +133,14 @@ void print_list(t_info *info)
 
 void free_table(void *arg)
 {
-	t_cmd_table *table;
+	t_table_cmd *table;
 
 	if(arg == NULL)
 	{
 		free(arg);
 		return;
 	}
-	table = (t_cmd_table*) arg;
+	table = (t_table_cmd*) arg;
 	free(table->command);
 	ft_free_matrix(table->args);
 	free(table->outfile);
@@ -147,7 +160,8 @@ void	parse(t_shell *shell)
 {
 	t_list		*node;
 	t_info		*temp;
-	t_cmd_table	*table;
+	t_table_cmd	*table;
+	t_table_redir	*temp_redir;
 	int			command_flag;
 	int			redirection_flag;
 
@@ -161,9 +175,8 @@ void	parse(t_shell *shell)
 	printf("\n");
 	while(temp != NULL)
 	{
-
 		if(!table)
-			table = ft_calloc(sizeof(t_cmd_table), 1);
+			table = ft_calloc(sizeof(t_table_cmd), 1);
 		if(temp->type == 's')
 		{
 			if(ft_strncmp(temp->string, ">", 2) == 0)
@@ -180,7 +193,7 @@ void	parse(t_shell *shell)
 				command_flag = 1;
 				node = ft_lstnew(table);
 				ft_lstadd_back(&shell->cmd_list, node);
-				table = ft_calloc(sizeof(t_cmd_table), 1);
+				table = ft_calloc(sizeof(t_table_cmd), 1);
 			}
 		}
 		else if(temp->type == 'w')
@@ -190,17 +203,23 @@ void	parse(t_shell *shell)
 				table->command = ft_strdup(temp->string);
 				command_flag = 0;
 			}
-			else if(redirection_flag == GREAT)
+			else if(redirection_flag == GREAT || redirection_flag == GREAT_GREAT)
 			{
-				free(table->outfile);
-				table->outfile = ft_strdup(temp->string);
+				temp_redir = malloc(sizeof(t_table_redir));
+				temp_redir->file = ft_strdup(temp->string);
+				temp_redir->append = 0;
+				if(redirection_flag == GREAT_GREAT)
+					temp_redir->append = 1;
 				redirection_flag = 0;
+				ft_lstadd_back(&table->outfile, ft_lstnew(temp_redir));
 			}
 			else if(redirection_flag == LESS)
 			{
-				free(table->infile);
-				table->infile = ft_strdup(temp->string);
+				temp_redir = malloc(sizeof(t_table_redir));
+				temp_redir->file = ft_strdup(temp->string);
+				temp_redir->append = 0;
 				redirection_flag = 0;
+				ft_lstadd_back(&table->infile, ft_lstnew(temp_redir));
 			}
 			else
 			{
@@ -214,6 +233,6 @@ void	parse(t_shell *shell)
 	node = ft_lstnew(table);
 	ft_lstadd_back(&shell->cmd_list, node);
 	ft_lstiter(shell->cmd_list, &print_command);
-	ft_lstclear(&shell->cmd_list, &free_table);
+//	ft_lstclear(&shell->cmd_list, &free_table);
 //	free_info_list(shell->info);
 }
