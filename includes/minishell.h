@@ -101,6 +101,7 @@ int		ft_export(char **argv);
 int		ft_env(void);
 int		ft_pwd(void);
 int		ft_echo(char **argv);
+int		ft_cd(char **argv);
 void	sort_list(t_sort *list);
 void	print_order_list(t_sort *list);
 void	free_list(t_sort *list);
@@ -119,4 +120,7 @@ int		count_lines(char **table);
 char	**ft_insert_string(char **table, char *str);
 char	**ft_insert_string2(char **table, char *str);
 void	ft_free_matrix(char **matrix);
+char	*ft_getenvcontent(char *header);
+char	**ft_getenvptr(char *header);
+char	*ft_getenvcpy(char *header);
 #endif

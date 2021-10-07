@@ -15,14 +15,16 @@ void	execute(t_shell *shell)
 	temp = shell->cmd_list->content;
 	if (!temp->command)
 		return ;
-	if (ft_strncmp("export", temp->command, 6) == 0)
+	if (ft_strncmp("export", temp->command, 6) == 0 && ft_strlen(temp->command) == 6)
 		ft_export(temp->args);
-	if (ft_strncmp("env", temp->command, 3) == 0)
+	if (ft_strncmp("env", temp->command, 3) == 0 && ft_strlen(temp->command) == 3)
 		ft_env();
-	if (ft_strncmp("pwd", temp->command, 3) == 0)
+	if (ft_strncmp("pwd", temp->command, 3) == 0 && ft_strlen(temp->command) == 3)
 		ft_pwd();
-	if (ft_strncmp("echo", temp->command, 4) == 0)
+	if (ft_strncmp("echo", temp->command, 4) == 0 && ft_strlen(temp->command) == 4)
 		ft_echo(temp->args);
+	if (ft_strncmp("cd", temp->command, 2) == 0 && ft_strlen(temp->command) == 2)
+		ft_cd(temp->args);
 }
 
 void	loop_shell(t_shell *shell)
