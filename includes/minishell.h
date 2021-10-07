@@ -59,6 +59,7 @@ typedef struct	s_shell
 	t_info			*info;
 }				t_shell;
 
+t_shell *g_shell;
 
 typedef struct s_table_cmd
 {
@@ -74,34 +75,28 @@ typedef struct	s_table_redir
 	int			append;
 }				t_table_redir;
 
-/*
-type:
-	-w: word
-	-s: simbolo
-	-t: token 
-marks:
-	-0: normal
-	-1: comillas dobles
-	-2: comillas simples
-*/
+typedef struct s_sort t_sort;
+typedef struct 	s_sort
+{
+	char		*line;
+	t_sort		*next;
+}				t_sort;
 
+
+//lexical
 void	lexical_analyzer(t_shell *shell);
-char	**ft_insert_string(char **table, char *str);
-void	ft_free_matrix(char **matrix);
 int		quotation_marks(t_shell *shell, int i);
 void	ft_strerror(char *str, int num);
 void	add_node(t_shell *shell, int i, char car);
-void	env_transform(t_shell *shell, char **envp);
+void	env_transform(t_shell *shell);
 char	*get_before_dolar(char *string);
 char	*get_after_dolar(char *pdolar);
-char	*exception(char *string, char *pdolar, char **envp);
 char	*ft_finalstring(char *string, char *pdolar, char **envp);
 
 //HIST_ENTRY **history;
 
 //parse
 void	parse(t_shell *shell);
-char	**ft_insert_string2(char **table, char *str);
 void	print_command(void *cmd);
 void	info_free(t_info *info);
 void	info_add_prev(t_info *info);
@@ -110,11 +105,38 @@ void	free_table(void *arg);
 //void		prompt_config(t_shell *shell, char *prompt_str);
 
 //signal
-void signal_init(void);
-void signal_handler_sigquit(int signum);
-void signal_handler_sigkill(int signum);
-void signal_handler_sigint(int signum);
+void	signal_init(void);
+void	signal_handler_sigquit(int signum);
+void	signal_handler_sigkill(int signum);
+void	signal_handler_sigint(int signum);
 
 //executer
 //void	execute(t_shell *shell);
+//builtings
+int		ft_export(char **argv);
+int		ft_env(void);
+int		ft_pwd(void);
+int		ft_echo(char **argv);
+int		ft_cd(char **argv);
+void	sort_list(t_sort *list);
+void	print_order_list(t_sort *list);
+void	free_list(t_sort *list);
+void	add_line_to_list(char *line, t_sort **ordered_list);
+/*
+int	ft_echo(int argc, char **argv);
+int	ft_cd(int argc, char **argv, char **envp);
+int	ft_pwd(char **envp);
+int	ft_unset(int argc, char **argv, char **envp);
+int	ft_env(int argc, char **argv, char **envp);
+int	ft_exit(int argc, char **argv, char **envp);
+*/
+
+//utils
+int		count_lines(char **table);
+char	**ft_insert_string(char **table, char *str);
+char	**ft_insert_string2(char **table, char *str);
+void	ft_free_matrix(char **matrix);
+char	*ft_getenvcontent(char *header);
+char	**ft_getenvptr(char *header);
+char	*ft_getenvcpy(char *header);
 #endif

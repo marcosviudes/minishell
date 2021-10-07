@@ -42,15 +42,3 @@ char	*get_after_dolar(char *pdolar)
 	}
 	return (ret);
 }
-/*
-char *exception(char *string, char *pdolar, char **envp)
-{
-	char *finalstring;
-	char *aux;
-
-	aux = ft_strtrim(string, "'");
-	free(string);
-	finalstring = ft_strjoin("'", ft_strjoin(ft_finalstring(aux, pdolar, envp), "'"));
-	return (finalstring);
-}
-*/

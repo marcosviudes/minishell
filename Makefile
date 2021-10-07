@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=address -g3 #-Wpedantic -O3
+CFLAGS		= -Wall -Wextra -Werror -g3 #-Wpedantic -O3  -fsanitize=address
 DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft  -I ~/.brew/opt/readline/include
 
@@ -25,6 +25,17 @@ SRC			= main.c\
 			lexical/enviroment.c\
 			lexical/enviroment2.c\
 			parse/parse.c\
+			lexycal.c\
+			utils.c\
+			quotation_marks.c\
+			listing.c\
+			enviroment.c\
+			enviroment2.c\
+			parse.c\
+			builtins/export.c\
+			builtins/export2.c\
+			builtins/builtins.c\
+			builtins/builtins2.c\
 			signal/signal_managment.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
@@ -49,7 +60,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) ./includes/minishell.h
 	make -C $(LIBFT_DIR)
-	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT_A) -L ~/.brew/opt/readline/lib -lreadline -ltermcap -o $(NAME)
+	$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT_A) -L  ~/.brew/opt/readline/lib -lreadline -ltermcap -o $(NAME)
 
 
 .PHONY:	all clean fclean re

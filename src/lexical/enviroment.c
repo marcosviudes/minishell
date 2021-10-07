@@ -16,7 +16,7 @@ static char *final_phrase(char *phrase, int len)
 	return (end_game);
 }
 
-static char *converse(char *str, char **envp, int *count)
+static char *converse(char *str, int *count)
 {
 	int i;
 	char *ret;
@@ -25,11 +25,11 @@ static char *converse(char *str, char **envp, int *count)
 	aux = ft_strjoin(str, "=");
 	ret = NULL;
 	i = 0;
-	while (envp[i])
+	while (g_shell->ownenvp[i])
 	{
-		if (ft_strnstr(envp[i], aux, ft_strlen(aux)))
+		if (ft_strnstr(g_shell->ownenvp[i], aux, ft_strlen(aux)))
 		{
-			ret = final_phrase(envp[i], ft_strlen(str));
+			ret = final_phrase(g_shell->ownenvp[i], ft_strlen(str));
 			*count = *count + (ft_strlen(str));
 			return (ret);
 		}
@@ -40,7 +40,7 @@ static char *converse(char *str, char **envp, int *count)
 	return (ret);
 }
 
-static char	*get_dolar_string(char *pdolar, char **envp, int *count)
+static char	*get_dolar_string(char *pdolar, int *count)
 {
 	char	*var;
 	char	*aux;
@@ -60,12 +60,12 @@ static char	*get_dolar_string(char *pdolar, char **envp, int *count)
 	}
 	var[j] = '\0';
 	free(aux);
-	aux = converse(var, envp, count);
+	aux = converse(var, count);
 	free(var);
 	return (aux);
 }
 
-void	env_transform(t_shell *shell, char **envp)
+void	env_transform(t_shell *shell)
 {
 	t_info *aux;
 	char	*pdolar;
@@ -84,7 +84,7 @@ void	env_transform(t_shell *shell, char **envp)
 		{
 			if (aux->string[i] == '$' && aux->marks != 2)
 			{
-				finalstring = ft_strjoin(finalstring, get_dolar_string(pdolar, envp, &i));
+				finalstring = ft_strjoin(finalstring, get_dolar_string(pdolar, &i));
 				pdolar = ft_strchr(pdolar + 1, '$');
 				i++;
 			}

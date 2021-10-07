@@ -85,7 +85,6 @@ void	info_free(t_info *info)
 	if(info->string)
 		free(info->string);
 	free(info);
-	system("leaks minishell");
 }
 
 /*void	info_add_prev(t_info **info)

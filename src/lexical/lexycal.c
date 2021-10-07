@@ -22,6 +22,7 @@ int create_symbol(t_shell *shell, int i)
 	}
 	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
+	free(word);
 	ft_free_matrix(aux);
 	return (i);
 }
@@ -61,6 +62,7 @@ int	 create_word(t_shell *shell, int i)
 	}
 	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
+	free(word);
 	ft_free_matrix(aux);
 	return (i);
 }
