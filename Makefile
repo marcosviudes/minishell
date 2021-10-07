@@ -17,6 +17,7 @@ TEST_DIR	= $(SRC_DIR)test/
 SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
+			executer/executer.c\
 			lexical/lexycal.c\
 			lexical/utils.c\
 			lexical/quotation_marks.c\

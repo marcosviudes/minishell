@@ -29,6 +29,9 @@
 # define LESS_LESS		4
 # define PIPE			5
 
+# define APPEND_ON		1
+# define APPEND_OFF		0
+
 typedef struct s_info t_info;
 typedef struct	s_info
 {
@@ -41,6 +44,7 @@ typedef struct	s_info
 
 typedef struct	s_shell
 {
+	char			**ownenvp;
 	char			*prompt;
 	char			*buff;
 	char			*line;
@@ -48,6 +52,9 @@ typedef struct	s_shell
 	char			**line_splitted;
 
 	int				num_of_pipes;
+	int				fd_out;
+	int				fd_in;
+
 	t_list			*cmd_list;
 	t_info			*info;
 }				t_shell;

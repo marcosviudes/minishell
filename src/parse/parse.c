@@ -207,9 +207,9 @@ void	parse(t_shell *shell)
 			{
 				temp_redir = malloc(sizeof(t_table_redir));
 				temp_redir->file = ft_strdup(temp->string);
-				temp_redir->append = 0;
+				temp_redir->append = APPEND_OFF;
 				if(redirection_flag == GREAT_GREAT)
-					temp_redir->append = 1;
+					temp_redir->append = APPEND_ON;
 				redirection_flag = 0;
 				ft_lstadd_back(&table->outfile, ft_lstnew(temp_redir));
 			}
@@ -217,7 +217,7 @@ void	parse(t_shell *shell)
 			{
 				temp_redir = malloc(sizeof(t_table_redir));
 				temp_redir->file = ft_strdup(temp->string);
-				temp_redir->append = 0;
+				temp_redir->append = APPEND_OFF;
 				redirection_flag = 0;
 				ft_lstadd_back(&table->infile, ft_lstnew(temp_redir));
 			}

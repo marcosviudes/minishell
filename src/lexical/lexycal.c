@@ -76,6 +76,8 @@ void	lexical_analyzer(t_shell *shell)
 	//shell->info->string[0] = '\0';
 	count = 0;
 	i = 0;
+	if(!shell->line)
+		shell->line = ft_strdup("");
 	while (shell->line[i])
 	{
 		if (shell->line[i] == 34 || shell->line[i] == 39)
