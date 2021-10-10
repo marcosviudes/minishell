@@ -82,7 +82,6 @@ int	ft_cd(char **argv)
 		aux = ft_getenvptr("OLDPWD=");
 		free(*aux);
 		*aux = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
-		printf("%s\n", *aux);
 		aux = ft_getenvptr("PWD=");
 		free(*aux);
 		*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME="));

@@ -25,6 +25,10 @@ void	execute(t_shell *shell)
 		ft_echo(temp->args);
 	if (ft_strncmp("cd", temp->command, 2) == 0 && ft_strlen(temp->command) == 2)
 		ft_cd(temp->args);
+	if (ft_strncmp("unset", temp->command, 5) == 0 && ft_strlen(temp->command) == 5)
+		ft_unset(temp->args);
+	if (ft_strncmp("exit", temp->command, 4) == 0 && ft_strlen(temp->command) == 4)
+		ft_exit(temp->args, 1);
 }
 
 void	loop_shell(t_shell *shell)

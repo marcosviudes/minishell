@@ -102,6 +102,8 @@ int		ft_env(void);
 int		ft_pwd(void);
 int		ft_echo(char **argv);
 int		ft_cd(char **argv);
+int		ft_unset(char **argv);
+int		ft_exit(char **argv, int father);
 void	sort_list(t_sort *list);
 void	print_order_list(t_sort *list);
 void	free_list(t_sort *list);
