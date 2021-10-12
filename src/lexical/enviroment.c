@@ -35,7 +35,7 @@ static char *converse(char *str, int *count)
 		}
 		i++;
 	}
-	ret = ft_strjoin("$", str);
+	ret = ft_strdup("");
 	*count = *count + ft_strlen(ret);
 	return (ret);
 }

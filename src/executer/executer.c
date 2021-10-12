@@ -56,7 +56,7 @@ int	open_file(char *file_name, int mode)
 	if(mode == APPEND_ON)
 		return(open(file_name, O_APPEND | O_RDWR | O_CREAT, 00644));
 	else
-		return(open(file_name, O_WRONLY | O_CREAT, 00644));
+		return(open(file_name, O_RDWR | O_CREAT, 00644));
 	
 }
 
