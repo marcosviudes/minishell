@@ -33,9 +33,13 @@ void	execute(t_shell *shell)
 
 void	loop_shell(t_shell *shell)
 {
-	int i;
-	t_info *aux;
+	int		i;
+	t_info	*aux;
+	char	**oldpwd;
 
+	oldpwd = malloc(sizeof(char *));
+	oldpwd[0] = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
+	ft_export(oldpwd);
 	while (TRUE)
 	{
 		signal_init();
@@ -91,7 +95,6 @@ t_shell	*init_structure(t_shell *shell, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-
 	(void)argc;
 	(void)argv;
 	shell = NULL;
