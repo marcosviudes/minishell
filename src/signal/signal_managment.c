@@ -12,13 +12,16 @@ void signal_handler_sigquit(int signum)
 {
 	(void)signum;
 	printf("sigquit pressed");
-	exit(0);
+	if(g_shell->pid == 0)
+		exit(0);
 }
 
 void signal_handler_sigkill(int signum)
 {
 	(void)signum;
 	printf("sigkill pressed");
+
+		exit(0);
 }
 
 void signal_handler_sigint(int signum)

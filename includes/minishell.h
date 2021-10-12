@@ -33,6 +33,7 @@
 # define APPEND_OFF		0
 
 typedef struct s_info t_info;
+
 typedef struct	s_info
 {
 	char			*string;
@@ -54,6 +55,7 @@ typedef struct	s_shell
 	int				num_of_pipes;
 	int				fd_out;
 	int				fd_in;
+	pid_t			pid;
 
 	t_list			*cmd_list;
 	t_info			*info;
@@ -61,13 +63,13 @@ typedef struct	s_shell
 
 t_shell *g_shell;
 
-typedef struct s_table_cmd
+typedef struct s_cmd_table
 {
 	char		*command;
 	char		**args;
 	t_list		*outfile;
 	t_list		*infile;
-}				t_table_cmd;
+}				t_cmd_table;
 
 typedef struct	s_table_redir
 {
@@ -111,7 +113,8 @@ void	signal_handler_sigkill(int signum);
 void	signal_handler_sigint(int signum);
 
 //executer
-//void	execute(t_shell *shell);
+void	execute(t_shell *shell);
+
 //builtings
 int		ft_export(char **argv);
 int		ft_env(void);

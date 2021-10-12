@@ -61,7 +61,7 @@ int	 create_word(t_shell *shell, int i)
 		i_aux++;
 	}
 	aux = shell->line_splitted;
-	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
+	shell->line_splitted = ft_insert_string2(shell->line_splitted, word);
 	free(word);
 	ft_free_matrix(aux);
 	return (i);
@@ -78,8 +78,8 @@ void	lexical_analyzer(t_shell *shell)
 	//shell->info->string[0] = '\0';
 	count = 0;
 	i = 0;
-	if(!shell->line)
-		shell->line = ft_strdup("");
+//	if(!shell->line)
+//		shell->line = ft_strdup("");
 	while (shell->line[i])
 	{
 		if (shell->line[i] == 34 || shell->line[i] == 39)

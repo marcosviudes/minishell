@@ -56,11 +56,11 @@ void	print_redir(void *redir)
 
 void	print_command(void *cmd)
 {
-	t_table_cmd *temp;
+	t_cmd_table *temp;
 	int			i;
 
 	i = 0;
-	temp = (t_table_cmd*)cmd;
+	temp = (t_cmd_table*)cmd;
 	if(!temp)
 		return;
 	printf("CMD:	%s\n", temp->command);
@@ -132,14 +132,14 @@ void print_list(t_info *info)
 
 void free_table(void *arg)
 {
-	t_table_cmd *table;
+	t_cmd_table *table;
 
 	if(arg == NULL)
 	{
 		free(arg);
 		return;
 	}
-	table = (t_table_cmd*) arg;
+	table = (t_cmd_table*) arg;
 	free(table->command);
 	ft_free_matrix(table->args);
 	free(table->outfile);
@@ -159,7 +159,7 @@ void	parse(t_shell *shell)
 {
 	t_list		*node;
 	t_info		*temp;
-	t_table_cmd	*table;
+	t_cmd_table	*table;
 	t_table_redir	*temp_redir;
 	int			command_flag;
 	int			redirection_flag;
@@ -175,7 +175,7 @@ void	parse(t_shell *shell)
 	while(temp != NULL)
 	{
 		if(!table)
-			table = ft_calloc(sizeof(t_table_cmd), 1);
+			table = ft_calloc(sizeof(t_cmd_table), 1);
 		if(temp->type == 's')
 		{
 			if(ft_strncmp(temp->string, ">", 2) == 0)
@@ -192,17 +192,17 @@ void	parse(t_shell *shell)
 				command_flag = 1;
 				node = ft_lstnew(table);
 				ft_lstadd_back(&shell->cmd_list, node);
-				table = ft_calloc(sizeof(t_table_cmd), 1);
+				table = ft_calloc(sizeof(t_cmd_table), 1);
 			}
 		}
 		else if(temp->type == 'w')
-		{
+		{/*
 			if(table->command == NULL && command_flag  == 1 && !redirection_flag)
 			{
 				table->command = ft_strdup(temp->string);
 				command_flag = 0;
-			}
-			else if(redirection_flag == GREAT || redirection_flag == GREAT_GREAT)
+			}*/
+			if(redirection_flag == GREAT || redirection_flag == GREAT_GREAT)
 			{
 				temp_redir = malloc(sizeof(t_table_redir));
 				temp_redir->file = ft_strdup(temp->string);
@@ -222,6 +222,11 @@ void	parse(t_shell *shell)
 			}
 			else
 			{
+				if(table->command == NULL && command_flag  == 1 && !redirection_flag)
+				{
+					table->command = ft_strdup(temp->string);
+					command_flag = 0;
+				}
 				if(!table->args)
 					table->args = ft_calloc(sizeof(char**), 1);
 				table->args = ft_insert_string2(table->args, temp->string);
@@ -234,4 +239,5 @@ void	parse(t_shell *shell)
 	ft_lstiter(shell->cmd_list, &print_command);
 //	ft_lstclear(&shell->cmd_list, &free_table);
 //	free_info_list(shell->info);
+//	printf("hola\n");
 }

@@ -7,7 +7,7 @@ void	free_all(t_shell *shell)
 	free(shell->prompt);
 	free(shell);
 }
-
+/*
 void	execute(t_shell *shell)
 {
 	t_cmd_table *temp;
@@ -26,7 +26,7 @@ void	execute(t_shell *shell)
 	if (ft_strncmp("cd", temp->command, 2) == 0 && ft_strlen(temp->command) == 2)
 		ft_cd(temp->args);
 }
-
+*/
 void	loop_shell(t_shell *shell)
 {
 	int i;
@@ -34,9 +34,14 @@ void	loop_shell(t_shell *shell)
 
 	while (TRUE)
 	{
+		if(shell->line)
+			free(shell->line);
+		shell->line = NULL;
 		signal_init();
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
+		if(!shell->line)
+			continue ;
 		lexical_analyzer(shell);
 		env_transform(shell);
 		aux = shell->info;
@@ -81,6 +86,7 @@ t_shell	*init_structure(t_shell *shell, char **envp)
 {
 	shell = malloc(sizeof(t_shell));
 	shell->ownenvp = fill_env(envp);
+	shell->line = NULL;
 	return(shell);
 }
 

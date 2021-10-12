@@ -25,13 +25,6 @@ SRC			= main.c\
 			lexical/enviroment.c\
 			lexical/enviroment2.c\
 			parse/parse.c\
-			lexycal.c\
-			utils.c\
-			quotation_marks.c\
-			listing.c\
-			enviroment.c\
-			enviroment2.c\
-			parse.c\
 			builtins/export.c\
 			builtins/export2.c\
 			builtins/builtins.c\
