@@ -25,13 +25,21 @@ void	execute(t_shell *shell)
 		ft_echo(temp->args);
 	if (ft_strncmp("cd", temp->command, 2) == 0 && ft_strlen(temp->command) == 2)
 		ft_cd(temp->args);
+	if (ft_strncmp("unset", temp->command, 5) == 0 && ft_strlen(temp->command) == 5)
+		ft_unset(temp->args);
+	if (ft_strncmp("exit", temp->command, 4) == 0 && ft_strlen(temp->command) == 4)
+		ft_exit(temp->args, 1);
 }
 */
 void	loop_shell(t_shell *shell)
 {
-	int i;
-	t_info *aux;
+	int		i;
+	t_info	*aux;
+	char	**oldpwd;
 
+	oldpwd = malloc(sizeof(char *));
+	oldpwd[0] = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
+	ft_export(oldpwd);
 	while (TRUE)
 	{
 		if(shell->line)
@@ -93,7 +101,6 @@ t_shell	*init_structure(t_shell *shell, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-
 	(void)argc;
 	(void)argv;
 	shell = NULL;

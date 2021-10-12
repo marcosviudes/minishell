@@ -65,40 +65,49 @@ static void	step_back(char *path)
 	}
 }
 
-int	ft_cd(char **argv)
+static int	only_cd(void)
+{
+	char **aux;
+
+	aux = ft_getenvptr("OLDPWD=");
+	free(*aux);
+	*aux = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
+	aux = ft_getenvptr("PWD=");
+	free(*aux);
+	*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME="));
+	chdir(ft_getenvcontent("HOME="));
+	return(0);
+}
+
+static char	*get_path(char *oldpwd, char *arg)
 {
 	char	**splitted;
-	char	*path;
-	char	*oldpwd;
-	char	**aux;
+	char	*ret;
+	char	*aux;
 	int		i;
 
-	i = 0;
-	path = ft_strdup(ft_getenvcontent("PWD="));
-	oldpwd = ft_strdup(path);
-
-	if (argv == NULL)
-	{
-		aux = ft_getenvptr("OLDPWD=");
-		free(*aux);
-		*aux = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
-		printf("%s\n", *aux);
-		aux = ft_getenvptr("PWD=");
-		free(*aux);
-		*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME="));
-		chdir(ft_getenvcontent("HOME="));
-		return (0);
-	}
-	splitted = ft_split(argv[0], '/');
+	ret = NULL;
+	ret = ft_strdup(oldpwd);
+	splitted = ft_split(arg, '/');
 	i = 0;
 	while (splitted[i])
 	{
 		if (ft_strncmp(splitted[i], "..", 2) == 0 && ft_strlen(splitted[i]) == 2)
-			step_back(path);
+			step_back(ret);
 		else
-			ft_strjoin(ft_strjoinchar(path, '/'), splitted[i]);
+		{
+			aux = ret;
+			ret = ft_strjoin(ft_strjoinchar(ret, '/'), splitted[i]);
+		}
 		i++;
 	}
+	return (ret);
+}
+
+static int	ft_chdir(char *path, char *oldpwd)
+{
+	int	i;
+
 	i = 0;
 	if (access(path, F_OK) == 0)
 	{
@@ -117,8 +126,23 @@ int	ft_cd(char **argv)
 			i++;
 		}
 		chdir(path);
+		return (0);
 	}
 	else
+	{
 		printf("cd: no such file or directory\n");
-	return (0);
-}	
+		return (1); //return error
+	}
+}
+
+int	ft_cd(char **argv)
+{
+	char	*path;
+	char	*oldpwd;
+
+	if (argv == NULL)
+		return (only_cd());
+	oldpwd = ft_getenvcontent("PWD=");
+	path = get_path(oldpwd, argv[0]);
+	return(ft_chdir(path, oldpwd));
+}
