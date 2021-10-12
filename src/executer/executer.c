@@ -162,10 +162,10 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		return;
 	pid = fork();
 	if(pid == 0){
-		shell->fd_in = dup(STDIN_FILENO);
-		shell->fd_out = dup(STDOUT_FILENO);
-		dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
-		dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
+//		shell->fd_in = dup(STDIN_FILENO);
+//		shell->fd_out = dup(STDOUT_FILENO);
+	//	dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
+	//	dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
 		execve(path, table->args, shell->ownenvp);
 	}
 	shell->pid = pid;
@@ -214,10 +214,10 @@ void execute(t_shell *shell)
 			i++;
 		}
 	}
-	dup2(shell->fd_out, STDOUT_FILENO);
-	dup2(shell->fd_in, STDIN_FILENO);
-	close(shell->fd_out);
-	close(shell->fd_in);
+//	dup2(shell->fd_out, STDOUT_FILENO);
+//	dup2(shell->fd_in, STDIN_FILENO);
+//	close(shell->fd_out);
+//	close(shell->fd_in);
 //	shell->fd_in = dup(STDIN_FILENO);
 //	shell->fd_out = dup(STDOUT_FILENO);
 }
