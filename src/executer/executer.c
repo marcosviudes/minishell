@@ -10,56 +10,44 @@ int	is_absolute_path(char *command)
 
 int	isbuiltin(char *string)
 {
-	if(ft_strncmp(string, "echo", ft_strlen("export")) == 0)
+	if(ft_strncmp(string, "echo", 5) == 0)
 		return(1);
-	if(ft_strncmp(string, "cd", ft_strlen("cd")) == 0)
+	if(ft_strncmp(string, "cd", 3) == 0)
 		return(1);
-	if(ft_strncmp(string, "pwd", ft_strlen("pwd")) == 0)
+	if(ft_strncmp(string, "pwd", 4) == 0)
 		return(1);
-	if(ft_strncmp(string, "export", ft_strlen("export")) == 0)
+	if(ft_strncmp(string, "export", 7) == 0)
 		return(1);
-	if(ft_strncmp(string, "unset", ft_strlen("unset")) == 0)
+	if(ft_strncmp(string, "unset", 6) == 0)
 		return(1);
-	if(ft_strncmp(string, "env", ft_strlen("env")) == 0)
+	if(ft_strncmp(string, "env", 4) == 0)
 		return(1);
-	if(ft_strncmp(string, "exit", ft_strlen("exit")) == 0)
+	if(ft_strncmp(string, "exit", 5) == 0)
 		return(1);
 	return(0);
 }
-/*
-void builtin(t_shell *shell)
-{
-	int		fd_in;
-	int		fd_out;
 
-	fd_in = dup(0);
-	fd_out = dup(1);
-
-	printf("esto ejecuta un builtin\nj");
-}
-*/
 void	execute_builtin(t_shell *shell, char *command)
 {
 	t_cmd_table *temp;
 
 	printf("esto ejecuta un builtin\n");
 	temp = shell->cmd_list->content;
-	if(ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
+	if(ft_strncmp(command, "echo", 5) == 0)
 		ft_echo(&temp->args[1]);
-	if(ft_strncmp(command, "cd", ft_strlen("cd")) == 0)
+	if(ft_strncmp(command, "cd", 3) == 0)
 		ft_cd(&temp->args[1]);
-	if(ft_strncmp(command, "pwd", ft_strlen("pwd")) == 0)
+	if(ft_strncmp(command, "pwd", 4) == 0)
 		ft_pwd();
-	if(ft_strncmp(command, "export", ft_strlen("export")) == 0)
+	if(ft_strncmp(command, "export", 7) == 0)
 		ft_export(&temp->args[1]);
-//	if(ft_strncmp(command, "unset", ft_strlen("unset")) == 0)
-//		ft_unset();
-	if(ft_strncmp(command, "env", ft_strlen("env")) == 0)
+	if (ft_strncmp(command,"unset", 5) == 0)
+		ft_unset(&temp->args[1]);
+	if (ft_strncmp(command,"env", 3) == 0)
 		ft_env();
-//	if(ft_strncmp(command, "exit", ft_strlen("exit")) == 0)
-//		ft_exit();
+	if (ft_strncmp(command,"exit", 4) == 0)
+		ft_exit(&temp->args[1], 1);
 }
-
 
 int	open_file(char *file_name, int mode)
 {

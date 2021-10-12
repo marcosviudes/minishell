@@ -7,30 +7,7 @@ void	free_all(t_shell *shell)
 	free(shell->prompt);
 	free(shell);
 }
-/*
-void	execute(t_shell *shell)
-{
-	t_cmd_table *temp;
 
-	temp = shell->cmd_list->content;
-	if (!temp->command)
-		return ;
-	if (ft_strncmp("export", temp->command, 6) == 0 && ft_strlen(temp->command) == 6)
-		ft_export(temp->args);
-	if (ft_strncmp("env", temp->command, 3) == 0 && ft_strlen(temp->command) == 3)
-		ft_env();
-	if (ft_strncmp("pwd", temp->command, 3) == 0 && ft_strlen(temp->command) == 3)
-		ft_pwd();
-	if (ft_strncmp("echo", temp->command, 4) == 0 && ft_strlen(temp->command) == 4)
-		ft_echo(temp->args);
-	if (ft_strncmp("cd", temp->command, 2) == 0 && ft_strlen(temp->command) == 2)
-		ft_cd(temp->args);
-	if (ft_strncmp("unset", temp->command, 5) == 0 && ft_strlen(temp->command) == 5)
-		ft_unset(temp->args);
-	if (ft_strncmp("exit", temp->command, 4) == 0 && ft_strlen(temp->command) == 4)
-		ft_exit(temp->args, 1);
-}
-*/
 void	loop_shell(t_shell *shell)
 {
 	int		i;

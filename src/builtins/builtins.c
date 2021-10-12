@@ -47,10 +47,6 @@ int	ft_echo(char **argv)
 	return (0);
 }
 
-//cd tiene que recibir argc = 0 si el argv es nulo, si recibe una cadena vacia ("") en argv y argc = 1 no funcionara
-//cd solo necesita un argumento.
-//pero se puede cambiar.
-
 static void	step_back(char *path)
 {
 	char	*str;
@@ -131,7 +127,7 @@ static int	ft_chdir(char *path, char *oldpwd)
 	else
 	{
 		printf("cd: no such file or directory\n");
-		return (1); //return error
+		return (1);
 	}
 }
 
