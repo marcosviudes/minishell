@@ -228,33 +228,56 @@ void execute(t_shell *shell)
 			pipe(fd[i]);
 			i++;
 		}
-//		close(fd[0][]);
+		//close(fd[i][READ_END]);
 		i = 0;
-		while(temp_node)
+		while (temp_node)
 		{
 			temp_cmd_table = (t_cmd_table*)temp_node->content;
-			fd_redir = dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
-			fd_indir = dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
 			pid = fork();
-			if(pid == 0){
-				if(isbuiltin(temp_cmd_table->command))
-				{
-					execute_builtin(shell, temp_cmd_table->command);
-					exit(0);
-
-				}
-				if(is_absolute_path(temp_cmd_table->command))
+			if (pid == 0)
+			{
+				if (is_absolute_path(temp_cmd_table->command))
 					path = temp_cmd_table->command;
 				else
 					path = pathing(temp_cmd_table->command, shell->ownenvp);
+				if (i != 0)
+				{
+					close(fd[i][WRITE_END]);
+					fprintf(stderr, "%i\n", *fd[i]);
+					dup2(fd[i][READ_END], STDIN_FILENO);
+				}
+				if (i < num_commands)
+				{
+					close(fd[i + 1][READ_END]);
+					dup2(fd[i + 1][WRITE_END], STDOUT_FILENO);
+				}
+		//		close(fd[i][WRITE_END]);
+		///		close(fd[i][READ_END]);
+				//close(fd[i][WRITE_END]); 
+//				if(temp_cmd_table->outfile)
+//					fd_redir = dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+//				if(temp_cmd_table->infile)
+//					fd_indir = dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+				if (isbuiltin(temp_cmd_table->command))
+				{
+					execute_builtin(shell, temp_cmd_table->command);
+					exit(0);
+				}
 				execve(path, temp_cmd_table->args, shell->ownenvp);
 			}
-			i++; 
+			i++;
+	//		else
+	//			close(fd[i][READ_END]);
 			temp_node = temp_node->next;
 		}
+		while (i < num_commands - 1)
+		{
+			close(fd[i][READ_END]);
+			close(fd[i][WRITE_END]);
+			i++;
+		}
 	}
-	dup2(shell->fd_out, STDOUT_FILENO);
-	dup2(shell->fd_in, STDIN_FILENO);
+
 	close(shell->fd_out);
 	close(shell->fd_in);
 //	shell->fd_in = dup(STDIN_FILENO);
