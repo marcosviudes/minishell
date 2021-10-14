@@ -8,7 +8,7 @@ char	*get_before_dolar(char *string)
 
 	i = 0;
 	count = 0;
-	while(string[i] != '$')
+	while (string[i] != '$')
 		i++;
 	ret = malloc(sizeof(char) * (i + 1));
 	while (count < i)
@@ -19,12 +19,12 @@ char	*get_before_dolar(char *string)
 	ret[count] = '\0';
 	return (ret);
 }
+
 char	*get_after_dolar(char *pdolar)
 {
-	int i;
-	int j;
-	char *ret;
-
+	int		i;
+	int		j;
+	char	*ret;
 
 	j = 0;
 	i = 1;

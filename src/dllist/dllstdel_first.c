@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dllstddel_first.c                                  :+:      :+:    :+:   */
+/*   dllstdel_first.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 20:52:32 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/16 21:06:58 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/10/14 12:50:09 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	dllstddel_first(t_dllist **first)
 {
 	t_dllist *temp;
 
-	if(!first || !*first)
+	if (!first || !*first)
 		return ;
-	while((*first)->prev != NULL)
+	while ((*first)->prev != NULL)
 		*first = (*first)->prev;
 	temp = *first;
 	(*first) = (*first)->next;

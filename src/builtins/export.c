@@ -80,13 +80,13 @@ static void	add_env(char *newenv)
 int	ft_export(char **argv)
 {
 	int	argc;
-	int i;
+	int	i;
 
 	i = 0;
 	argc = count_lines(argv);
 	if (argc == 0)
 		return (sort_env());
-	while(i < argc)
+	while (i < argc)
 	{
 		if (ft_isdigit(argv[i][0]))
 			printf("export: `%s': not a valid identifier\n", argv[i]);

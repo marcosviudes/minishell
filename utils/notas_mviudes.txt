@@ -7,5 +7,5 @@
 	while true ; do leaks minishell ; sleep 1  ; done
 	make -j4
 
-Errno handling:	https://www.youtube.com/watch?v=IZiUT-ipnj0
+condition handling:	https://www.youtube.com/watch?v=IZiUT-ipnj0
 Developing a Linux based shell: https://www.geeksforgeeks.org/developing-linux-based-shell/

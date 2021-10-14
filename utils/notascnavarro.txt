@@ -17,7 +17,7 @@ dup, dup2:      https://www.geeksforgeeks.org/dup-dup2-linux-system-call/
 pipe:           https://www.geeksforgeeks.org/pipe-system-call/
 opendir, readdir, closedir: https://pasky.wordpress.com/2009/08/05/funciones-opendir-readdir-y-closedir-en-c/
 strerror:       https://www.tutorialspoint.com/c_standard_library/c_function_strerror.htm
-errno:          https://man7.org/linux/man-pages/man3/errno.3.html
+condition:          https://man7.org/linux/man-pages/man3/condition.3.html
 isatty:         https://linux.die.net/man/3/isatty
 ttyname:        https://linux.die.net/man/3/ttyname
 ttyslot:        https://linux.die.net/man/3/ttyslot

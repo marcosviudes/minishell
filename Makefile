@@ -19,16 +19,18 @@ SRC			= main.c\
 			get_next_line.c\
 			executer/executer.c\
 			lexical/lexycal.c\
-			lexical/utils.c\
+			utils/utils.c\
+			utils/utils2.c\
 			lexical/quotation_marks.c\
 			lexical/listing.c\
 			lexical/enviroment.c\
 			lexical/enviroment2.c\
 			parse/parse.c\
+			builtins/cd.c\
 			builtins/export.c\
 			builtins/export2.c\
-			builtins/builtins.c\
-			builtins/builtins2.c\
+			builtins/echo_pwd.c\
+			builtins/exit_unset_env.c\
 			signal/signal_managment.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\

@@ -2,10 +2,10 @@
 
 int	double_marks(t_shell *shell, int i)
 {
-	int i_aux;
-	int count;
-	char *phrase;
-	char **aux;
+	int		i_aux;
+	int		count;
+	char	*phrase;
+	char	**aux;
 
 	count = 0;
 	i_aux = i;
@@ -19,7 +19,7 @@ int	double_marks(t_shell *shell, int i)
 		ft_strerror("Quote marks not finished", 1);
 	phrase = ft_calloc(sizeof(char), count + 2);
 	i_aux = 0;
-	while(i_aux <= count)
+	while (i_aux <= count)
 	{
 		phrase[i_aux] = shell->line[i];
 		i_aux++;
@@ -34,10 +34,10 @@ int	double_marks(t_shell *shell, int i)
 
 int	simple_marks(t_shell *shell, int i)
 {
-	int i_aux;
-	int count;
-	char *phrase;
-	char **aux;
+	int		i_aux;
+	int		count;
+	char	*phrase;
+	char	**aux;
 
 	count = 0;
 	i_aux = i;
@@ -51,7 +51,7 @@ int	simple_marks(t_shell *shell, int i)
 		ft_strerror("Quote marks not finished", 1);
 	phrase = ft_calloc(sizeof(char), count + 2);
 	i_aux = 0;
-	while(i_aux <= count)
+	while (i_aux <= count)
 	{
 		phrase[i_aux] = shell->line[i];
 		i_aux++;
@@ -66,7 +66,6 @@ int	simple_marks(t_shell *shell, int i)
 
 int	quotation_marks(t_shell *shell, int i)
 {
-	//De momento funcionan igual las dos
 	if (shell->line[i] == 34)
 	{
 		i = double_marks(shell, i);

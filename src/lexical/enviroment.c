@@ -1,9 +1,9 @@
 #include <minishell.h>
 
-static char *final_phrase(char *phrase, int len)
+static char	*final_phrase(char *phrase, int len)
 {
-	char *end_game;
-	int i;
+	char	*end_game;
+	int		i;
 
 	end_game = ft_calloc(sizeof(char), (ft_strlen(phrase) - len + 1));
 	i = 0;
@@ -16,11 +16,11 @@ static char *final_phrase(char *phrase, int len)
 	return (end_game);
 }
 
-static char *converse(char *str, int *count)
+static char	*converse(char *str, int *count)
 {
-	int i;
-	char *ret;
-	char *aux;
+	int		i;
+	char	*ret;
+	char	*aux;
 
 	aux = ft_strjoin(str, "=");
 	ret = NULL;
@@ -36,7 +36,7 @@ static char *converse(char *str, int *count)
 		i++;
 	}
 	ret = ft_strdup("");
-	*count = *count + ft_strlen(ret);
+	*count = *count + ft_strlen(aux);
 	return (ret);
 }
 
@@ -53,7 +53,7 @@ static char	*get_dolar_string(char *pdolar, int *count)
 	while (ft_isalnum(aux[i]))
 		i++;
 	var = malloc(sizeof(char) * (i + 1));
-	while(j < i)
+	while (j < i)
 	{
 		var[j] = aux[j];
 		j++;
@@ -67,7 +67,7 @@ static char	*get_dolar_string(char *pdolar, int *count)
 
 void	env_transform(t_shell *shell)
 {
-	t_info *aux;
+	t_info	*aux;
 	char	*pdolar;
 	char	*finalstring;
 	int		i;
@@ -78,14 +78,25 @@ void	env_transform(t_shell *shell)
 	{
 		if (aux->string)
 			pdolar = ft_strchr(aux->string, '$');
-		finalstring =  malloc(sizeof(char));
+		finalstring = malloc(sizeof(char));
 		finalstring[0] = '\0';
 		while (i < (int)ft_strlen(aux->string))
 		{
 			if (aux->string[i] == '$' && aux->marks != 2)
 			{
-				finalstring = ft_strjoin(finalstring, get_dolar_string(pdolar, &i));
-				pdolar = ft_strchr(pdolar + 1, '$');
+				if (aux->string[i + 1] == '?')
+				{
+					finalstring = ft_strjoin(finalstring,
+							ft_itoa(g_shell->condition));
+					pdolar = ft_strchr(pdolar + 1, '$');
+					i++;
+				}
+				else
+				{
+					finalstring = ft_strjoin(finalstring,
+							get_dolar_string(pdolar, &i));
+					pdolar = ft_strchr(pdolar + 1, '$');
+				}
 				i++;
 			}
 			else

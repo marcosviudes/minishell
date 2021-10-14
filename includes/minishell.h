@@ -51,7 +51,7 @@ typedef struct	s_shell
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
-
+	int				condition;
 	int				num_of_pipes;
 	int				fd_out;
 	int				fd_in;
@@ -122,7 +122,7 @@ int		ft_pwd(void);
 int		ft_echo(char **argv);
 int		ft_cd(char **argv);
 int		ft_unset(char **argv);
-int		ft_exit(char **argv, int father);
+void	ft_exit(char **argv, int father);
 void	sort_list(t_sort *list);
 void	print_order_list(t_sort *list);
 void	free_list(t_sort *list);

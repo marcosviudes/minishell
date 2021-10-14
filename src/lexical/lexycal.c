@@ -1,11 +1,11 @@
 #include <minishell.h>
 
-int create_symbol(t_shell *shell, int i)
+int	create_symbol(t_shell *shell, int i)
 {
-	int count;
-	int i_aux;
-	char *word;
-	char **aux;
+	int		count;
+	int		i_aux;
+	char	*word;
+	char	**aux;
 
 	if ((shell->line[i] == '<' && shell->line[i + 1] == '<')
 		|| (shell->line[i] == '>' && shell->line[i + 1] == '>'))
@@ -29,14 +29,14 @@ int create_symbol(t_shell *shell, int i)
 
 int	its_not_special(char digit)
 {
-	if (digit == ' ' || digit == '<' 
+	if (digit == ' ' || digit == '<'
 		|| digit == '>' || digit == '|'
 		|| digit == 34 || digit == 39)
 		return (0);
 	return (1);
 }
 
-int	 create_word(t_shell *shell, int i)
+int	create_word(t_shell *shell, int i)
 {
 	char	*word;
 	int		count;
@@ -69,17 +69,13 @@ int	 create_word(t_shell *shell, int i)
 
 void	lexical_analyzer(t_shell *shell)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	shell->line_splitted = ft_calloc(sizeof(char *), 1);
 	shell->info = ft_calloc(sizeof(t_info), 1);
-	//shell->info->string = malloc(sizeof(char));
-	//shell->info->string[0] = '\0';
 	count = 0;
 	i = 0;
-//	if(!shell->line)
-//		shell->line = ft_strdup("");
 	while (shell->line[i])
 	{
 		if (shell->line[i] == 34 || shell->line[i] == 39)

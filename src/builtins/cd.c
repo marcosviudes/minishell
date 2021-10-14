@@ -1,52 +1,5 @@
 #include <minishell.h>
 
-int	ft_pwd(void)
-{
-	int i;
-	char *aux;
-
-	aux = NULL;
-	i = 0;
-	while (g_shell->ownenvp[i])
-	{
-		if (ft_strnstr(g_shell->ownenvp[i], "PWD=", 4))
-		{
-			aux = ft_substr(g_shell->ownenvp[i], 4, ft_strlen(g_shell->ownenvp[i]) - 4);
-			printf("%s\n", aux);
-			free(aux);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	ft_echo(char **argv)
-{
-	int i;
-	int	argc;
-	int flag;
-
-	flag = 0;
-	argc = count_lines(argv);
-	i = 0;
-	if (ft_strncmp(argv[i], "-n", 2) == 0)
-	{
-		flag = 1;
-		i++;
-	}
-	while (i < argc)
-	{
-		printf("%s", argv[i]);
-		if (i + 1 != argc)
-			printf(" ");
-		i++;
-	}
-	if (flag == 0)
-			printf("\n");
-	return (0);
-}
-
 static void	step_back(char *path)
 {
 	char	*str;
@@ -63,7 +16,7 @@ static void	step_back(char *path)
 
 static int	only_cd(void)
 {
-	char **aux;
+	char	**aux;
 
 	aux = ft_getenvptr("OLDPWD=");
 	free(*aux);
@@ -72,7 +25,7 @@ static int	only_cd(void)
 	free(*aux);
 	*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME="));
 	chdir(ft_getenvcontent("HOME="));
-	return(0);
+	return (0);
 }
 
 static char	*get_path(char *oldpwd, char *arg)
@@ -88,7 +41,8 @@ static char	*get_path(char *oldpwd, char *arg)
 	i = 0;
 	while (splitted[i])
 	{
-		if (ft_strncmp(splitted[i], "..", 2) == 0 && ft_strlen(splitted[i]) == 2)
+		if (ft_strncmp(splitted[i], "..", 2) == 0
+			&& ft_strlen(splitted[i]) == 2)
 			step_back(ret);
 		else
 		{
@@ -97,6 +51,7 @@ static char	*get_path(char *oldpwd, char *arg)
 		}
 		i++;
 	}
+	ft_free_matrix(splitted);
 	return (ret);
 }
 
@@ -136,9 +91,9 @@ int	ft_cd(char **argv)
 	char	*path;
 	char	*oldpwd;
 
-	if (argv == NULL)
+	if (*argv == NULL)
 		return (only_cd());
 	oldpwd = ft_getenvcontent("PWD=");
 	path = get_path(oldpwd, argv[0]);
-	return(ft_chdir(path, oldpwd));
+	return (ft_chdir(path, oldpwd));
 }

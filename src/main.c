@@ -12,20 +12,21 @@ void	loop_shell(t_shell *shell)
 {
 	int		i;
 	t_info	*aux;
-	char	**oldpwd;
+//	char	**oldpwd;
 
-	oldpwd = malloc(sizeof(char *));
-	oldpwd[0] = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
-	ft_export(oldpwd);
+//	oldpwd = malloc(sizeof(char *));
+//	oldpwd[0] = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
+//	ft_export(oldpwd);
 	while (TRUE)
 	{
-		if(shell->line)
+		if (shell->line)
 			free(shell->line);
 		shell->line = NULL;
 		signal_init();
+		//system("leaks minishell");
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
-		if(!shell->line)
+		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
 		env_transform(shell);
@@ -58,7 +59,7 @@ char	**fill_env(char **envp)
 	while (envp[i])
 		i++;
 	new_envp = malloc(sizeof(char *) * (i + 1));
-	while(j < i)
+	while (j < i)
 	{
 		new_envp[j] = ft_strdup(envp[j]);
 		j++;
@@ -70,8 +71,9 @@ t_shell	*init_structure(t_shell *shell, char **envp)
 {
 	shell = malloc(sizeof(t_shell));
 	shell->ownenvp = fill_env(envp);
+	shell->condition = 0;
 	shell->line = NULL;
-	return(shell);
+	return (shell);
 }
 
 int	main(int argc, char **argv, char **envp)

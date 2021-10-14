@@ -12,7 +12,7 @@ void signal_handler_sigquit(int signum)
 {
 	(void)signum;
 	printf("sigquit pressed");
-	if(g_shell->pid == 0)
+	if (g_shell->pid == 0)
 		exit(0);
 }
 

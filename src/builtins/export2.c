@@ -25,7 +25,7 @@ static char	*add_marks(char *newenv)
 	return (ret);
 }
 
-void add_line_to_list(char *line, t_sort **ordered_list)
+void	add_line_to_list(char *line, t_sort **ordered_list)
 {
 	t_sort	*aux;
 
@@ -41,18 +41,18 @@ void add_line_to_list(char *line, t_sort **ordered_list)
 	{
 		while (aux->next != NULL)
 			aux = aux->next;
-		aux->next =	ft_calloc(sizeof(t_sort), 1);
+		aux->next = ft_calloc(sizeof(t_sort), 1);
 		if (ft_strchr(line, '='))
 			aux->next->line = ft_strdup(add_marks(line));
 		else
 			aux->next->line = ft_strdup(line);
-		aux->next->next = NULL; 
+		aux->next->next = NULL;
 	}
 }
 
 void	free_list(t_sort *list)
 {
-	t_sort *aux;
+	t_sort	*aux;
 
 	while (list)
 	{
@@ -65,7 +65,7 @@ void	free_list(t_sort *list)
 
 void	print_order_list(t_sort *list)
 {
-	t_sort *aux;
+	t_sort	*aux;
 
 	aux = list;
 	while (aux)
@@ -89,7 +89,8 @@ void	sort_list(t_sort *list)
 		flag = 1;
 		while (aux)
 		{
-			if (aux->next && (ft_strncmp(aux->line, aux->next->line, ft_strlen(aux->line)) > 0))
+			if (aux->next && (ft_strncmp(aux->line,
+						aux->next->line, ft_strlen(aux->line)) > 0))
 			{
 				aux2 = aux->next->line;
 				aux->next->line = aux->line;

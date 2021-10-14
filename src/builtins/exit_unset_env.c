@@ -2,7 +2,7 @@
 
 int	ft_env(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (g_shell->ownenvp[i])
@@ -13,7 +13,7 @@ int	ft_env(void)
 	return (0);
 }
 
-static void create_newenvp(char *str)
+static void	create_newenvp(char *str)
 {
 	char	**table;
 	int		i;
@@ -56,12 +56,12 @@ int	ft_unset(char **argv)
 
 static int	is_argument_numeric(char *str)
 {
-	int i;
+	int	i;
 
-	i= 0;
+	i = 0;
 	if (str[0] == '+' || str[0] == '-')
 		i++;
-	while(str[i])
+	while (str[i])
 	{
 		if (!(ft_isdigit(str[i])))
 			return (0);
@@ -70,7 +70,7 @@ static int	is_argument_numeric(char *str)
 	return (1);
 }
 
-int	ft_exit(char **argv, int father)
+void	ft_exit(char **argv, int father)
 {
 	if (father == 1)
 		printf("exit\n");
@@ -82,10 +82,9 @@ int	ft_exit(char **argv, int father)
 		exit(255);
 	}
 	if (count_lines(argv) > 1)
-		{
+	{
 		printf("exit: too many arguments\n");
 		exit(255);
-		}
+	}
 	exit((ft_atoi(argv[0]) % 255));
-	return (0);
 }
