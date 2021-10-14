@@ -78,6 +78,7 @@ void	print_command(void *cmd)
 	printf("IN:  ");
 	ft_lstiter(temp->infile, &print_redir);
 	printf("%p \n", temp->infile);
+	printf("\n");
 }
 
 void	info_free(t_info *info)

@@ -51,12 +51,22 @@ void	execute_builtin(t_shell *shell, char *command)
 
 int	open_file(char *file_name, int mode)
 {
+<<<<<<< HEAD
 	if (access(file_name, F_OK ) == 0 && access(file_name, R_OK | W_OK) != 0)
 		return (-1);
 	if (mode == APPEND_ON)
 		return (open(file_name, O_APPEND | O_RDWR | O_CREAT, 00644));
 	else
 		return (open(file_name, O_RDWR | O_CREAT, 00644));
+=======
+	if(access(file_name, F_OK ) == 0 && access(file_name, R_OK | W_OK) != 0)
+		return(-1);
+	if(mode == APPEND_ON)
+		return(open(file_name, O_APPEND | O_TRUNC | O_WRONLY | O_CREAT, 00644));
+	else
+		return(open(file_name, O_TRUNC | O_WRONLY | O_CREAT, 00644));
+	
+>>>>>>> executer2
 }
 
 int	search_for_line(char **envp)
@@ -106,16 +116,19 @@ char	*pathing(char *command, char **envp)
 
 
 
-int	command_redirection(t_list *redir, int finfout)
+int	redirection(t_list *redir)
 {
-	//t_list *redir;
 	t_table_redir redir_table;
 	int		fd;
 	int		i;
 
 	i = 0;
+<<<<<<< HEAD
 	//redir = table->outfile;
 	if (redir)
+=======
+	if(redir)
+>>>>>>> executer2
 	{
 		while (redir)
 		{
@@ -130,7 +143,38 @@ int	command_redirection(t_list *redir, int finfout)
 		}
 		return (fd);
 	}
+<<<<<<< HEAD
 	return (finfout);
+=======
+	return(STDOUT_FILENO);
+}
+
+int	indirection(t_list *redir)
+{
+	t_table_redir redir_table;
+	int		fd;
+	int		i;
+
+	i = 0;
+	if(redir)
+	{
+		while(redir)
+		{
+			redir_table = *(t_table_redir*)redir->content;
+			if(i > 0)
+				close(fd);
+			if(access(redir_table.file, F_OK ) == 0 && access(redir_table.file, R_OK | W_OK) != 0)
+				return(-1);
+			fd = open(redir_table.file, O_RDWR , 00644);
+			if(fd == -1)
+				return(1);
+			i++;
+			redir = redir->next;
+		}
+		return(fd);
+	}
+	return(STDIN_FILENO);
+>>>>>>> executer2
 }
 
 void execute_single_bin(t_shell *shell, t_cmd_table *table)
@@ -150,6 +194,7 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 	if (!path)
 		return ;
 	pid = fork();
+<<<<<<< HEAD
 	if (pid == 0){
 //		shell->fd_in = dup(STDIN_FILENO);
 //		shell->fd_out = dup(STDOUT_FILENO);
@@ -157,6 +202,15 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 	//	dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
 		error = execve(path, table->args, shell->ownenvp);
 		shell->condition = error;
+=======
+	if(pid == 0){
+	//	shell->fd_in = dup(STDIN_FILENO);
+	//	shell->fd_out = dup(STDOUT_FILENO);
+	//	dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
+		//dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
+		execve(path, table->args, shell->ownenvp);
+
+>>>>>>> executer2
 	}
 	shell->pid = pid;
 	wait(&shell->pid);
@@ -170,43 +224,66 @@ void execute(t_shell *shell)
 	t_list		*temp_node;
 	t_cmd_table *temp_cmd_table;
 
-//	(void)fd;
-
+	shell->fd_in = dup(STDIN_FILENO);
+	shell->fd_out = dup(STDOUT_FILENO);
 	num_commands = ft_lstsize(shell->cmd_list);
 	fd = malloc(sizeof(int*) * num_commands - 1);
 	temp_node = shell->cmd_list;
 	temp_cmd_table = NULL;
 	if (num_commands == 1)
 	{
-		temp_cmd_table = (t_cmd_table*)shell->cmd_list->content;
-		//close(STDIN_FILENO);
-		//close(STDOUT_FILENO);
-	//	dup2(command_redirection(temp_cmd_table->outfile, STDOUT_FILENO), STDOUT_FILENO);
-	//	dup2(command_redirection(temp_cmd_table->infile, STDIN_FILENO), STDIN_FILENO);
-		if (temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
+		temp_cmd_table = (t_cmd_table *)shell->cmd_list->content;
+		dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+		dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+		if(!temp_cmd_table->command)
+			return ;
+		if(temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
 			execute_builtin(shell, temp_cmd_table->command);
 		else
 			execute_single_bin(shell, temp_cmd_table);
-		//dup2(shell->fd_out, STDOUT_FILENO);
-		//dup2(shell->fd_in, STDIN_FILENO);
-		//close(shell->fd_out);
-		//close(shell->fd_in);
 	}
 	else
 	{
 		int	i;
-
+		int pid;
+		char	*path;
+		int	fd_indir;
+		int	fd_redir;
 		i = 0;
 		while (i < num_commands - 1)
 		{
 			pipe(fd[i]);
 			i++;
 		}
+//		close(fd[0][]);
+		i = 0;
+		while(temp_node)
+		{
+			temp_cmd_table = (t_cmd_table*)temp_node->content;
+			fd_redir = dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+			fd_indir = dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+			pid = fork();
+			if(pid == 0){
+				if(isbuiltin(temp_cmd_table->command))
+				{
+					execute_builtin(shell, temp_cmd_table->command);
+					exit(0);
+
+				}
+				if(is_absolute_path(temp_cmd_table->command))
+					path = temp_cmd_table->command;
+				else
+					path = pathing(temp_cmd_table->command, shell->ownenvp);
+				execve(path, temp_cmd_table->args, shell->ownenvp);
+			}
+			i++; 
+			temp_node = temp_node->next;
+		}
 	}
-//	dup2(shell->fd_out, STDOUT_FILENO);
-//	dup2(shell->fd_in, STDIN_FILENO);
-//	close(shell->fd_out);
-//	close(shell->fd_in);
+	dup2(shell->fd_out, STDOUT_FILENO);
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_out);
+	close(shell->fd_in);
 //	shell->fd_in = dup(STDIN_FILENO);
 //	shell->fd_out = dup(STDOUT_FILENO);
 }

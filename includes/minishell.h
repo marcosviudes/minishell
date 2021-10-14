@@ -32,6 +32,9 @@
 # define APPEND_ON		1
 # define APPEND_OFF		0
 
+# define READ_END		0
+# define WRITE_END		1
+
 typedef struct s_info t_info;
 
 typedef struct	s_info
