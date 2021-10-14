@@ -51,14 +51,6 @@ void	execute_builtin(t_shell *shell, char *command)
 
 int	open_file(char *file_name, int mode)
 {
-<<<<<<< HEAD
-	if (access(file_name, F_OK ) == 0 && access(file_name, R_OK | W_OK) != 0)
-		return (-1);
-	if (mode == APPEND_ON)
-		return (open(file_name, O_APPEND | O_RDWR | O_CREAT, 00644));
-	else
-		return (open(file_name, O_RDWR | O_CREAT, 00644));
-=======
 	if(access(file_name, F_OK ) == 0 && access(file_name, R_OK | W_OK) != 0)
 		return(-1);
 	if(mode == APPEND_ON)
@@ -66,7 +58,6 @@ int	open_file(char *file_name, int mode)
 	else
 		return(open(file_name, O_TRUNC | O_WRONLY | O_CREAT, 00644));
 	
->>>>>>> executer2
 }
 
 int	search_for_line(char **envp)
@@ -123,12 +114,8 @@ int	redirection(t_list *redir)
 	int		i;
 
 	i = 0;
-<<<<<<< HEAD
 	//redir = table->outfile;
 	if (redir)
-=======
-	if(redir)
->>>>>>> executer2
 	{
 		while (redir)
 		{
@@ -143,9 +130,6 @@ int	redirection(t_list *redir)
 		}
 		return (fd);
 	}
-<<<<<<< HEAD
-	return (finfout);
-=======
 	return(STDOUT_FILENO);
 }
 
@@ -174,7 +158,6 @@ int	indirection(t_list *redir)
 		return(fd);
 	}
 	return(STDIN_FILENO);
->>>>>>> executer2
 }
 
 void execute_single_bin(t_shell *shell, t_cmd_table *table)
@@ -194,15 +177,6 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 	if (!path)
 		return ;
 	pid = fork();
-<<<<<<< HEAD
-	if (pid == 0){
-//		shell->fd_in = dup(STDIN_FILENO);
-//		shell->fd_out = dup(STDOUT_FILENO);
-	//	dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
-	//	dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
-		error = execve(path, table->args, shell->ownenvp);
-		shell->condition = error;
-=======
 	if(pid == 0){
 	//	shell->fd_in = dup(STDIN_FILENO);
 	//	shell->fd_out = dup(STDOUT_FILENO);
@@ -210,7 +184,6 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		//dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
 		execve(path, table->args, shell->ownenvp);
 
->>>>>>> executer2
 	}
 	shell->pid = pid;
 	wait(&shell->pid);
