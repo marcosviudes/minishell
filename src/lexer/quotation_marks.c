@@ -26,6 +26,10 @@ int	double_marks(t_shell *shell, int i)
 		i++;
 	}
 	phrase[i_aux] = 34;
+	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
+		shell->union_next = 1;
+	else
+		shell->union_next = 0;
 	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, phrase);
 	ft_free_matrix(aux);
@@ -58,6 +62,10 @@ int	simple_marks(t_shell *shell, int i)
 		i++;
 	}
 	phrase[i_aux] = 39;
+	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
+		shell->union_next = 1;
+	else
+		shell->union_next = 0;
 	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, phrase);
 	ft_free_matrix(aux);
@@ -67,9 +75,7 @@ int	simple_marks(t_shell *shell, int i)
 int	quotation_marks(t_shell *shell, int i)
 {
 	if (shell->line[i] == 34)
-	{
 		i = double_marks(shell, i);
-	}
 	else
 		i = simple_marks(shell, i);
 	return (i + 1);

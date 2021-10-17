@@ -18,13 +18,14 @@ SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
 			executer/executer.c\
-			lexical/lexycal.c\
 			utils/utils.c\
 			utils/utils2.c\
-			lexical/quotation_marks.c\
-			lexical/listing.c\
-			lexical/enviroment.c\
-			lexical/enviroment2.c\
+			lexer/lexical.c\
+			lexer/quotation_marks.c\
+			lexer/listing.c\
+			lexer/enviroment.c\
+			lexer/enviroment2.c\
+			lexer/arg_unions.c\
 			parse/parse.c\
 			builtins/cd.c\
 			builtins/export.c\

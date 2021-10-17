@@ -30,11 +30,12 @@ void	loop_shell(t_shell *shell)
 			continue ;
 		lexical_analyzer(shell);
 		env_transform(shell);
+		arg_unions(shell);
 		aux = shell->info;
 		i = 0;
 		ft_free_matrix(shell->line_splitted);
 		//DEBUG LEXYCAL + ENV
-
+		/*
 		while (aux != NULL)
 		{
 			printf("String: %s\n", aux->string);
@@ -43,6 +44,7 @@ void	loop_shell(t_shell *shell)
 			printf("--------------------------------\n");
 			aux = aux->next;
 		}
+		*/
 		parse(shell);
 		execute(shell);
 	}
@@ -67,6 +69,7 @@ char	**fill_env(char **envp)
 	new_envp[j] = NULL;
 	return (new_envp);
 }
+
 t_shell	*init_structure(t_shell *shell, char **envp)
 {
 	shell = malloc(sizeof(t_shell));

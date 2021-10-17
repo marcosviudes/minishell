@@ -42,6 +42,7 @@ typedef struct	s_info
 	char			*string;
 	char			type;
 	int				marks;
+	int				union_next;
 	struct	s_info	*next;
 	t_info			*prev;
 }				t_info;
@@ -59,7 +60,7 @@ typedef struct	s_shell
 	int				fd_out;
 	int				fd_in;
 	pid_t			pid;
-
+	int				union_next;
 	t_list			*cmd_list;
 	t_info			*info;
 }				t_shell;
@@ -88,7 +89,7 @@ typedef struct 	s_sort
 }				t_sort;
 
 
-//lexical
+//lexer
 void	lexical_analyzer(t_shell *shell);
 int		quotation_marks(t_shell *shell, int i);
 void	ft_strerror(char *str, int num);
@@ -97,6 +98,7 @@ void	env_transform(t_shell *shell);
 char	*get_before_dolar(char *string);
 char	*get_after_dolar(char *pdolar);
 char	*ft_finalstring(char *string, char *pdolar, char **envp);
+void	arg_unions(t_shell *shell);
 
 //HIST_ENTRY **history;
 

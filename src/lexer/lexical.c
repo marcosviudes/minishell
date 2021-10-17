@@ -60,6 +60,11 @@ int	create_word(t_shell *shell, int i)
 		i++;
 		i_aux++;
 	}
+	
+	if (shell->line[i] != ' ' && (ft_isalnum(shell->line[i]) || shell->line[i] == '\'' || shell->line[i] == '\"'))
+		shell->union_next = 1;
+	else
+		shell->union_next = 0;
 	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string2(shell->line_splitted, word);
 	free(word);

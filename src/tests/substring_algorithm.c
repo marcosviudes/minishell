@@ -15,13 +15,13 @@ void	print_tab(int **matrix, int x, int y)
 		i = 0;
 		while (i < x)
 		{
-			printf("%i ", matrix[j][i]);
+			//printf("%i ", matrix[j][i]);
 			i++;
 		}
-		printf("\n");
+		//printf("\n");
 		j++;
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 int	**allocate_int_matrix(int x, int y)
