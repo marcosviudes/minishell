@@ -16,7 +16,10 @@ int	double_marks(t_shell *shell, int i)
 		count++;
 	}
 	if (shell->line[i_aux] == '\0')
-		ft_strerror("Quote marks not finished", 1);
+	{
+		shell->open_marks = 1;
+		return (-1);
+	}
 	phrase = ft_calloc(sizeof(char), count + 2);
 	i_aux = 0;
 	while (i_aux <= count)
@@ -52,7 +55,10 @@ int	simple_marks(t_shell *shell, int i)
 		count++;
 	}
 	if (shell->line[i_aux] == '\0')
-		ft_strerror("Quote marks not finished", 1);
+	{
+		shell->open_marks = 1;
+		return (-1);
+	}
 	phrase = ft_calloc(sizeof(char), count + 2);
 	i_aux = 0;
 	while (i_aux <= count)
@@ -74,9 +80,12 @@ int	simple_marks(t_shell *shell, int i)
 
 int	quotation_marks(t_shell *shell, int i)
 {
+	shell->open_marks = 0;
 	if (shell->line[i] == 34)
 		i = double_marks(shell, i);
 	else
 		i = simple_marks(shell, i);
+	if (shell->open_marks == 1)
+		return (-1);
 	return (i + 1);
 }

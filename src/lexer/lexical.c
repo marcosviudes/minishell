@@ -86,6 +86,8 @@ void	lexical_analyzer(t_shell *shell)
 		if (shell->line[i] == 34 || shell->line[i] == 39)
 		{
 			i = quotation_marks(shell, i);
+			if (i == -1)
+				return ;
 			add_node(shell, count, 'w');
 			count++;
 		}

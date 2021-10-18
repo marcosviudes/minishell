@@ -29,6 +29,12 @@ void	loop_shell(t_shell *shell)
 		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
+		if (shell->open_marks == 1)
+		{
+			shell->open_marks = 0;
+			printf("Error: Quotation marks not closed.\n");
+			continue ;
+		}
 		env_transform(shell);
 		arg_unions(shell);
 		aux = shell->info;

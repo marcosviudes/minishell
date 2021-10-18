@@ -49,6 +49,7 @@ typedef struct	s_info
 
 typedef struct	s_shell
 {
+	int				open_marks;
 	char			**ownenvp;
 	char			*prompt;
 	char			*buff;
