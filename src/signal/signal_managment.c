@@ -1,11 +1,20 @@
 #include <minishell.h>
 # include <readline/readline.h>
 
+void signal_handler_siguser(int signum)
+{
+	(void)signum;
+	return;
+}
+
 void signal_init(void)
 {
 	signal(SIGQUIT, signal_handler_sigquit);
 	signal(SIGKILL, signal_handler_sigkill);
 	signal(SIGINT, signal_handler_sigint);
+	
+	
+	signal(SIGUSR1, signal_handler_siguser);
 }
 
 void signal_handler_sigquit(int signum)

@@ -7,7 +7,6 @@ int	is_absolute_path(char *command)
 			return (1);
 	return (0);
 }
-
 int	isbuiltin(char *string)
 {
 	if (ft_strncmp(string, "echo", 5) == 0)
@@ -140,7 +139,7 @@ int	indirection(t_list *redir)
 	int		i;
 
 	i = 0;
-	if(redir)
+	if(redir) 
 	{
 		while(redir)
 		{
@@ -200,7 +199,7 @@ void execute(t_shell *shell)
 	shell->fd_in = dup(STDIN_FILENO);
 	shell->fd_out = dup(STDOUT_FILENO);
 	num_commands = ft_lstsize(shell->cmd_list);
-	fd = malloc(sizeof(int*) * num_commands - 1);
+	fd = malloc(sizeof(int*) * (num_commands - 1));
 	temp_node = shell->cmd_list;
 	temp_cmd_table = NULL;
 	if (num_commands == 1)
@@ -214,86 +213,133 @@ void execute(t_shell *shell)
 			execute_builtin(shell, temp_cmd_table->command);
 		else
 			execute_single_bin(shell, temp_cmd_table);
+		close(shell->fd_out);
+		close(shell->fd_in);
 	}
 	else
 	{
-		int	i;
-		int pid;
+		int		i;
+		int		pid;
 		char	*path;
-		//int	fd_indir;
-		//int	fd_redir;
+		int		status;
+		//int		fd_indir;
+		//int		fd_redir;
+
 		i = 0;
 		while (i < num_commands - 1)
 		{
 			pipe(fd[i]);
 			i++;
 		}
-		//close(fd[i][READ_END]);
 		i = 0;
 		while (temp_node)
 		{
 			temp_cmd_table = (t_cmd_table*)temp_node->content;
 			pid = fork();
-			if (pid == 0)
+			if (pid == 0)  //el hijo
 			{
-				if (is_absolute_path(temp_cmd_table->command))
+				if (is_absolute_path(temp_cmd_table->command))	//coge el path del binario, si usa un binario, en builting da igual.
 					path = temp_cmd_table->command;
 				else
 					path = pathing(temp_cmd_table->command, shell->ownenvp);
-				if (i < num_commands)
+				/*
+				if(i == 0)
 				{
-					if(i == 0)
-						close(fd[i][READ_END]);
+					close(fd[i][READ_END]);
+					dup2(fd[i][WRITE_END], STDOUT_FILENO);
+				}
+				else if( i == (num_commands - 1))
+				{
+					close(fd[i-1][READ_END]);
+					close(fd[i-1][WRITE_END]);
+					dup2(fd[i-1][READ_END], STDIN_FILENO);
+				}
+				else 
+				{
+					dup2(fd[i-1][READ_END], STDIN_FILENO);
+					dup2(fd[i][WRITE_END], STDOUT_FILENO);
+					close(fd[i-1][WRITE_END]);
+					close(fd[i][READ_END]);
+				}*/
+
+				/*
+				if(i == num_commands)
+				{
+					close(fd[i - 1][WRITE_END]);
+					dup2(fd[i - 1][READ_END], STDIN_FILENO);
+				}
+				else if (i != 0)
+				{
+					close(fd[i - 1][WRITE_END]);
+					dup2(fd[i - 1][READ_END], STDIN_FILENO);
+					close(fd[i][READ_END]);
+					dup2(fd[i][WRITE_END], STDOUT_FILENO);
+				}
+				else
+				{
+					close(fd[i][READ_END]);
+					dup2(fd[i][WRITE_END], STDOUT_FILENO);
+				}*/
+				
+			/*	if(i != num_commands)
+				{
+					close(fd[i][READ_END]);
 					dup2(fd[i][WRITE_END], STDOUT_FILENO);
 					close(fd[i][WRITE_END]);
 				}
-				if (i != 0)
+				else
 				{
 					close(fd[i - 1][WRITE_END]);
-					//fprintf(stderr, "%i\n", *fd[i]);
-					dup2(fd[i -1][READ_END], STDIN_FILENO);
-					close(fd[i -1][READ_END]);
-				}
-		//		close(fd[i][WRITE_END]);
-		///		close(fd[i][READ_END]);
-//				//close(fd[i][WRITE_END]); 
-//				if(temp_cmd_table->outfile)
-//					fd_redir = dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
-//				if(temp_cmd_table->infile)
-//					fd_indir = dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
-				if (isbuiltin(temp_cmd_table->command))
+					dup2(fd[i - 1][READ_END], STDIN_FILENO);
+					close(fd[i - 1][READ_END]);
+				}*/
+				if(i == 0)
 				{
-					execute_builtin(shell, temp_cmd_table->command);
-					exit(0);
+					dup2(fd[i][WRITE_END], STDOUT_FILENO);
+					close(fd[i][READ_END]);
 				}
-				execve(path, temp_cmd_table->args, shell->ownenvp);
+				else if(i == (num_commands - 1))
+				{
+					close(fd[i - 1 ][WRITE_END]);
+					dup2(fd[i - 1][READ_END], STDIN_FILENO);
+				}
+				else
+				{
+					close(fd[i - 1][WRITE_END]);
+					close(fd[i][READ_END]);
+					dup2(fd[i - 1][READ_END], STDIN_FILENO);
+					dup2(fd[i][WRITE_END], STDOUT_FILENO);
+				}
+				
+			/*	for(int j = 0; j < i; j++)
+					fprintf(stderr, "\n\tfd[%i]: [%i] [%i]", j, fd[j][0] , fd[j][1]);
+					fprintf(stderr, "\n");*/
+
+					if (isbuiltin(temp_cmd_table->command))
+					{
+						execute_builtin(shell, temp_cmd_table->command);
+						exit(0);
+					}
+					execve(path, temp_cmd_table->args, shell->ownenvp); //ejecutamos
 			}
 			i++;
-	//		else
-	//			close(fd[i][READ_END]);
 			temp_node = temp_node->next;
 		}
-		//dup2(fd[i][WRITE_END], shell->fd_out);
 		i = 0;
-		while (i < num_commands)
-		{
-			wait(&pid);
-			i++;
-		}
-		i = 0;
-		while (i < num_commands)
+		while (i < (num_commands - 1))
 		{
 			close(fd[i][READ_END]);
 			close(fd[i][WRITE_END]);
 			i++;
 		}
-		for(int j = 0; j < i; j++)
+		(void)status;
+		i = 0;
+		while (i < num_commands)
 		{
-			fprintf(stderr, "\n\tfd[%i]: [%i] [%i]", j, fd[j][0] , fd[j][1]);
+			//(void)status;
+			wait(&status);
+			printf("esto es un wait %i \n", i);
+			i++;
 		}
 	}
-	close(shell->fd_out);
-//	close(shell->fd_in);
-//	shell->fd_in = dup(STDIN_FILENO);
-//	shell->fd_out = dup(STDOUT_FILENO);
 }
