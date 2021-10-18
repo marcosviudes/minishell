@@ -39,12 +39,6 @@ void	ft_free_matrix(char **matrix)
 	free(matrix);
 }
 
-void	ft_strerror(char *str, int num)
-{
-	ft_putstr_fd(str, 1);
-	exit(num);
-}
-
 int	count_lines(char **table)
 {
 	int	i;

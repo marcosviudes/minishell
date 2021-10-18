@@ -93,7 +93,6 @@ typedef struct 	s_sort
 //lexer
 void	lexical_analyzer(t_shell *shell);
 int		quotation_marks(t_shell *shell, int i);
-void	ft_strerror(char *str, int num);
 void	add_node(t_shell *shell, int i, char car);
 void	env_transform(t_shell *shell);
 char	*get_before_dolar(char *string);
