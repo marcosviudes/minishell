@@ -9,9 +9,9 @@ void signal_handler_siguser(int signum)
 
 void signal_init(void)
 {
-	signal(SIGQUIT, signal_handler_sigquit);
-	signal(SIGKILL, signal_handler_sigkill);
-	signal(SIGINT, signal_handler_sigint);
+	//signal(SIGQUIT, signal_handler_sigquit);
+	//signal(SIGKILL, signal_handler_sigkill);
+	//signal(SIGINT, signal_handler_sigint);
 	
 	
 	signal(SIGUSR1, signal_handler_siguser);
