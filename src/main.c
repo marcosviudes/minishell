@@ -49,7 +49,7 @@ void	loop_shell(t_shell *shell)
 			printf("Marks:  %i\n", aux->marks);
 			printf("--------------------------------\n");
 			aux = aux->next;
-		}
+		}oijj
 		*/
 		parse(shell);
 		execute(shell);

@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -g3 #-Wpedantic -O3  -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address#-Wpedantic -O3  
 DFLAGS		= -g
 INCLUDES	= -I ./includes -I./libft  -I ~/.brew/opt/readline/include
 
@@ -27,6 +27,7 @@ SRC			= main.c\
 			lexer/enviroment2.c\
 			lexer/arg_unions.c\
 			parse/parse.c\
+			parse/heredoc.c\
 			builtins/cd.c\
 			builtins/export.c\
 			builtins/export2.c\

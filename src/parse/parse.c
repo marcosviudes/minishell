@@ -51,7 +51,7 @@ void	print_redir(void *redir)
 	temp = (t_table_redir *)redir;
 	if (!temp)
 		return ;
-	//printf("%s-%i\t", temp->file, temp->append);
+	printf("%s-%i\t", temp->file, temp->append);
 }
 
 void	print_command(void *cmd)
@@ -59,26 +59,26 @@ void	print_command(void *cmd)
 	t_cmd_table	*temp;
 	int			i;
 
-	i = 0;
+	i = 1;
 	temp = (t_cmd_table *)cmd;
 	if (!temp)
 		return ;
-	//printf("CMD:	%s\n", temp->command);
+	printf("CMD:	%s\n", temp->command);
 	if (temp->args)
 	{
 		while (temp->args[i])
 		{
-			//printf("ARG:	%s\n", temp->args[i]);
+			printf("ARG:	%s\n", temp->args[i]);
 			i++;
 		}
 	}
-	//printf("OUT: ");
+	printf("OUT: ");
 	ft_lstiter(temp->outfile, &print_redir);
-	//printf("%p \n", temp->outfile);
-	//printf("IN:  ");
+	printf("%p \n", temp->outfile);
+	printf("IN:  ");
 	ft_lstiter(temp->infile, &print_redir);
-	//printf("%p \n", temp->infile);
-	//printf("\n");
+	printf("%p \n", temp->infile);
+	printf("\n");
 }
 
 void	info_free(t_info *info)
@@ -222,6 +222,15 @@ void	parse(t_shell *shell)
 				temp_redir->append = APPEND_OFF;
 				redirection_flag = 0;
 				ft_lstadd_back(&table->infile, ft_lstnew(temp_redir));
+			}
+			else if (redirection_flag == LESS_LESS)
+			{
+				temp_redir = malloc(sizeof(t_table_redir));
+				temp_redir->file = ft_strdup(temp->string);
+				temp_redir->append = APPEND_OFF;
+				redirection_flag = 0;
+				ft_lstadd_back(&table->infile, ft_lstnew(temp_redir));
+				ft_heredoc(shell, temp->string);
 			}
 			else
 			{
