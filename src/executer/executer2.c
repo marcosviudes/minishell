@@ -30,7 +30,7 @@ void	execute_builtin(t_cmd_table *temp, char *command)
 {
 //	t_cmd_table *temp;
 
-	printf("esto ejecuta un builtin\n");
+//	printf("esto ejecuta un builtin\n");
 //	temp = shell->cmd_list->content;
 	if (ft_strncmp(command, "echo", 5) == 0)
 		g_shell->condition = ft_echo(&temp->args[1]);
@@ -113,7 +113,6 @@ int	redirection(t_list *redir)
 	int		i;
 
 	i = 0;
-	//redir = table->outfile;
 	if (redir)
 	{
 		while (redir)
@@ -198,16 +197,16 @@ void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell
 	if(i < num_commands)
 	{
 		//close(fd[READ_END]);
-		fprintf(stderr, ">---------%d\n", fd[WRITE_END]);
+		//fprintf(stderr, ">---------%d\n", fd[WRITE_END]);
 		dup2(fd[WRITE_END], STDOUT_FILENO);
-		printf("Esto no se tiene que ver\n");
+	//	printf("Esto no se tiene que ver\n");
 	}
 	if (i == num_commands)
 	{
-		fprintf(stderr, "restoring%d\n", shell->fd_out);
+		//fprintf(stderr, "restoring%d\n", shell->fd_out);
 		dup2(shell->fd_out, STDOUT_FILENO);
-		printf("estoy hasta los huevos\n");
-		printf("----%d\t%d\n", fd[WRITE_END], fd[READ_END]);
+	//	printf("estoy hasta los huevos\n");
+	//printf("----%d\t%d\n", fd[WRITE_END], fd[READ_END]);
 		//close(fd[WRITE_END]);
 		//close(fd[READ_END]);
 	}
@@ -219,10 +218,52 @@ void hijo_de_puta(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 		execute_builtin(temp_cmd_table , temp_cmd_table->command);
 		exit(0);
 	}
-	fprintf(stderr, "HOLAA\n");
+	//fprintf(stderr, "HOLAA\n");
 	execve(path, temp_cmd_table->args, shell->ownenvp); //ejecutamos
 	perror("esta mierda no funciona");
 	exit(0);
+}
+
+void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands)
+{
+	if(i == 0)
+	{
+		if(temp_cmd_table->outfile)
+		{
+			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+			close(fd[WRITE_END]);
+		}
+		if(temp_cmd_table->infile)
+			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+	}
+	if(i == num_commands)
+	{
+		if(temp_cmd_table->outfile)
+		{
+				//close(last_fd[READ_END]);
+			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+		}
+		if(temp_cmd_table->infile)
+		{
+			close(last_fd[READ_END]);
+			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+		}
+	}
+	else
+	{
+		if(temp_cmd_table->outfile)
+		{
+			close(fd[WRITE_END]);
+			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+		}
+		if(temp_cmd_table->infile)
+		{
+			close(last_fd[READ_END]);
+			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+		}
+	}
+	
+		
 }
 void execute(t_shell *shell)
 {
@@ -263,7 +304,7 @@ void execute(t_shell *shell)
 		num_commands--;
 		while (temp_node)
 		{
-			fprintf(stderr, "holo\n");
+			//fprintf(stderr, "holo\n");
 			temp_cmd_table = (t_cmd_table*)temp_node->content;
 			if (is_absolute_path(temp_cmd_table->command))	//coge el path del binario, si usa un binario, en builting da igual.
 				path = temp_cmd_table->command;
@@ -271,10 +312,11 @@ void execute(t_shell *shell)
 				path = pathing(temp_cmd_table->command, shell->ownenvp);
 			pipe(fd);
 			redirfds(i, num_commands, fd, last_fd, shell);
+			redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
 			pid = fork();
 			if (pid == 0)
 				hijo_de_puta(shell, temp_cmd_table, path);
-			fprintf(stderr, "fork out\n");
+			//fprintf(stderr, "fork out\n");
 			last_fd[READ_END] = fd[READ_END];
 			last_fd[WRITE_END] = fd[WRITE_END];
 
@@ -284,17 +326,21 @@ void execute(t_shell *shell)
 			temp_node = temp_node->next;
 			i++;
 		}
-		fprintf(stderr, "out \n");
-		waitpid(-1, &status, 0);
-		fprintf(stderr, "out \n");
-		waitpid(-1, &status, 0);
-		fprintf(stderr, "out \n");
+		//fprintf(stderr, "out \n");
+		//waitpid(-1, &status, 0);
+		//fprintf(stderr, "out \n");
+		i = 0;
+		while (i < num_commands + 1)
+		{
+			waitpid(-1, &status, 0);
+			i++;
+		}
+		//fprintf(stderr, "out \n");
 		dup2(shell->fd_out, STDOUT_FILENO);
 		dup2(shell->fd_in, STDIN_FILENO);
 		close(shell->fd_out);
 		close(shell->fd_in);
-		fprintf(stderr, "aqui llega \n");
-		i = 0;
+		//fprintf(stderr, "aqui llega \n");
 		/*while (num_commands)
 		{
 			printf("esto es un wait %i \n", i);

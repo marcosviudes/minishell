@@ -31,7 +31,7 @@ void	execute_builtin(t_shell *shell, char *command)
 {
 	t_cmd_table *temp;
 
-	printf("esto ejecuta un builtin\n");
+//	printf("esto ejecuta un builtin\n");
 	temp = shell->cmd_list->content;
 	if (ft_strncmp(command, "echo", 5) == 0)
 		g_shell->condition = ft_echo(&temp->args[1]);

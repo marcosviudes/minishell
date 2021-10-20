@@ -36,14 +36,14 @@ void	loop_shell(t_shell *shell)
 		ft_free_matrix(shell->line_splitted);
 		//DEBUG LEXYCAL + ENV
 
-		while (aux != NULL)
+		/*while (aux != NULL)
 		{
 			printf("String: %s\n", aux->string);
 			printf("Type:   %c\n", aux->type);
 			printf("Marks:  %i\n", aux->marks);
 			printf("--------------------------------\n");
 			aux = aux->next;
-		}
+		}*/
 		parse(shell);
 		execute(shell);
 	}

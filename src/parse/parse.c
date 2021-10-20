@@ -173,8 +173,8 @@ void	parse(t_shell *shell)
 	table = NULL;
 	temp = shell->info;
 	info_add_prev(shell->info);
-	print_list(shell->info);
-	printf("\n");
+//	print_list(shell->info);
+//	printf("\n");
 	while (temp != NULL)
 	{
 		if (!table)
@@ -241,7 +241,7 @@ void	parse(t_shell *shell)
 	}
 	node = ft_lstnew(table);
 	ft_lstadd_back(&shell->cmd_list, node);
-	ft_lstiter(shell->cmd_list, &print_command);
+	//ft_lstiter(shell->cmd_list, &print_command);
 //	ft_lstclear(&shell->cmd_list, &free_table);
 //	free_info_list(shell->info);
 //	printf("hola\n");
