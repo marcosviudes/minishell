@@ -17,16 +17,16 @@ TEST_DIR	= $(SRC_DIR)test/
 SRC			= main.c\
 			prompt.c\
 			get_next_line.c\
-			executer/executer.c\
+			executer/executer2.c\
 			utils/utils.c\
 			utils/utils2.c\
 			lexer/lexical.c\
 			lexer/quotation_marks.c\
 			lexer/listing.c\
 			lexer/enviroment.c\
-			lexer/enviroment2.c\
 			lexer/arg_unions.c\
 			parse/parse.c\
+			parse/heredoc.c\
 			builtins/cd.c\
 			builtins/export.c\
 			builtins/export2.c\

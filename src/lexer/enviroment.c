@@ -40,7 +40,7 @@ static char	*converse(char *str, int *count)
 	return (ret);
 }
 
-static char	*get_dolar_string(char *pdolar, int *count)
+char	*get_dolar_string(char *pdolar, int *count)
 {
 	char	*var;
 	char	*aux;
