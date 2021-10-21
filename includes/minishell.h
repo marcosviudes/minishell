@@ -35,6 +35,11 @@
 # define READ_END		0
 # define WRITE_END		1
 
+# define M_READING		0
+# define M_HEREDOC		1
+# define M_PARSE		2
+# define M_EXECUTE		3
+
 typedef struct s_info t_info;
 
 typedef struct	s_info
@@ -50,6 +55,7 @@ typedef struct	s_info
 
 typedef struct	s_shell
 {
+	int				mode;
 	char			**heredoc_buff;
 	int				open_marks;
 	char			**ownenvp;

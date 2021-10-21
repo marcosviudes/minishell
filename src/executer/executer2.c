@@ -28,10 +28,6 @@ int	isbuiltin(char *string)
 
 void	execute_builtin(t_cmd_table *temp, char *command)
 {
-//	t_cmd_table *temp;
-
-//	printf("esto ejecuta un builtin\n");
-//	temp = shell->cmd_list->content;
 	if (ft_strncmp(command, "echo", 5) == 0)
 		g_shell->condition = ft_echo(&temp->args[1]);
 	if (ft_strncmp(command, "cd", 3) == 0)
@@ -53,7 +49,7 @@ int	open_file(char *file_name, int mode)
 	if(access(file_name, F_OK ) == 0 && access(file_name, R_OK | W_OK) != 0)
 		return(-1);
 	if(mode == APPEND_ON)
-		return(open(file_name, O_APPEND | O_TRUNC | O_WRONLY | O_CREAT, 00644));
+		return(open(file_name, O_APPEND | O_WRONLY | O_CREAT, 00644));
 	else
 		return(open(file_name, O_TRUNC | O_WRONLY | O_CREAT, 00644));
 	
@@ -176,10 +172,6 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		return ;
 	pid = fork();
 	if(pid == 0){
-	//	shell->fd_in = dup(STDIN_FILENO);
-	//	shell->fd_out = dup(STDOUT_FILENO);
-	//	dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
-		//dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
 		execve(path, table->args, shell->ownenvp);
 
 	}
@@ -239,15 +231,10 @@ void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, 
 	if(i == num_commands)
 	{
 		if(temp_cmd_table->outfile)
-		{
-				//close(last_fd[READ_END]);
 			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
-		}
 		if(temp_cmd_table->infile)
-		{
 			close(last_fd[READ_END]);
 			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
-		}
 	}
 	else
 	{
@@ -328,25 +315,15 @@ void execute(t_shell *shell)
 			temp_node = temp_node->next;
 			i++;
 		}
-		//fprintf(stderr, "out \n");
-		//waitpid(-1, &status, 0);
-		//fprintf(stderr, "out \n");
 		i = 0;
 		while (i < num_commands + 1)
 		{
 			waitpid(-1, &status, 0);
 			i++;
 		}
-		//fprintf(stderr, "out \n");
 		dup2(shell->fd_out, STDOUT_FILENO);
 		dup2(shell->fd_in, STDIN_FILENO);
 		close(shell->fd_out);
 		close(shell->fd_in);
-		//fprintf(stderr, "aqui llega \n");
-		/*while (num_commands)
-		{
-			printf("esto es un wait %i \n", i);
-			num_commands--;
-		}*/
 	}	
 }
