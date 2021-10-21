@@ -288,6 +288,8 @@ void execute(t_shell *shell)
 			execute_builtin(temp_cmd_table, temp_cmd_table->command);
 		else
 			execute_single_bin(shell, temp_cmd_table);
+		dup2(shell->fd_out, STDOUT_FILENO);
+		dup2(shell->fd_in, STDIN_FILENO);
 		close(shell->fd_out);
 		close(shell->fd_in);
 	}
