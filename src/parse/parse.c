@@ -226,11 +226,11 @@ void	parse(t_shell *shell)
 			else if (redirection_flag == LESS_LESS)
 			{
 				temp_redir = malloc(sizeof(t_table_redir));
-				temp_redir->file = ft_strdup(temp->string);
+				temp_redir->file = ft_strdup(".tempheredoc");
 				temp_redir->append = APPEND_OFF;
 				redirection_flag = 0;
 				ft_lstadd_back(&table->infile, ft_lstnew(temp_redir));
-				ft_heredoc(shell, temp->string);
+				ft_heredoc(shell, temp);
 			}
 			else
 			{

@@ -43,6 +43,7 @@ typedef struct	s_info
 	char			type;
 	int				marks;
 	int				union_next;
+	int				is_union;
 	struct	s_info	*next;
 	t_info			*prev;
 }				t_info;
@@ -96,10 +97,9 @@ void	lexical_analyzer(t_shell *shell);
 int		quotation_marks(t_shell *shell, int i);
 void	add_node(t_shell *shell, int i, char car);
 void	env_transform(t_shell *shell);
-char	*get_before_dolar(char *string);
-char	*get_after_dolar(char *pdolar);
 char	*ft_finalstring(char *string, char *pdolar, char **envp);
 void	arg_unions(t_shell *shell);
+char	*get_dolar_string(char *pdolar, int *count);
 
 //HIST_ENTRY **history;
 
@@ -110,7 +110,7 @@ void	info_free(t_info *info);
 void	info_add_prev(t_info *info);
 void	print_list(t_info *info);
 void	free_table(void *arg);
-void	ft_heredoc(t_shell *shell, char *str);
+void	ft_heredoc(t_shell *shell, t_info *temp);
 //void		prompt_config(t_shell *shell, char *prompt_str);
 
 //signal

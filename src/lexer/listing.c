@@ -35,6 +35,7 @@ void	add_node(t_shell *shell, int i, char car)
 	new->marks = get_marks(shell->line_splitted[i]);
 	new->string = get_string(shell->line_splitted[i], new->marks);
 	new->union_next = shell->union_next;
+	new->is_union = 0;
 	new->next = NULL;
 	count = 0;
 	if (aux)

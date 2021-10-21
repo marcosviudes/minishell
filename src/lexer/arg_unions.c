@@ -13,6 +13,7 @@ void	go_union(t_info *list)		//tenemos el nodo 0 (list)
 	if (aux->next != NULL)
 		aux->next->prev = list;
 	list->union_next = aux->union_next;
+	list->is_union = 1;
 	free(aux->string);
 	free(aux);
 }
