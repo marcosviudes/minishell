@@ -23,6 +23,7 @@ void	loop_shell(t_shell *shell)
 			free(shell->line);
 		shell->line = NULL;
 		signal_init();
+	//	pause();
 		//system("leaks minishell");
 		shell->line = readline("terminator$ ");
 		add_history(shell->line);
