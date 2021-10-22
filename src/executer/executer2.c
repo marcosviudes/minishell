@@ -182,7 +182,7 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 	//	shell->fd_out = dup(STDOUT_FILENO);
 	//	dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
 		//dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
-		execve(path, table->args, shell->ownenvp);
+		g_shell->return_value = execve(path, table->args, shell->ownenvp);
 
 	}
 	shell->pid = pid;
@@ -221,7 +221,7 @@ void hijo_de_puta(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 		exit(0);
 	}
 	//fprintf(stderr, "HOLAA\n");
-	execve(path, temp_cmd_table->args, shell->ownenvp); //ejecutamos
+	g_shell->return_value = execve(path, temp_cmd_table->args, shell->ownenvp); //ejecutamos
 	perror("esta mierda no funciona");
 	exit(0);
 }
