@@ -21,7 +21,7 @@ static void	create_newenvp(char *str)
 
 	i = 0;
 	j = 0;
-	table = malloc(sizeof(char *) * count_lines(g_shell->ownenvp));
+	table = malloc(sizeof(char *) * (count_lines(g_shell->ownenvp) + 1));
 	while (g_shell->ownenvp[i + j])
 	{
 		if (ft_strncmp(str, g_shell->ownenvp[i + j], ft_strlen(str)) != 0)
