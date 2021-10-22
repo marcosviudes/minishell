@@ -43,8 +43,10 @@ static char	*get_path(char *oldpwd, char *arg)
 	i = 0;
 	while (splitted[i])
 	{
-		if (ft_strncmp(splitted[i], "..", 3) == 0)
+		if (ft_strncmp(splitted[i], "..", 2) == 0
+			&& ft_strlen(splitted[i]) == 2)
 			step_back(ret);
+		else if (ft_strncmp(splitted[i], ".", 2) == 0);
 		else
 		{
 			aux = ret;
@@ -60,7 +62,6 @@ static int	ft_chdir(char *path, char *oldpwd)
 {
 	int	i;
 
-	(void)path;
 	i = 0;
 	if (access(path, F_OK) == 0)
 	{
@@ -71,13 +72,14 @@ static int	ft_chdir(char *path, char *oldpwd)
 				free(g_shell->ownenvp[i]);
 				g_shell->ownenvp[i] = ft_strjoin("OLDPWD=", oldpwd);
 			}
+			if (ft_strncmp(g_shell->ownenvp[i], "PWD=", 4) == 0)
+			{
+				free(g_shell->ownenvp[i]);
+				g_shell->ownenvp[i] = ft_strjoin("PWD=", path);
+			}
 			i++;
 		}
 		chdir(path);
-		free(path);
-		path = getcwd(NULL, 0);
-		g_shell->ownenvp[i] = ft_strjoin("PWD=", path);
-		free(path);
 		return (0);
 	}
 	else
