@@ -58,7 +58,7 @@ typedef struct	s_shell
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
-	int				condition;
+	int				return_value;
 	int				num_of_pipes;
 	int				fd_out;
 	int				fd_in;

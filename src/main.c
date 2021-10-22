@@ -82,7 +82,7 @@ t_shell	*init_structure(t_shell *shell, char **envp)
 {
 	shell = malloc(sizeof(t_shell));
 	shell->ownenvp = fill_env(envp);
-	shell->condition = 0;
+	shell->return_value = 0;
 	shell->line = NULL;
 	return (shell);
 }

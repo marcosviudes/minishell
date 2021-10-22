@@ -18,7 +18,7 @@ void	transf_reading(char **reading, t_shell *shell)
 			if (reading[0][i + 1] == '?')
 			{
 				finalstring = ft_strjoin(finalstring,
-						ft_itoa(shell->condition));
+						ft_itoa(shell->return_value));
 				pdolar = ft_strchr(pdolar + 1, '$');
 				i++;
 			}
