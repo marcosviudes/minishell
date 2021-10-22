@@ -1,13 +1,13 @@
 #include <minishell.h>
 
-int	ft_env(void)
+int	ft_env(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	while (g_shell->ownenvp[i])
+	while (shell->ownenvp[i])
 	{
-		printf("%s\n", g_shell->ownenvp[i]);
+		printf("%s\n", shell->ownenvp[i]);
 		i++;
 	}
 	return (0);

@@ -43,7 +43,7 @@ void	execute_builtin(t_cmd_table *temp, char *command, t_shell *shell)
 	if (ft_strncmp(command,"unset", 5) == 0)
 		g_shell->condition = ft_unset(&temp->args[1]);
 	if (ft_strncmp(command,"env", 3) == 0)
-		g_shell->condition = ft_env();
+		g_shell->condition = ft_env(shell);
 	if (ft_strncmp(command,"exit", 4) == 0)
 		ft_exit(&temp->args[1], 1);
 }

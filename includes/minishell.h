@@ -124,7 +124,7 @@ void	execute(t_shell *shell);
 
 //builtings
 int		ft_export(char **argv, t_shell *shell);
-int		ft_env(void);
+int		ft_env(t_shell *shell);
 int		ft_pwd(t_shell *shell);
 int		ft_echo(char **argv);
 int		ft_cd(char **argv, t_shell *shell);
