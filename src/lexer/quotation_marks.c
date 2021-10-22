@@ -18,6 +18,7 @@ int	double_marks(t_shell *shell, int i)
 	if (shell->line[i_aux] == '\0')
 	{
 		shell->open_marks = 1;
+		printf("Open quotation marks\n");
 		return (-1);
 	}
 	phrase = malloc(sizeof(char) * (count + 3));
@@ -30,7 +31,8 @@ int	double_marks(t_shell *shell, int i)
 	}
 	phrase[i_aux++] = 34;
 	phrase[i_aux] = '\0';
-	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
+	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1])
+			|| shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
@@ -59,6 +61,7 @@ int	simple_marks(t_shell *shell, int i)
 	if (shell->line[i_aux] == '\0')
 	{
 		shell->open_marks = 1;
+		printf("Open quotation marks\n");
 		return (-1);
 	}
 	phrase = ft_calloc(sizeof(char), count + 2);
@@ -70,7 +73,8 @@ int	simple_marks(t_shell *shell, int i)
 		i++;
 	}
 	phrase[i_aux] = 39;
-	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
+	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1])
+			|| shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;

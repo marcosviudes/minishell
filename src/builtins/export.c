@@ -39,10 +39,22 @@ static char	*pre_equal(char *str)
 	return (ret);
 }
 
-static void add_env_2(char *newenv, t_shell *shell)
+static void	add_env_else(t_shell *shell, char *newenv, int i)
 {
-	char **aux;
+	char	*aux2;
+	char	**aux;
 
+	aux2 = pre_equal(newenv);
+	while (shell->ownenvp[i])
+	{
+		if (ft_strncmp(aux2, shell->ownenvp[i], ft_strlen(aux2)) == 0)
+		{
+			free(shell->ownenvp[i]);
+			shell->ownenvp[i] = ft_strdup(newenv);
+			return ;
+		}
+		i++;
+	}
 	aux = shell->ownenvp;
 	shell->ownenvp = ft_insert_string(shell->ownenvp, newenv);
 	ft_free_matrix(aux);
@@ -50,8 +62,8 @@ static void add_env_2(char *newenv, t_shell *shell)
 
 static void	add_env(char *newenv, t_shell *shell)
 {
-	char	*aux2;
 	int		i;
+	char	**aux;
 
 	i = 0;
 	if (!ft_strchr(newenv, '='))
@@ -62,23 +74,12 @@ static void	add_env(char *newenv, t_shell *shell)
 				return ;
 			i++;
 		}
-		add_env_2(newenv, shell);
+		aux = shell->ownenvp;
+		shell->ownenvp = ft_insert_string(shell->ownenvp, newenv);
+		ft_free_matrix(aux);
 	}
 	else
-	{
-		aux2 = pre_equal(newenv);
-		while (shell->ownenvp[i])
-		{
-			if (ft_strncmp(aux2, shell->ownenvp[i], ft_strlen(aux2)) == 0)
-			{
-				free(shell->ownenvp[i]);
-				shell->ownenvp[i] = ft_strdup(newenv);
-				return ;
-			}
-			i++;
-		}
-		add_env_2(newenv, shell);
-	}
+		add_env_else(shell, newenv, i);
 }
 
 int	ft_export(char **argv, t_shell *shell)
@@ -93,7 +94,10 @@ int	ft_export(char **argv, t_shell *shell)
 	while (i < argc)
 	{
 		if (ft_isdigit(argv[i][0]))
+		{
 			printf("export: `%s': not a valid identifier\n", argv[i]);
+			return (1);
+		}
 		else
 			add_env(argv[i], shell);
 		i++;

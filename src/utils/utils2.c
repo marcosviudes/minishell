@@ -54,3 +54,32 @@ char	*ft_getenvcpy(char *header, t_shell *shell)
 	}
 	return (NULL);
 }
+
+int	its_not_special(char digit)
+{
+	if (digit == ' ' || digit == '<'
+		|| digit == '>' || digit == '|'
+		|| digit == 34 || digit == 39)
+		return (0);
+	return (1);
+}
+
+char	**fill_env(char **envp)
+{
+	char	**new_envp;
+	int		i;
+	int		j;
+
+	j = 0;
+	i = 0;
+	while (envp[i])
+		i++;
+	new_envp = malloc(sizeof(char *) * (i + 1));
+	while (j < i)
+	{
+		new_envp[j] = ft_strdup(envp[j]);
+		j++;
+	}
+	new_envp[j] = NULL;
+	return (new_envp);
+}

@@ -27,13 +27,19 @@ int	create_symbol(t_shell *shell, int i)
 	return (i);
 }
 
-int	its_not_special(char digit)
+static void	create_word2(t_shell *shell, int i, char *word)
 {
-	if (digit == ' ' || digit == '<'
-		|| digit == '>' || digit == '|'
-		|| digit == 34 || digit == 39)
-		return (0);
-	return (1);
+	char	**aux;
+
+	if (shell->line[i] != ' ' && (ft_isalnum(shell->line[i])
+			|| shell->line[i] == '\'' || shell->line[i] == '\"'))
+		shell->union_next = 1;
+	else
+		shell->union_next = 0;
+	aux = shell->line_splitted;
+	shell->line_splitted = ft_insert_string2(shell->line_splitted, word);
+	free(word);
+	ft_free_matrix(aux);
 }
 
 int	create_word(t_shell *shell, int i)
@@ -41,7 +47,6 @@ int	create_word(t_shell *shell, int i)
 	char	*word;
 	int		count;
 	int		i_aux;
-	char	**aux;
 
 	i_aux = i;
 	count = 0;
@@ -61,26 +66,12 @@ int	create_word(t_shell *shell, int i)
 		i_aux++;
 	}
 	word[i_aux] = '\0';
-	if (shell->line[i] != ' ' && (ft_isalnum(shell->line[i]) || shell->line[i] == '\'' || shell->line[i] == '\"'))
-		shell->union_next = 1;
-	else
-		shell->union_next = 0;
-	aux = shell->line_splitted;
-	shell->line_splitted = ft_insert_string2(shell->line_splitted, word);
-	free(word);
-	ft_free_matrix(aux);
+	create_word2(shell, i, word);
 	return (i);
 }
 
-void	lexical_analyzer(t_shell *shell)
+static void	lexical_analyzer2(t_shell *shell, int count, int i)
 {
-	int	i;
-	int	count;
-
-	shell->line_splitted = ft_calloc(sizeof(char *), 1);
-	shell->info = ft_calloc(sizeof(t_info), 1);
-	count = 0;
-	i = 0;
 	while (shell->line[i])
 	{
 		if (shell->line[i] == 34 || shell->line[i] == 39)
@@ -106,4 +97,16 @@ void	lexical_analyzer(t_shell *shell)
 		else
 			i++;
 	}
+}
+
+void	lexical_analyzer(t_shell *shell)
+{
+	int	i;
+	int	count;
+
+	shell->line_splitted = ft_calloc(sizeof(char *), 1);
+	shell->info = ft_calloc(sizeof(t_info), 1);
+	count = 0;
+	i = 0;
+	lexical_analyzer2(shell, count, i);
 }

@@ -6,7 +6,7 @@
 /*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 19:42:25 by mviudes           #+#    #+#             */
-/*   Updated: 2021/09/30 16:38:57 by cnavarro         ###   ########.fr       */
+/*   Updated: 2021/10/22 16:06:16 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char				*ft_itoa(int n);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
-void				ft_putnbr_fd (int n, int fd);
+void				ft_putnbr_fd(int n, int fd);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 t_list				*ft_lstnew(void const *content);
 t_list				*ft_lstlast(t_list *lst);

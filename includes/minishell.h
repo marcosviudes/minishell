@@ -42,18 +42,18 @@
 
 typedef struct s_info t_info;
 
-typedef struct	s_info
+typedef struct s_info
 {
 	char			*string;
 	char			type;
 	int				marks;
 	int				union_next;
 	int				is_union;
-	struct	s_info	*next;
+	struct s_info	*next;
 	t_info			*prev;
 }				t_info;
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	int				flag_heredoc_file;
 	int				mode;
@@ -75,7 +75,7 @@ typedef struct	s_shell
 	t_info			*info;
 }				t_shell;
 
-t_shell *g_shell;
+t_shell					*g_shell;
 
 typedef struct s_cmd_table
 {
@@ -85,19 +85,19 @@ typedef struct s_cmd_table
 	t_list		*infile;
 }				t_cmd_table;
 
-typedef struct	s_table_redir
+typedef struct s_table_redir
 {
 	char		*file;
 	int			append;
 }				t_table_redir;
 
-typedef struct s_sort t_sort;
-typedef struct 	s_sort
+typedef struct s_sort	t_sort;
+
+typedef struct s_sort
 {
 	char		*line;
 	t_sort		*next;
 }				t_sort;
-
 
 //lexer
 void	lexical_analyzer(t_shell *shell);
@@ -135,6 +135,7 @@ int		ft_env(t_shell *shell);
 int		ft_pwd(t_shell *shell);
 int		ft_echo(char **argv);
 int		ft_cd(char **argv, t_shell *shell);
+int		only_cd(t_shell *shell);
 int		ft_unset(char **argv, t_shell *shell);
 void	ft_exit(char **argv, int father);
 void	sort_list(t_sort *list);
@@ -150,4 +151,6 @@ void	ft_free_matrix(char **matrix);
 char	*ft_getenvcontent(char *header, t_shell *shell);
 char	**ft_getenvptr(char *header, t_shell *shell);
 char	*ft_getenvcpy(char *header, t_shell *shell);
+int		its_not_special(char digit);
+char	**fill_env(char **envp);
 #endif
