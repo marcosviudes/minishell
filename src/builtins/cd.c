@@ -58,24 +58,24 @@ static char	*get_path(char *oldpwd, char *arg)
 	return (ret);
 }
 
-static int	ft_chdir(char *path, char *oldpwd)
+static int	ft_chdir(char *path, char *oldpwd, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
 	if (access(path, F_OK) == 0)
 	{
-		while (g_shell->ownenvp[i] && path != NULL)
+		while (shell->ownenvp[i] && path != NULL)
 		{
-			if (ft_strncmp(g_shell->ownenvp[i], "OLDPWD=", 7) == 0)
+			if (ft_strncmp(shell->ownenvp[i], "OLDPWD=", 7) == 0)
 			{
-				free(g_shell->ownenvp[i]);
-				g_shell->ownenvp[i] = ft_strjoin("OLDPWD=", oldpwd);
+				free(shell->ownenvp[i]);
+				shell->ownenvp[i] = ft_strjoin("OLDPWD=", oldpwd);
 			}
-			if (ft_strncmp(g_shell->ownenvp[i], "PWD=", 4) == 0)
+			if (ft_strncmp(shell->ownenvp[i], "PWD=", 4) == 0)
 			{
-				free(g_shell->ownenvp[i]);
-				g_shell->ownenvp[i] = ft_strjoin("PWD=", path);
+				free(shell->ownenvp[i]);
+				shell->ownenvp[i] = ft_strjoin("PWD=", path);
 			}
 			i++;
 		}
@@ -89,7 +89,7 @@ static int	ft_chdir(char *path, char *oldpwd)
 	}
 }
 
-int	ft_cd(char **argv)
+int	ft_cd(char **argv, t_shell *shell)
 {
 	char	*path;
 	char	*oldpwd;
@@ -98,5 +98,5 @@ int	ft_cd(char **argv)
 		return (only_cd());
 	oldpwd = ft_getenvcontent("PWD=");
 	path = get_path(oldpwd, argv[0]);
-	return (ft_chdir(path, oldpwd));
+	return (ft_chdir(path, oldpwd, shell));
 }
