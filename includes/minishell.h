@@ -145,4 +145,5 @@ char	*ft_getenvcontent(char *header, t_shell *shell);
 char	**ft_getenvptr(char *header, t_shell *shell);
 char	*ft_getenvcpy(char *header, t_shell *shell);
 int		its_not_special(char digit);
+char	**fill_env(char **envp);
 #endif
