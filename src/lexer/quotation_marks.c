@@ -20,7 +20,7 @@ int	double_marks(t_shell *shell, int i)
 		shell->open_marks = 1;
 		return (-1);
 	}
-	phrase = ft_calloc(sizeof(char), count + 2);
+	phrase = malloc(sizeof(char) * (count + 3));
 	i_aux = 0;
 	while (i_aux <= count)
 	{
@@ -28,7 +28,8 @@ int	double_marks(t_shell *shell, int i)
 		i_aux++;
 		i++;
 	}
-	phrase[i_aux] = 34;
+	phrase[i_aux++] = 34;
+	phrase[i_aux] = '\0';
 	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
@@ -36,6 +37,7 @@ int	double_marks(t_shell *shell, int i)
 	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, phrase);
 	ft_free_matrix(aux);
+	free(phrase);
 	return (i);
 }
 
