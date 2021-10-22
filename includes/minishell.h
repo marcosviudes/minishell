@@ -35,6 +35,11 @@
 # define READ_END		0
 # define WRITE_END		1
 
+# define M_READING		0
+# define M_HEREDOC		1
+# define M_PARSE		2
+# define M_EXECUTE		3
+
 typedef struct s_info t_info;
 
 typedef struct	s_info
@@ -50,6 +55,8 @@ typedef struct	s_info
 
 typedef struct	s_shell
 {
+	int				flag_heredoc_file;
+	int				mode;
 	char			**heredoc_buff;
 	int				open_marks;
 	char			**ownenvp;
@@ -134,14 +141,6 @@ void	sort_list(t_sort *list);
 void	print_order_list(t_sort *list);
 void	free_list(t_sort *list);
 void	add_line_to_list(char *line, t_sort **ordered_list);
-/*
-int	ft_echo(int argc, char **argv);
-int	ft_cd(int argc, char **argv, char **envp);
-int	ft_pwd(char **envp);
-int	ft_unset(int argc, char **argv, char **envp);
-int	ft_env(int argc, char **argv, char **envp);
-int	ft_exit(int argc, char **argv, char **envp);
-*/
 
 //utils
 int		count_lines(char **table);
