@@ -30,7 +30,8 @@ int	double_marks(t_shell *shell, int i)
 	}
 	phrase[i_aux++] = 34;
 	phrase[i_aux] = '\0';
-	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
+	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1])
+			|| shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
@@ -70,7 +71,8 @@ int	simple_marks(t_shell *shell, int i)
 		i++;
 	}
 	phrase[i_aux] = 39;
-	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1]) || shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
+	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1])
+			|| shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
