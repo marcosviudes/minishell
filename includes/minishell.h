@@ -144,4 +144,5 @@ void	ft_free_matrix(char **matrix);
 char	*ft_getenvcontent(char *header, t_shell *shell);
 char	**ft_getenvptr(char *header, t_shell *shell);
 char	*ft_getenvcpy(char *header, t_shell *shell);
+int		its_not_special(char digit);
 #endif

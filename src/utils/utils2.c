@@ -54,3 +54,12 @@ char	*ft_getenvcpy(char *header, t_shell *shell)
 	}
 	return (NULL);
 }
+
+int	its_not_special(char digit)
+{
+	if (digit == ' ' || digit == '<'
+		|| digit == '>' || digit == '|'
+		|| digit == 34 || digit == 39)
+		return (0);
+	return (1);
+}
