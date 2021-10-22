@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-void	transf_reading(char **reading)
+void	transf_reading(char **reading, t_shell *shell)
 {
 	int		i;
 	char	*finalstring;
@@ -18,14 +18,14 @@ void	transf_reading(char **reading)
 			if (reading[0][i + 1] == '?')
 			{
 				finalstring = ft_strjoin(finalstring,
-						ft_itoa(g_shell->condition));
+						ft_itoa(shell->condition));
 				pdolar = ft_strchr(pdolar + 1, '$');
 				i++;
 			}
 			else
 			{
 				finalstring = ft_strjoin(finalstring,
-						get_dolar_string(pdolar, &i));
+						get_dolar_string(pdolar, &i, shell));
 				pdolar = ft_strchr(pdolar + 1, '$');
 			}
 			i++;
@@ -53,7 +53,7 @@ void	ft_heredoc(t_shell *shell, t_info *temp)
 	while (!(ft_strncmp(reading, temp->string, ft_strlen(temp->string)) == 0))
 	{
 		if (ft_strchr(reading, '$') && !(temp->is_union == 1|| temp->marks != 0))
-			transf_reading(&reading);
+			transf_reading(&reading, shell);
 		ft_putendl_fd(reading, fd_temp);
 		free(reading);
 		reading = readline("> ");

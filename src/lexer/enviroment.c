@@ -16,7 +16,7 @@ static char	*final_phrase(char *phrase, int len)
 	return (end_game);
 }
 
-static char	*converse(char *str, int *count)
+static char	*converse(char *str, int *count, t_shell *shell)
 {
 	int		i;
 	char	*ret;
@@ -25,11 +25,11 @@ static char	*converse(char *str, int *count)
 	aux = ft_strjoin(str, "=");
 	ret = NULL;
 	i = 0;
-	while (g_shell->ownenvp[i])
+	while (shell->ownenvp[i])
 	{
-		if (ft_strnstr(g_shell->ownenvp[i], aux, ft_strlen(aux)))
+		if (ft_strnstr(shell->ownenvp[i], aux, ft_strlen(aux)))
 		{
-			ret = final_phrase(g_shell->ownenvp[i], ft_strlen(str));
+			ret = final_phrase(shell->ownenvp[i], ft_strlen(str));
 			*count = *count + (ft_strlen(str));
 			return (ret);
 		}
@@ -40,7 +40,7 @@ static char	*converse(char *str, int *count)
 	return (ret);
 }
 
-char	*get_dolar_string(char *pdolar, int *count)
+char	*get_dolar_string(char *pdolar, int *count, t_shell *shell)
 {
 	char	*var;
 	char	*aux;
@@ -60,7 +60,7 @@ char	*get_dolar_string(char *pdolar, int *count)
 	}
 	var[j] = '\0';
 	free(aux);
-	aux = converse(var, count);
+	aux = converse(var, count, shell);
 	free(var);
 	return (aux);
 }
@@ -87,7 +87,7 @@ void	env_transform(t_shell *shell)
 				if (aux->string[i + 1] == '?')
 				{
 					finalstring = ft_strjoin(finalstring,
-							ft_itoa(g_shell->condition));
+							ft_itoa(shell->condition));
 					pdolar = ft_strchr(pdolar + 1, '$');
 					i++;
 				}
@@ -100,7 +100,7 @@ void	env_transform(t_shell *shell)
 				else
 				{
 					finalstring = ft_strjoin(finalstring,
-							get_dolar_string(pdolar, &i));
+							get_dolar_string(pdolar, &i, shell));
 					pdolar = ft_strchr(pdolar + 1, '$');
 				}
 				i++;

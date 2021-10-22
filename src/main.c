@@ -15,7 +15,7 @@ void	loop_shell(t_shell *shell)
 //	char	**oldpwd;
 
 //	oldpwd = malloc(sizeof(char *) * 2);
-//	oldpwd[0] = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
+//	oldpwd[0] = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="), shell);
 //	oldpwd[1] = NULL;
 //	ft_export(oldpwd);
 	while (TRUE)

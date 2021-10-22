@@ -99,7 +99,7 @@ void	add_node(t_shell *shell, int i, char car);
 void	env_transform(t_shell *shell);
 char	*ft_finalstring(char *string, char *pdolar, char **envp);
 void	arg_unions(t_shell *shell);
-char	*get_dolar_string(char *pdolar, int *count);
+char	*get_dolar_string(char *pdolar, int *count, t_shell *shell);
 
 //HIST_ENTRY **history;
 
@@ -148,7 +148,7 @@ int		count_lines(char **table);
 char	**ft_insert_string(char **table, char *str);
 char	**ft_insert_string2(char **table, char *str);
 void	ft_free_matrix(char **matrix);
-char	*ft_getenvcontent(char *header);
-char	**ft_getenvptr(char *header);
-char	*ft_getenvcpy(char *header);
+char	*ft_getenvcontent(char *header, t_shell *shell);
+char	**ft_getenvptr(char *header, t_shell *shell);
+char	*ft_getenvcpy(char *header, t_shell *shell);
 #endif

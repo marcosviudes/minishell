@@ -16,17 +16,17 @@ static void	step_back(char *path)
 	}
 }
 
-static int	only_cd(void)
+static int	only_cd(t_shell *shell)
 {
 	char	**aux;
 
-	aux = ft_getenvptr("OLDPWD=");
+	aux = ft_getenvptr("OLDPWD=", shell);
 	free(*aux);
-	*aux = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD="));
-	aux = ft_getenvptr("PWD=");
+	*aux = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD=", shell));
+	aux = ft_getenvptr("PWD=", shell);
 	free(*aux);
-	*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME="));
-	chdir(ft_getenvcontent("HOME="));
+	*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME=", shell));
+	chdir(ft_getenvcontent("HOME=", shell));
 	return (0);
 }
 
@@ -95,8 +95,8 @@ int	ft_cd(char **argv, t_shell *shell)
 	char	*oldpwd;
 
 	if (*argv == NULL)
-		return (only_cd());
-	oldpwd = ft_getenvcontent("PWD=");
+		return (only_cd(shell));
+	oldpwd = ft_getenvcontent("PWD=", shell);
 	path = get_path(oldpwd, argv[0]);
 	return (ft_chdir(path, oldpwd, shell));
 }

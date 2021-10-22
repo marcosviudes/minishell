@@ -1,17 +1,17 @@
 #include <minishell.h>
 
-char	*ft_getenvcontent(char *header)
+char	*ft_getenvcontent(char *header, t_shell *shell)
 {
 	int		i;
 	char	*ret;
 
 	i = 0;
-	while (g_shell->ownenvp[i])
+	while (shell->ownenvp[i])
 	{
-		if (ft_strncmp(g_shell->ownenvp[i], header, ft_strlen(header)) == 0)
+		if (ft_strncmp(shell->ownenvp[i], header, ft_strlen(header)) == 0)
 		{
-			ret = ft_substr(g_shell->ownenvp[i], ft_strlen(header),
-					ft_strlen(g_shell->ownenvp[i]) - ft_strlen(header));
+			ret = ft_substr(shell->ownenvp[i], ft_strlen(header),
+					ft_strlen(shell->ownenvp[i]) - ft_strlen(header));
 			return (ret);
 		}
 		i++;
@@ -19,17 +19,17 @@ char	*ft_getenvcontent(char *header)
 	return (NULL);
 }
 
-char	**ft_getenvptr(char *header)
+char	**ft_getenvptr(char *header, t_shell *shell)
 {
 	int		i;
 	char	**ret;
 
 	i = 0;
-	while (g_shell->ownenvp[i])
+	while (shell->ownenvp[i])
 	{
-		if (ft_strncmp(g_shell->ownenvp[i], header, ft_strlen(header)) == 0)
+		if (ft_strncmp(shell->ownenvp[i], header, ft_strlen(header)) == 0)
 		{
-			ret = &g_shell->ownenvp[i];
+			ret = &shell->ownenvp[i];
 			return (ret);
 		}
 		i++;
@@ -37,17 +37,17 @@ char	**ft_getenvptr(char *header)
 	return (NULL);
 }
 
-char	*ft_getenvcpy(char *header)
+char	*ft_getenvcpy(char *header, t_shell *shell)
 {
 	int		i;
 	char	*ret;
 
 	i = 0;
-	while (g_shell->ownenvp[i])
+	while (shell->ownenvp[i])
 	{
-		if (ft_strncmp(g_shell->ownenvp[i], header, ft_strlen(header)) == 0)
+		if (ft_strncmp(shell->ownenvp[i], header, ft_strlen(header)) == 0)
 		{
-			ret = ft_strdup(g_shell->ownenvp[i]);
+			ret = ft_strdup(shell->ownenvp[i]);
 			return (ret);
 		}
 		i++;
