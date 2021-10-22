@@ -83,6 +83,8 @@ char	*pathing(char *command, char **envp)
 	int		fd;
 
 	the_path = NULL;
+	if (search_for_line(envp) == -1)
+		return (NULL);
 	paths = ft_split(envp[search_for_line(envp)], ':');
 	paths[0] = ft_strchr(paths[0], '/');
 	i = 0;
