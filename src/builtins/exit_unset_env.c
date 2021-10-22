@@ -13,7 +13,7 @@ int	ft_env(t_shell *shell)
 	return (0);
 }
 
-static void	create_newenvp(char *str)
+static void	create_newenvp(char *str, t_shell *shell)
 {
 	char	**table;
 	int		i;
@@ -21,23 +21,23 @@ static void	create_newenvp(char *str)
 
 	i = 0;
 	j = 0;
-	table = malloc(sizeof(char *) * (count_lines(g_shell->ownenvp) + 1));
-	while (g_shell->ownenvp[i + j])
+	table = malloc(sizeof(char *) * (count_lines(shell->ownenvp) + 1));
+	while (shell->ownenvp[i + j])
 	{
-		if (ft_strncmp(str, g_shell->ownenvp[i + j], ft_strlen(str)) != 0)
+		if (ft_strncmp(str, shell->ownenvp[i + j], ft_strlen(str)) != 0)
 		{
-			table[i] = ft_strdup(g_shell->ownenvp[i + j]);
+			table[i] = ft_strdup(shell->ownenvp[i + j]);
 			i++;
 		}
 		else
 			j++;
 	}
 	table[i] = NULL;
-	ft_free_matrix(g_shell->ownenvp);
-	g_shell->ownenvp = table;
+	ft_free_matrix(shell->ownenvp);
+	shell->ownenvp = table;
 }
 
-int	ft_unset(char **argv)
+int	ft_unset(char **argv, t_shell *shell)
 {
 	int		argc;
 	int		i;
@@ -48,7 +48,7 @@ int	ft_unset(char **argv)
 	i = 0;
 	while (i < argc)
 	{
-		create_newenvp(argv[i]);
+		create_newenvp(argv[i], shell);
 		i++;
 	}
 	return (0);

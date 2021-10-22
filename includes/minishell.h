@@ -128,7 +128,7 @@ int		ft_env(t_shell *shell);
 int		ft_pwd(t_shell *shell);
 int		ft_echo(char **argv);
 int		ft_cd(char **argv, t_shell *shell);
-int		ft_unset(char **argv);
+int		ft_unset(char **argv, t_shell *shell);
 void	ft_exit(char **argv, int father);
 void	sort_list(t_sort *list);
 void	print_order_list(t_sort *list);
