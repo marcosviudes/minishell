@@ -51,7 +51,7 @@ int	create_word(t_shell *shell, int i)
 		i_aux++;
 		count++;
 	}
-	word = ft_calloc(sizeof(char), count);
+	word = malloc(sizeof(char) * (count + 1));
 	i_aux = 0;
 	while (ft_isprint(shell->line[i])
 		&& its_not_special(shell->line[i]))
@@ -60,7 +60,7 @@ int	create_word(t_shell *shell, int i)
 		i++;
 		i_aux++;
 	}
-	
+	word[i_aux] = '\0';
 	if (shell->line[i] != ' ' && (ft_isalnum(shell->line[i]) || shell->line[i] == '\'' || shell->line[i] == '\"'))
 		shell->union_next = 1;
 	else
