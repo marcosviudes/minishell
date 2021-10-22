@@ -18,6 +18,7 @@ int	double_marks(t_shell *shell, int i)
 	if (shell->line[i_aux] == '\0')
 	{
 		shell->open_marks = 1;
+		printf("Open quotation marks\n");
 		return (-1);
 	}
 	phrase = malloc(sizeof(char) * (count + 3));
@@ -60,6 +61,7 @@ int	simple_marks(t_shell *shell, int i)
 	if (shell->line[i_aux] == '\0')
 	{
 		shell->open_marks = 1;
+		printf("Open quotation marks\n");
 		return (-1);
 	}
 	phrase = ft_calloc(sizeof(char), count + 2);

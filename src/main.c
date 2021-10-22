@@ -8,16 +8,6 @@ void	free_all(t_shell *shell)
 	free(shell);
 }
 
-static void	loop_shell2(t_shell *shell, t_info *aux)
-{
-	env_transform(shell);
-	arg_unions(shell);
-	aux = shell->info;
-	ft_free_matrix(shell->line_splitted);
-	parse(shell);
-	execute(shell);
-}
-
 void	loop_shell(t_shell *shell)
 {
 	t_info	*aux;
@@ -34,13 +24,15 @@ void	loop_shell(t_shell *shell)
 		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
-		if (shell->open_marks == 1)
+		if (shell->open_marks != 1)
 		{
-			shell->open_marks = 0;
-			printf("Error: Quotation marks not closed.\n");
-			continue ;
+			env_transform(shell);
+			arg_unions(shell);
+			aux = shell->info;
+			parse(shell);
+			execute(shell);
 		}
-		loop_shell2(shell, aux);
+		shell->open_marks = 0;
 	}
 }
 
