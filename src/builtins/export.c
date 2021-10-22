@@ -93,7 +93,10 @@ int	ft_export(char **argv, t_shell *shell)
 	while (i < argc)
 	{
 		if (ft_isdigit(argv[i][0]))
+		{
 			printf("export: `%s': not a valid identifier\n", argv[i]);
+			return (1);
+		}
 		else
 			add_env(argv[i], shell);
 		i++;
