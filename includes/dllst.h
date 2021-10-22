@@ -6,7 +6,7 @@
 /*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 21:04:48 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/18 16:49:11 by cnavarro         ###   ########.fr       */
+/*   Updated: 2021/10/22 15:59:53 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct	s_dllist
+typedef struct s_dllist
 {
 	char			*buff;
 	struct s_dllist	*prev;

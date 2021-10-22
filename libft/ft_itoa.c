@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 16:53:25 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/12 21:57:42 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/10/22 16:05:11 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static char	*allocate_str(int size, int n)
 		return (NULL);
 	return (str);
 }
+
 char	*ft_itoa(int n)
 {
 	char			*str;
@@ -54,7 +55,7 @@ char	*ft_itoa(int n)
 	if (!str)
 		return (NULL);
 	i = 0;
-	if (n < 0 && (str[i] = '-'))
+	if (n < 0 && (str[i] == '-'))
 		size++;
 	i = size - 1;
 	while (un >= 10)

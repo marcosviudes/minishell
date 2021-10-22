@@ -31,7 +31,7 @@ int	ft_echo(char **argv)
 	flag = 0;
 	argc = count_lines(argv);
 	if (argc == 0)
-		return(printf("\n"));
+		return (printf("\n"));
 	i = 0;
 	if (ft_strncmp(argv[i], "-n", 3) == 0)
 	{

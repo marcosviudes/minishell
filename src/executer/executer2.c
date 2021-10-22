@@ -183,7 +183,6 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 	//	dup2(command_redirection(table->outfile, STDOUT_FILENO), STDOUT_FILENO);
 		//dup2(command_redirection(table->infile, STDIN_FILENO), STDIN_FILENO);
 		g_shell->return_value = execve(path, table->args, shell->ownenvp);
-
 	}
 	shell->pid = pid;
 	wait(&shell->pid);

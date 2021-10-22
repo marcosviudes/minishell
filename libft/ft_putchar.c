@@ -6,13 +6,13 @@
 /*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 12:57:29 by mviudes           #+#    #+#             */
-/*   Updated: 2021/10/14 12:49:17 by cnavarro         ###   ########.fr       */
+/*   Updated: 2021/10/22 16:02:20 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_putchar(char c)
+int	ft_putchar(char c)
 {
 	write(1, &c, 1);
 	return (1);

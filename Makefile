@@ -28,6 +28,7 @@ SRC			= main.c\
 			parse/parse.c\
 			parse/heredoc.c\
 			builtins/cd.c\
+			builtins/cd2.c\
 			builtins/export.c\
 			builtins/export2.c\
 			builtins/echo_pwd.c\

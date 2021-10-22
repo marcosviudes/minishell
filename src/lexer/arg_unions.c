@@ -1,13 +1,14 @@
 #include <minishell.h>
 
-void	go_union(t_info *list)		//tenemos el nodo 0 (list)
+void	go_union(t_info *list)
 {
 	t_info	*aux;
 	char	*word;
 
-	aux = list->next;												//cogemos en aux el nodo 1
+	aux = list->next;
 	word = list->string;
-	list->string = ft_strjoin(list->string, aux->string);			//ponemos en el nodo 0 la union de los strings
+	list->string = ft_strjoin(list->string,
+			aux->string);
 	free(word);
 	list->next = aux->next;
 	if (aux->next != NULL)
@@ -25,17 +26,6 @@ void	arg_unions(t_shell *shell)
 
 	list = shell->info;
 	aux = list;
-	/*
-	while (aux != NULL)
-	{
-		printf("String: %s\n", aux->string);
-		printf("Type:   %c\n", aux->type);
-		printf("Marks:  %i\n", aux->marks);
-		printf("--------------------------------\n");
-		printf("================================\n");
-		aux = aux->next;
-	}
-	*/
 	aux = list;
 	while (list->next != NULL)
 	{

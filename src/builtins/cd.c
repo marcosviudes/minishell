@@ -16,20 +16,6 @@ static void	step_back(char *path)
 	}
 }
 
-static int	only_cd(t_shell *shell)
-{
-	char	**aux;
-
-	aux = ft_getenvptr("OLDPWD=", shell);
-	free(*aux);
-	*aux = ft_strjoin("OLDPWD=", ft_getenvcontent("PWD=", shell));
-	aux = ft_getenvptr("PWD=", shell);
-	free(*aux);
-	*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME=", shell));
-	chdir(ft_getenvcontent("HOME=", shell));
-	return (0);
-}
-
 static char	*get_path(char *oldpwd, char *arg)
 {
 	char	**splitted;
@@ -46,8 +32,7 @@ static char	*get_path(char *oldpwd, char *arg)
 		if (ft_strncmp(splitted[i], "..", 2) == 0
 			&& ft_strlen(splitted[i]) == 2)
 			step_back(ret);
-		else if (ft_strncmp(splitted[i], ".", 2) == 0);
-		else
+		else if (!(ft_strncmp(splitted[i], ".", 2) == 0))
 		{
 			aux = ret;
 			ret = ft_strjoin(ft_strjoinchar(ret, '/'), splitted[i]);
@@ -56,6 +41,20 @@ static char	*get_path(char *oldpwd, char *arg)
 	}
 	ft_free_matrix(splitted);
 	return (ret);
+}
+
+static void	change_env(char *oldpwd, char *path, t_shell *shell, int i)
+{
+	if (ft_strncmp(shell->ownenvp[i], "OLDPWD=", 7) == 0)
+	{
+		free(shell->ownenvp[i]);
+		shell->ownenvp[i] = ft_strjoin("OLDPWD=", oldpwd);
+	}
+	if (ft_strncmp(shell->ownenvp[i], "PWD=", 4) == 0)
+	{
+		free(shell->ownenvp[i]);
+		shell->ownenvp[i] = ft_strjoin("PWD=", path);
+	}
 }
 
 static int	ft_chdir(char *path, char *oldpwd, t_shell *shell)
@@ -67,16 +66,7 @@ static int	ft_chdir(char *path, char *oldpwd, t_shell *shell)
 	{
 		while (shell->ownenvp[i] && path != NULL)
 		{
-			if (ft_strncmp(shell->ownenvp[i], "OLDPWD=", 7) == 0)
-			{
-				free(shell->ownenvp[i]);
-				shell->ownenvp[i] = ft_strjoin("OLDPWD=", oldpwd);
-			}
-			if (ft_strncmp(shell->ownenvp[i], "PWD=", 4) == 0)
-			{
-				free(shell->ownenvp[i]);
-				shell->ownenvp[i] = ft_strjoin("PWD=", path);
-			}
+			change_env(oldpwd, path, shell, i);
 			i++;
 		}
 		chdir(path);
