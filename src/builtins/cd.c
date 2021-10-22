@@ -56,11 +56,11 @@ static char	*get_path(char *oldpwd, char *arg)
 	return (ret);
 }
 
-static int	ft_chdir(char *path, char *oldpwd)
+static int	ft_chdir(char *path, char *oldpwd, t_shell *shell)
 {
 	int	i;
 
-	(void)path;
+	(void)shell;
 	i = 0;
 	if (access(path, F_OK) == 0)
 	{
@@ -87,7 +87,7 @@ static int	ft_chdir(char *path, char *oldpwd)
 	}
 }
 
-int	ft_cd(char **argv)
+int	ft_cd(char **argv, t_shell *shell)
 {
 	char	*path;
 	char	*oldpwd;
@@ -96,5 +96,5 @@ int	ft_cd(char **argv)
 		return (only_cd());
 	oldpwd = ft_getenvcontent("PWD=");
 	path = get_path(oldpwd, argv[0]);
-	return (ft_chdir(path, oldpwd));
+	return (ft_chdir(path, oldpwd, shell));
 }

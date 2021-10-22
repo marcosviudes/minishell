@@ -26,7 +26,7 @@ int	isbuiltin(char *string)
 	return (0);
 }
 
-void	execute_builtin(t_cmd_table *temp, char *command)
+void	execute_builtin(t_cmd_table *temp, char *command, t_shell *shell)
 {
 //	t_cmd_table *temp;
 
@@ -35,7 +35,7 @@ void	execute_builtin(t_cmd_table *temp, char *command)
 	if (ft_strncmp(command, "echo", 5) == 0)
 		g_shell->condition = ft_echo(&temp->args[1]);
 	if (ft_strncmp(command, "cd", 3) == 0)
-		g_shell->condition = ft_cd(&temp->args[1]);
+		g_shell->condition = ft_cd(&temp->args[1], shell);
 	if (ft_strncmp(command, "pwd", 4) == 0)
 		g_shell->condition = ft_pwd();
 	if (ft_strncmp(command, "export", 7) == 0)
@@ -217,7 +217,7 @@ void hijo_de_puta(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
 	if (isbuiltin(temp_cmd_table->command))
 	{
-		execute_builtin(temp_cmd_table , temp_cmd_table->command);
+		execute_builtin(temp_cmd_table , temp_cmd_table->command, shell);
 		exit(0);
 	}
 	//fprintf(stderr, "HOLAA\n");
@@ -287,7 +287,7 @@ void execute(t_shell *shell)
 		if(!temp_cmd_table->command)
 			return ;
 		if(temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
-			execute_builtin(temp_cmd_table, temp_cmd_table->command);
+			execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		else
 			execute_single_bin(shell, temp_cmd_table);
 		dup2(shell->fd_out, STDOUT_FILENO);
