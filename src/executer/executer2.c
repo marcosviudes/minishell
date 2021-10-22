@@ -37,7 +37,7 @@ void	execute_builtin(t_cmd_table *temp, char *command, t_shell *shell)
 	if (ft_strncmp(command, "cd", 3) == 0)
 		g_shell->condition = ft_cd(&temp->args[1]);
 	if (ft_strncmp(command, "pwd", 4) == 0)
-		g_shell->condition = ft_pwd();
+		g_shell->condition = ft_pwd(shell);
 	if (ft_strncmp(command, "export", 7) == 0)
 		g_shell->condition = ft_export(&temp->args[1], shell);
 	if (ft_strncmp(command,"unset", 5) == 0)

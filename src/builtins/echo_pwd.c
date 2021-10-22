@@ -1,18 +1,18 @@
 #include <minishell.h>
 
-int	ft_pwd(void)
+int	ft_pwd(t_shell *shell)
 {
 	int		i;
 	char	*aux;
 
 	aux = NULL;
 	i = 0;
-	while (g_shell->ownenvp[i])
+	while (shell->ownenvp[i])
 	{
-		if (ft_strnstr(g_shell->ownenvp[i], "PWD=", 4))
+		if (ft_strnstr(shell->ownenvp[i], "PWD=", 4))
 		{
-			aux = ft_substr(g_shell->ownenvp[i],
-					4, ft_strlen(g_shell->ownenvp[i]) - 4);
+			aux = ft_substr(shell->ownenvp[i],
+					4, ft_strlen(shell->ownenvp[i]) - 4);
 			printf("%s\n", aux);
 			free(aux);
 			return (0);
