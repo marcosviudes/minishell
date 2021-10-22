@@ -123,7 +123,7 @@ void	signal_handler_sigint(int signum);
 void	execute(t_shell *shell);
 
 //builtings
-int		ft_export(char **argv);
+int		ft_export(char **argv, t_shell *shell);
 int		ft_env(void);
 int		ft_pwd(void);
 int		ft_echo(char **argv);

@@ -41,7 +41,7 @@ void	execute_builtin(t_shell *shell, char *command)
 	if (ft_strncmp(command, "pwd", 4) == 0)
 		g_shell->condition = ft_pwd();
 	if (ft_strncmp(command, "export", 7) == 0)
-		g_shell->condition = ft_export(&temp->args[1]);
+		g_shell->condition = ft_export(&temp->args[1], shell);
 	if (ft_strncmp(command,"unset", 5) == 0)
 		g_shell->condition = ft_unset(&temp->args[1]);
 	if (ft_strncmp(command,"env", 3) == 0)

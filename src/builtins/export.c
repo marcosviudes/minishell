@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-static int	sort_env(void)
+static int	sort_env(t_shell *shell)
 {
 	int		lines;
 	int		i;
@@ -8,10 +8,10 @@ static int	sort_env(void)
 
 	i = 0;
 	ordered_list = NULL;
-	lines = count_lines(g_shell->ownenvp);
+	lines = count_lines(shell->ownenvp);
 	while (i < lines)
 	{
-		add_line_to_list(g_shell->ownenvp[i], &ordered_list);
+		add_line_to_list(shell->ownenvp[i], &ordered_list);
 		i++;
 	}
 	sort_list(ordered_list);
@@ -39,16 +39,16 @@ static char	*pre_equal(char *str)
 	return (ret);
 }
 
-static void add_env_2(char *newenv)
+static void add_env_2(char *newenv, t_shell *shell)
 {
 	char **aux;
 
-	aux = g_shell->ownenvp;
-	g_shell->ownenvp = ft_insert_string(g_shell->ownenvp, newenv);
+	aux = shell->ownenvp;
+	shell->ownenvp = ft_insert_string(shell->ownenvp, newenv);
 	ft_free_matrix(aux);
 }
 
-static void	add_env(char *newenv)
+static void	add_env(char *newenv, t_shell *shell)
 {
 	char	*aux2;
 	int		i;
@@ -56,32 +56,32 @@ static void	add_env(char *newenv)
 	i = 0;
 	if (!ft_strchr(newenv, '='))
 	{
-		while (g_shell->ownenvp[i])
+		while (shell->ownenvp[i])
 		{
-			if (ft_strncmp(newenv, g_shell->ownenvp[i], ft_strlen(newenv)) == 0)
+			if (ft_strncmp(newenv, shell->ownenvp[i], ft_strlen(newenv)) == 0)
 				return ;
 			i++;
 		}
-		add_env_2(newenv);
+		add_env_2(newenv, shell);
 	}
 	else
 	{
 		aux2 = pre_equal(newenv);
-		while (g_shell->ownenvp[i])
+		while (shell->ownenvp[i])
 		{
-			if (ft_strncmp(aux2, g_shell->ownenvp[i], ft_strlen(aux2)) == 0)
+			if (ft_strncmp(aux2, shell->ownenvp[i], ft_strlen(aux2)) == 0)
 			{
-				free(g_shell->ownenvp[i]);
-				g_shell->ownenvp[i] = ft_strdup(newenv);
+				free(shell->ownenvp[i]);
+				shell->ownenvp[i] = ft_strdup(newenv);
 				return ;
 			}
 			i++;
 		}
-		add_env_2(newenv);
+		add_env_2(newenv, shell);
 	}
 }
 
-int	ft_export(char **argv)
+int	ft_export(char **argv, t_shell *shell)
 {
 	int	argc;
 	int	i;
@@ -89,13 +89,13 @@ int	ft_export(char **argv)
 	i = 0;
 	argc = count_lines(argv);
 	if (argc == 0)
-		return (sort_env());
+		return (sort_env(shell));
 	while (i < argc)
 	{
 		if (ft_isdigit(argv[i][0]))
 			printf("export: `%s': not a valid identifier\n", argv[i]);
 		else
-			add_env(argv[i]);
+			add_env(argv[i], shell);
 		i++;
 	}
 	return (0);
