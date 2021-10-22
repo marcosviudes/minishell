@@ -6,6 +6,8 @@ static void	step_back(char *path)
 	int		i;
 
 	str = ft_strrchr(path, '/');
+	if (!str)
+		return ;
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -41,11 +43,8 @@ static char	*get_path(char *oldpwd, char *arg)
 	i = 0;
 	while (splitted[i])
 	{
-		if (ft_strncmp(splitted[i], "..", 2) == 0
-			&& ft_strlen(splitted[i]) == 2)
+		if (ft_strncmp(splitted[i], "..", 3) == 0)
 			step_back(ret);
-//		else if (ft_strncmp(splitted[i], ".", 2) == 0)
-//			transform_dot(splitted, i);
 		else
 		{
 			aux = ret;
