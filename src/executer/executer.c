@@ -104,9 +104,9 @@ char	*pathing(char *command, char **envp)
 
 int	redirection(t_list *redir)
 {
-	t_table_redir redir_table;
-	int		fd;
-	int		i;
+	t_table_redir	redir_table;
+	int				fd;
+	int				i;
 
 	i = 0;
 	if (redir)
@@ -179,6 +179,7 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 	wait(&shell->pid);
 	return ;
 }
+
 void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell)
 {
 	if(i != 0)
@@ -187,66 +188,62 @@ void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell
 		dup2(last_fd[READ_END], STDIN_FILENO);
 	}
 	if(i < num_commands)
-	{
-		//close(fd[READ_END]);
-		//fprintf(stderr, ">---------%d\n", fd[WRITE_END]);
 		dup2(fd[WRITE_END], STDOUT_FILENO);
-	//	printf("Esto no se tiene que ver\n");
-	}
 	if (i == num_commands)
-	{
-		//fprintf(stderr, "restoring%d\n", shell->fd_out);
 		dup2(shell->fd_out, STDOUT_FILENO);
-	//	printf("estoy hasta los huevos\n");
-	//printf("----%d\t%d\n", fd[WRITE_END], fd[READ_END]);
-		//close(fd[WRITE_END]);
-		//close(fd[READ_END]);
-	}
+
 }
-void hijo_de_puta(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
+void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
 	if (isbuiltin(temp_cmd_table->command))
 	{
 		execute_builtin(temp_cmd_table , temp_cmd_table->command);
 		exit(0);
 	}
-	//fprintf(stderr, "HOLAA\n");
-	execve(path, temp_cmd_table->args, shell->ownenvp); //ejecutamos
+	execve(path, temp_cmd_table->args, shell->ownenvp);
 	perror("esta mierda no funciona");
 	exit(0);
 }
 
 void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands)
 {
+
+	int	outfile;
+	int	infile;
+
+	outfile = redirection(temp_cmd_table->outfile);
+	infile = indirection(temp_cmd_table->infile);
 	if(i == 0)
 	{
 		if(temp_cmd_table->outfile)
 		{
-			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+			dup2(outfile, STDOUT_FILENO);
 			close(fd[WRITE_END]);
 		}
-		if(temp_cmd_table->infile)
-			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+		if(temp_cmd_table->infile){
+			dup2(infile , STDIN_FILENO);
+		}
 	}
 	if(i == num_commands)
 	{
-		if(temp_cmd_table->outfile)
-			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+		if(temp_cmd_table->outfile){
+			dup2(outfile, STDOUT_FILENO);
+		}
 		if(temp_cmd_table->infile)
 			close(last_fd[READ_END]);
-			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+		dup2(infile , STDIN_FILENO);
 	}
 	else
 	{
 		if(temp_cmd_table->outfile)
 		{
 			close(fd[WRITE_END]);
-			dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
+			dup2(outfile, STDOUT_FILENO);
 		}
 		if(temp_cmd_table->infile)
 		{
 			close(last_fd[READ_END]);
-			dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
+			dup2(infile , STDIN_FILENO);
 		}
 	}
 	
@@ -259,6 +256,7 @@ void execute(t_shell *shell)
 	t_list		*temp_node;
 	t_cmd_table *temp_cmd_table;
 
+	shell->mode = M_EXECUTE;
 	shell->fd_in = dup(STDIN_FILENO);
 	shell->fd_out = dup(STDOUT_FILENO);
 	num_commands = ft_lstsize(shell->cmd_list);
@@ -304,7 +302,7 @@ void execute(t_shell *shell)
 			redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
 			pid = fork();
 			if (pid == 0)
-				hijo_de_puta(shell, temp_cmd_table, path);
+				child_process(shell, temp_cmd_table, path);
 			//fprintf(stderr, "fork out\n");
 			last_fd[READ_END] = fd[READ_END];
 			last_fd[WRITE_END] = fd[WRITE_END];
@@ -325,5 +323,7 @@ void execute(t_shell *shell)
 		dup2(shell->fd_in, STDIN_FILENO);
 		close(shell->fd_out);
 		close(shell->fd_in);
-	}	
+	}
+	if(shell->flag_heredoc_file)
+		unlink(".tempheredoc");
 }

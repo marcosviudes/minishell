@@ -22,6 +22,7 @@ void	loop_shell(t_shell *shell)
 		if (shell->line)
 			free(shell->line);
 		shell->line = NULL;
+	//	shell->pid = 0;
 		signal_init();
 	//	pause();
 		//system("leaks minishell");
