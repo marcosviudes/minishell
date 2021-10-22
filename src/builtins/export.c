@@ -39,10 +39,18 @@ static char	*pre_equal(char *str)
 	return (ret);
 }
 
+static void add_env_2(char *newenv)
+{
+	char **aux;
+
+	aux = g_shell->ownenvp;
+	g_shell->ownenvp = ft_insert_string(g_shell->ownenvp, newenv);
+	ft_free_matrix(aux);
+}
+
 static void	add_env(char *newenv)
 {
 	char	*aux2;
-	char	**aux;
 	int		i;
 
 	i = 0;
@@ -54,9 +62,7 @@ static void	add_env(char *newenv)
 				return ;
 			i++;
 		}
-		aux = g_shell->ownenvp;
-		g_shell->ownenvp = ft_insert_string(g_shell->ownenvp, newenv);
-		ft_free_matrix(aux);
+		add_env_2(newenv);
 	}
 	else
 	{
@@ -71,9 +77,7 @@ static void	add_env(char *newenv)
 			}
 			i++;
 		}
-		aux = g_shell->ownenvp;
-		g_shell->ownenvp = ft_insert_string(g_shell->ownenvp, newenv);
-		ft_free_matrix(aux);
+		add_env_2(newenv);
 	}
 }
 
