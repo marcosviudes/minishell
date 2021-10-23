@@ -120,7 +120,7 @@ int	redirection(t_list *redir)
 				close(fd);
 			fd = open_file(redir_table.file, redir_table.append);
 			if (fd == -1)
-				return (1);
+				return (-1);
 			i++;
 			redir = redir->next;
 		}
@@ -260,6 +260,8 @@ void execute(t_shell *shell)
 	int			num_commands;
 	t_list		*temp_node;
 	t_cmd_table *temp_cmd_table;
+	int			infile;
+	int			outfile;
 
 	shell->mode = M_EXECUTE;
 	shell->fd_in = dup(STDIN_FILENO);
@@ -270,10 +272,20 @@ void execute(t_shell *shell)
 	if (num_commands == 1)
 	{
 		temp_cmd_table = (t_cmd_table *)shell->cmd_list->content;
-		dup2(redirection(temp_cmd_table->outfile), STDOUT_FILENO);
-		dup2(indirection(temp_cmd_table->infile), STDIN_FILENO);
-		if(!temp_cmd_table->command)
+		outfile = redirection(temp_cmd_table->outfile);
+		infile = indirection(temp_cmd_table->infile);
+		if(outfile == -1 || infile == -1)
+			{
+				perror("terminator:");
+				return;
+			}
+		if(!temp_cmd_table->command){
+			if(outfile != STDOUT_FILENO)
+				close(outfile);
 			return ;
+		}
+		dup2(outfile, STDOUT_FILENO);
+		dup2(infile, STDIN_FILENO);
 		if(temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
 			execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		else
@@ -294,11 +306,6 @@ void execute(t_shell *shell)
 
 		i = 0;
 		num_commands--;
-		if (!temp_cmd_table)
-		{
-			printf("bash: syntax error near unexpected token\n");
-			return ;
-		}
 		while (temp_node)
 		{
 			temp_cmd_table = (t_cmd_table*)temp_node->content;
