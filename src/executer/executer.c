@@ -206,8 +206,8 @@ void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 		exit(0);
 	}
 	ret = execve(path, temp_cmd_table->args, shell->ownenvp);
-//	perror("esta mierda no funciona");
-	exit(ret);
+	printf("bash: %s: command not found\n", temp_cmd_table->command);
+	exit(127);
 }
 
 void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands)
@@ -320,10 +320,9 @@ void execute(t_shell *shell)
 		(void)status;
 		while (i < num_commands + 1)
 		{
-			waitpid(-1, &g_shell->return_value, 0);
+			wait(&status);
 			if(WIFEXITED(status))
 				shell->return_value = WEXITSTATUS(status);
-			//g_shell->return_value =(&status);
 			i++;
 		}
 		dup2(shell->fd_out, STDOUT_FILENO);
