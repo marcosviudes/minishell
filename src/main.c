@@ -14,6 +14,34 @@ void	free_all(t_shell *shell)
 	free(shell);
 }
 
+int	symbol_error(t_info *info)
+{
+	t_info	*aux;
+
+	aux = info;
+	if (aux)
+	{
+		if (aux->type == 's' && aux->next == NULL)
+		{
+			printf("bash: syntax error near unexpected token `%s'\n", aux->string);
+			return (1);
+		}
+	}
+	while (aux)
+	{
+		if (aux->type == 's' && aux->next != NULL)
+		{
+			if (aux->next->type == 's')
+			{
+				printf("bash: syntax error near unexpected token `%s'\n", aux->string);
+				return (1);
+			}
+		}
+		aux = aux->next;
+	}
+	return (0);
+}
+
 void	loop_shell(t_shell *shell)
 {
 	t_info	*aux;
@@ -25,7 +53,6 @@ void	loop_shell(t_shell *shell)
 		if (shell->line)
 			free(shell->line);
 		shell->line = NULL;
-		//	shell->pid = 0;
 		signal_init();
 		shell->line = readline("terminator$ ");
 		if(shell->line == NULL)
@@ -34,7 +61,7 @@ void	loop_shell(t_shell *shell)
 		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
-		if (shell->open_marks != 1)
+		if (shell->open_marks != 1 && !symbol_error(shell->info))
 		{
 			env_transform(shell);
 			arg_unions(shell);

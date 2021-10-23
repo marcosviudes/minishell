@@ -294,6 +294,11 @@ void execute(t_shell *shell)
 
 		i = 0;
 		num_commands--;
+		if (!temp_cmd_table)
+		{
+			printf("bash: syntax error near unexpected token\n");
+			return ;
+		}
 		while (temp_node)
 		{
 			temp_cmd_table = (t_cmd_table*)temp_node->content;
