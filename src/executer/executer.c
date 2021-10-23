@@ -169,8 +169,6 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		path = table->command;
 	else
 		path = pathing(table->command, shell->ownenvp);
-	if (!path)
-		return ;
 	shell->pid = fork();
 	if(shell->pid == 0){
 	//	signal_init();
