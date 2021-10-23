@@ -22,6 +22,7 @@ void	loop_shell(t_shell *shell)
 	while (TRUE)
 	{
 		shell->mode = M_READING;
+		shell->pid = -1;
 		if (shell->line)
 			free(shell->line);
 		shell->line = NULL;

@@ -159,7 +159,7 @@ int	indirection(t_list *redir)
 void execute_single_bin(t_shell *shell, t_cmd_table *table)
 {
 	char	*path;
-	pid_t	pid;
+//	pid_t	pid;
 	int		ret;
 	int		status;
 
@@ -171,12 +171,15 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		path = pathing(table->command, shell->ownenvp);
 	if (!path)
 		return ;
-	pid = fork();
-	if(pid == 0){
+	shell->pid = fork();
+	if(shell->pid == 0){
+	//	signal_init();
+		//signal(SIGINT, SIG_DFL);
+		//signal(SIGQUIT, signal_handler_sigquit);
 		ret = execve(path, table->args, shell->ownenvp);
 		exit(ret);
 	}
-	shell->pid = pid;
+//	shell->pid = pid;
 	wait(&status);
 	if(WIFEXITED(status))
 		shell->return_value = WEXITSTATUS(status);
@@ -287,7 +290,7 @@ void execute(t_shell *shell)
 	else
 	{
 		int		i;
-		int		pid;
+//		int		pid;
 		char	*path;
 		int		status;
 		int		fd[2];
@@ -305,8 +308,8 @@ void execute(t_shell *shell)
 			pipe(fd);
 			redirfds(i, num_commands, fd, last_fd, shell);
 			redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
-			pid = fork();
-			if (pid == 0)
+			shell->pid = fork();
+			if (shell->pid == 0)
 				child_process(shell, temp_cmd_table, path);
 			last_fd[READ_END] = fd[READ_END];
 			last_fd[WRITE_END] = fd[WRITE_END];
@@ -317,6 +320,7 @@ void execute(t_shell *shell)
 			temp_node = temp_node->next;
 			i++;
 		}
+
 		i = 0;
 		(void)status;
 		while (i < num_commands + 1)
@@ -327,6 +331,10 @@ void execute(t_shell *shell)
 			//g_shell->return_value =(&status);
 			i++;
 		}
+		close(last_fd[READ_END]);
+		close(last_fd[WRITE_END]);
+		close(fd[READ_END]);
+		close(fd[WRITE_END]);
 		dup2(shell->fd_out, STDOUT_FILENO);
 		dup2(shell->fd_in, STDIN_FILENO);
 		close(shell->fd_out);
