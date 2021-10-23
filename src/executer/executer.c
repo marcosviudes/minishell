@@ -169,12 +169,11 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		path = table->command;
 	else
 		path = pathing(table->command, shell->ownenvp);
-	if (!path)
-		return ;
 	pid = fork();
 	if(pid == 0){
 		ret = execve(path, table->args, shell->ownenvp);
-		exit(ret);
+		printf("bash: %s: command not found\n", table->command);
+		exit(127);
 	}
 	shell->pid = pid;
 	wait(&status);
