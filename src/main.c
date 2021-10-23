@@ -2,9 +2,15 @@
 #include <curses.h>
 #include <term.h>
 
+void	free_command(t_shell *shell)
+{
+	ft_lstclear(&shell->cmd_list, &free_table);
+	(void)shell;
+}
+
 void	free_all(t_shell *shell)
 {
-	free(shell->prompt);
+	//free(shell->prompt);
 	free(shell);
 }
 
@@ -15,12 +21,15 @@ void	loop_shell(t_shell *shell)
 	aux = NULL;
 	while (TRUE)
 	{
+		shell->mode = M_READING;
 		if (shell->line)
 			free(shell->line);
 		shell->line = NULL;
-	//	shell->pid = 0;
+		//	shell->pid = 0;
 		signal_init();
 		shell->line = readline("terminator$ ");
+		if(shell->line == NULL)
+			exit(write(1, "exit\n", 5));
 		add_history(shell->line);
 		if (!shell->line)
 			continue ;

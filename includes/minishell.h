@@ -57,11 +57,10 @@ typedef struct s_shell
 {
 	int				flag_heredoc_file;
 	int				mode;
-	char			**heredoc_buff;
 	int				open_marks;
 	char			**ownenvp;
-	char			*prompt;
-	char			*buff;
+//	char			*prompt;
+//	char			*buff;
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
@@ -153,4 +152,7 @@ char	**ft_getenvptr(char *header, t_shell *shell);
 char	*ft_getenvcpy(char *header, t_shell *shell);
 int		its_not_special(char digit);
 char	**fill_env(char **envp);
+
+//FREEE
+void	free_table(void *arg);
 #endif

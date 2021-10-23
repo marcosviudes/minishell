@@ -132,6 +132,20 @@ void	print_list(t_info *info)
 	}
 }
 
+void	free_table_redir(void *arg)
+{
+	t_table_redir *table;
+
+	if(arg == NULL)
+	{
+		free(arg);
+		return ;
+	}
+	table = (t_table_redir*)arg;
+	free(table->file);
+	free(table);
+}
+
 void	free_table(void *arg)
 {
 	t_cmd_table	*table;
@@ -144,8 +158,8 @@ void	free_table(void *arg)
 	table = (t_cmd_table *)arg;
 	free(table->command);
 	ft_free_matrix(table->args);
-	free(table->outfile);
-	free(table->infile);
+	ft_lstclear(&table->outfile, &free_table_redir);
+	ft_lstclear(&table->infile, &free_table_redir);
 	free(table);
 }
 
@@ -207,7 +221,7 @@ void	parse(t_shell *shell)
 			}*/
 			if (redirection_flag == GREAT || redirection_flag == GREAT_GREAT)
 			{
-				temp_redir = malloc(sizeof(t_table_redir));
+				temp_redir = ft_calloc(sizeof(t_table_redir), 1);
 				temp_redir->file = ft_strdup(temp->string);
 				temp_redir->append = APPEND_OFF;
 				if (redirection_flag == GREAT_GREAT)
@@ -217,7 +231,7 @@ void	parse(t_shell *shell)
 			}
 			else if (redirection_flag == LESS)
 			{
-				temp_redir = malloc(sizeof(t_table_redir));
+				temp_redir = ft_calloc(sizeof(t_table_redir), 1);
 				temp_redir->file = ft_strdup(temp->string);
 				temp_redir->append = APPEND_OFF;
 				redirection_flag = 0;
@@ -225,7 +239,7 @@ void	parse(t_shell *shell)
 			}
 			else if (redirection_flag == LESS_LESS)
 			{
-				temp_redir = malloc(sizeof(t_table_redir));
+				temp_redir = ft_calloc(sizeof(t_table_redir), 1);
 				temp_redir->file = ft_strdup(".tempheredoc");
 				temp_redir->append = APPEND_OFF;
 				redirection_flag = 0;

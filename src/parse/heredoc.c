@@ -47,11 +47,9 @@ void	ft_heredoc(t_shell *shell, t_info *temp)
 	int		fd_temp;
 
 	shell->mode =  M_HEREDOC;
-	shell->heredoc_buff = malloc(sizeof(char *));
-	shell->heredoc_buff[0] = "";
 	fd_temp = open(".tempheredoc", O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, S_IRWXU);
 	reading = readline("> ");
-	while (!(ft_strncmp(reading, temp->string, ft_strlen(temp->string)) == 0))
+	while ( reading && !(ft_strncmp(reading, temp->string, ft_strlen(temp->string)) == 0))
 	{
 		if (ft_strchr(reading, '$') && !(temp->is_union == 1|| temp->marks != 0))
 			transf_reading(&reading, shell);

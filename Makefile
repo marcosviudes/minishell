@@ -15,7 +15,6 @@ LIST_DIR	= dllist/
 TEST_DIR	= $(SRC_DIR)test/
 
 SRC			= main.c\
-			prompt.c\
 			get_next_line.c\
 			executer/executer.c\
 			utils/utils.c\

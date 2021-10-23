@@ -160,9 +160,10 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 {
 	char	*path;
 	pid_t	pid;
-	int		error;
+	int		ret;
+	int		status;
 
-	error = 0;
+	ret = 0;
 	path = NULL;
 	if (is_absolute_path(table->command))
 		path = table->command;
@@ -172,11 +173,13 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		return ;
 	pid = fork();
 	if(pid == 0){
-		execve(path, table->args, shell->ownenvp);
-
+		ret = execve(path, table->args, shell->ownenvp);
+		exit(ret);
 	}
 	shell->pid = pid;
-	wait(&shell->pid);
+	wait(&status);
+	if(WIFEXITED(status))
+		shell->return_value = WEXITSTATUS(status);
 	return ;
 }
 
@@ -196,14 +199,16 @@ void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell
 
 void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
+	int	ret;
+
 	if (isbuiltin(temp_cmd_table->command))
 	{
 		execute_builtin(temp_cmd_table , temp_cmd_table->command, shell);
 		exit(0);
 	}
-	execve(path, temp_cmd_table->args, shell->ownenvp);
-	perror("esta mierda no funciona");
-	exit(0);
+	ret = execve(path, temp_cmd_table->args, shell->ownenvp);
+//	perror("esta mierda no funciona");
+	exit(ret);
 }
 
 void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands)
@@ -313,9 +318,13 @@ void execute(t_shell *shell)
 			i++;
 		}
 		i = 0;
+		(void)status;
 		while (i < num_commands + 1)
 		{
-			waitpid(-1, &status, 0);
+			waitpid(-1, &g_shell->return_value, 0);
+			if(WIFEXITED(status))
+				shell->return_value = WEXITSTATUS(status);
+			//g_shell->return_value =(&status);
 			i++;
 		}
 		dup2(shell->fd_out, STDOUT_FILENO);
