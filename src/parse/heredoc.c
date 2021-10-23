@@ -46,7 +46,7 @@ void	ft_heredoc(t_shell *shell, t_info *temp)
 	char	*reading;
 	int		fd_temp;
 
-	shell->mode =  M_HEREDOC;
+	shell->mode = M_HEREDOC;
 	fd_temp = open(".tempheredoc", O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, S_IRWXU);
 	reading = readline("> ");
 	while (reading && !(ft_strncmp(reading, temp->string, ft_strlen(temp->string)) == 0))

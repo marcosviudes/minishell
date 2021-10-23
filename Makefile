@@ -26,6 +26,10 @@ SRC			= main.c\
 			lexer/arg_unions.c\
 			parse/parse.c\
 			parse/heredoc.c\
+			parse/parse_free_utiles.c\
+			parse/parse_print_utiles.c\
+			parse/parse_words.c\
+			parse/utiles.c\
 			builtins/cd.c\
 			builtins/cd2.c\
 			builtins/export.c\

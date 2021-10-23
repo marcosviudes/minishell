@@ -59,8 +59,8 @@ typedef struct s_shell
 	int				mode;
 	int				open_marks;
 	char			**ownenvp;
-//	char			*prompt;
-//	char			*buff;
+	int				flag_command;
+	int				flag_redirection;
 	char			*line;
 	int				prompt_len;
 	char			**line_splitted;
@@ -111,10 +111,22 @@ char	*get_dolar_string(char *pdolar, int *count, t_shell *shell);
 
 //parse
 void	parse(t_shell *shell);
+void	parse_command(t_shell *shell, t_info *temp, t_cmd_table *table);
+void	parse_redirection(t_shell *shell, t_table_redir *temp_redir,
+						t_info *temp, t_cmd_table *table);
+void	parse_indirection(t_shell *shell, t_table_redir *temp_redir,
+						t_info *temp, t_cmd_table *table);
+void	parse_heredoc(t_shell *shell, t_table_redir *temp_redir,
+						t_info *temp, t_cmd_table *table);
+void	parse_symbols(t_shell *shell, t_cmd_table **table, t_info *temp);
+void	parse_words(t_shell *shell, t_table_redir *temp_redir,
+					t_info *temp, t_cmd_table *table);
 void	print_command(void *cmd);
 void	info_free(t_info *info);
+void	print_command(void *cmd);
 void	info_add_prev(t_info *info);
 void	print_list(t_info *info);
+void	print_redir(void *redir);
 void	free_table(void *arg);
 void	ft_heredoc(t_shell *shell, t_info *temp);
 //void		prompt_config(t_shell *shell, char *prompt_str);

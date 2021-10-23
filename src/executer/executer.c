@@ -171,6 +171,7 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		path = pathing(table->command, shell->ownenvp);
 	shell->pid = fork();
 	if(shell->pid == 0){
+		signal(SIGQUIT, SIG_DFL);
 	//	signal_init();
 		//signal(SIGINT, SIG_DFL);
 		//signal(SIGQUIT, signal_handler_sigquit);
@@ -203,6 +204,7 @@ void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
 	int	ret;
 
+	signal(SIGQUIT, SIG_DFL);
 	if (isbuiltin(temp_cmd_table->command))
 	{
 		execute_builtin(temp_cmd_table , temp_cmd_table->command, shell);
@@ -279,7 +281,7 @@ void execute(t_shell *shell)
 		infile = indirection(temp_cmd_table->infile);
 		if(outfile == -1 || infile == -1)
 			{
-				perror("terminator:");
+				perror("terminator");
 				return;
 			}
 		if(!temp_cmd_table->command){
@@ -301,7 +303,6 @@ void execute(t_shell *shell)
 	else
 	{
 		int		i;
-//		int		pid;
 		char	*path;
 		int		status;
 		int		fd[2];
