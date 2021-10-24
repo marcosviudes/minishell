@@ -11,5 +11,6 @@ int	only_cd(t_shell *shell)
 	free(*aux);
 	*aux = ft_strjoin("PWD=", ft_getenvcontent("HOME=", shell));
 	chdir(ft_getenvcontent("HOME=", shell));
+	//ft_free_matrix(aux); 
 	return (0);
 }

@@ -23,7 +23,6 @@ static char	*get_path(char *oldpwd, char *arg)
 	char	*aux;
 	int		i;
 
-	ret = NULL;
 	ret = ft_strdup(oldpwd);
 	splitted = ft_split(arg, '/');
 	i = 0;
@@ -34,8 +33,11 @@ static char	*get_path(char *oldpwd, char *arg)
 			step_back(ret);
 		else if (!(ft_strncmp(splitted[i], ".", 2) == 0))
 		{
-			aux = ret;
-			ret = ft_strjoin(ft_strjoinchar(ret, '/'), splitted[i]);
+			aux = ft_strjoinchar(ret, '/');
+			free(ret);
+			ret = aux;
+			ret = ft_strjoin(aux, splitted[i]);
+			free(aux);
 		}
 		i++;
 	}
