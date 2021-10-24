@@ -37,7 +37,7 @@ static void	create_word2(t_shell *shell, int i, char *word)
 	else
 		shell->union_next = 0;
 	aux = shell->line_splitted;
-	shell->line_splitted = ft_insert_string2(shell->line_splitted, word);
+	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
 	free(word);
 	ft_free_matrix(aux);
 }
