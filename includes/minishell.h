@@ -55,6 +55,7 @@ typedef struct s_info
 
 typedef struct s_shell
 {
+	int				heredoc_value;
 	int				flag_heredoc_file;
 	int				mode;
 	int				open_marks;
@@ -128,7 +129,7 @@ void	info_add_prev(t_info *info);
 void	print_list(t_info *info);
 void	print_redir(void *redir);
 void	free_table(void *arg);
-void	ft_heredoc(t_shell *shell, t_info *temp);
+int	ft_heredoc(t_shell *shell, t_info *temp);
 //void		prompt_config(t_shell *shell, char *prompt_str);
 
 //signal

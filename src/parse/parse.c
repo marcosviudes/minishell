@@ -56,8 +56,11 @@ void	parse(t_shell *shell)
 			parse_symbols(shell, &table, temp);
 		else if (temp->type == 'w')
 			parse_words(shell, temp_redir, temp, table);
+		if(g_shell->heredoc_value)
+			return ;
 		temp = temp->next;
 	}
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(table));
-	ft_lstiter(shell->cmd_list, &print_command);
+	return;
+	//ft_lstiter(shell->cmd_list, &print_command);
 }

@@ -2,6 +2,7 @@
 #include <curses.h>
 #include <term.h>
 
+
 void	free_command(t_shell *shell)
 {
 	ft_lstclear(&shell->cmd_list, &free_table);
@@ -49,7 +50,7 @@ void	loop_shell(t_shell *shell)
 	aux = NULL;
 	while (TRUE)
 	{
-		system("leaks minishell");
+//		system("leaks minishell");
 		shell->mode = M_READING;
 		shell->pid = -1;
 		if (shell->line)
@@ -63,21 +64,23 @@ void	loop_shell(t_shell *shell)
 		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
-		system("leaks minishell");
+//		system("leaks minishell");
 		if (shell->open_marks != 1 && !symbol_error(shell->info))
 		{
-			system("leaks minishell");
+	//		system("leaks minishell");
 			env_transform(shell);
-			system("leaks minishell");
+	//		system("leaks minishell");
 			arg_unions(shell);
-			system("leaks minishell");
+	//		system("leaks minishell");
 			aux = shell->info;
 			parse(shell);
-			system("leaks minishell");
-			execute(shell);
-			system("leaks minishell");
+	//		system("leaks minishell");
+			if (shell->heredoc_value == 0)
+				execute(shell);
+	//		system("leaks minishell");
 		}
 		shell->open_marks = 0;
+		shell->heredoc_value = 0;
 	}
 }
 

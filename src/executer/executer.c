@@ -1,4 +1,5 @@
 #include <minishell.h>
+#include <termios.h>
 
 int	is_absolute_path(char *command)
 {
@@ -162,6 +163,7 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 //	pid_t	pid;
 	int		ret;
 	int		status;
+	struct	termios	old;
 
 	ret = 0;
 	path = NULL;
@@ -169,18 +171,19 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		path = table->command;
 	else
 		path = pathing(table->command, shell->ownenvp);
+	tcgetattr(0, &old);
 	shell->pid = fork();
 	if(shell->pid == 0){
+		//signal_init();
 		signal(SIGQUIT, SIG_DFL);
-	//	signal_init();
-		//signal(SIGINT, SIG_DFL);
-		//signal(SIGQUIT, signal_handler_sigquit);
+		//signal(SIGQUIT, SIG_ERR);
 		ret = execve(path, table->args, shell->ownenvp);
 		printf("bash: %s: command not found\n", table->command);
 		exit(127);
 	}
 //	shell->pid = pid;
 	wait(&status);
+	tcsetattr(0, TCSANOW, &old);
 	if(WIFEXITED(status))
 		shell->return_value = WEXITSTATUS(status);
 	return ;
@@ -204,12 +207,12 @@ void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
 	int	ret;
 
-	signal(SIGQUIT, SIG_DFL);
 	if (isbuiltin(temp_cmd_table->command))
 	{
 		execute_builtin(temp_cmd_table , temp_cmd_table->command, shell);
 		exit(0);
 	}
+	signal(SIGQUIT, SIG_DFL);
 	ret = execve(path, temp_cmd_table->args, shell->ownenvp);
 	printf("bash: %s: command not found\n", temp_cmd_table->command);
 	exit(127);
@@ -321,8 +324,11 @@ void execute(t_shell *shell)
 			redirfds(i, num_commands, fd, last_fd, shell);
 			redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
 			shell->pid = fork();
-			if (shell->pid == 0)
+			if (shell->pid == 0){
+				//signal(SIGQUIT, SIG_DFL);
+				//signal_init();
 				child_process(shell, temp_cmd_table, path);
+			}
 			last_fd[READ_END] = fd[READ_END];
 			last_fd[WRITE_END] = fd[WRITE_END];
 
