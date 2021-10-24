@@ -11,7 +11,7 @@ void	free_all(t_shell *shell)
 	//free(shell->prompt);
 	free(shell);
 }
-
+/*
 static void	free_info(t_shell *shell)
 {
 	t_info *aux;
@@ -32,11 +32,19 @@ static void	free_info(t_shell *shell)
 			free(aux);
 			aux = NULL;
 	}
+}*/
+
+static void	free_info(t_info *info)
+{
+	if (info->next)
+		free_info(info->next);
+	free(info->string);
+	free(info);
 }
 
 static void free_shell(t_shell *shell)
 {
-	free_info(shell);
+	free_info(shell->info);
 	free(shell->phrase);
 	ft_free_matrix(shell->line_splitted);
 	ft_lstclear(&shell->cmd_list, &free_table);

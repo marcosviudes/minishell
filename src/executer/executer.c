@@ -204,7 +204,7 @@ void execute_single_bin(t_shell *shell, t_cmd_table *table)
 		printf("bash: %s: command not found\n", table->command);
 		exit(127);
 	}
-//	shell->pid = pid;
+	free(path);
 	wait(&status);
 	tcsetattr(0, TCSANOW, &old);
 	if(WIFEXITED(status))
@@ -379,6 +379,7 @@ void execute(t_shell *shell)
 		dup2(shell->fd_in, STDIN_FILENO);
 		close(shell->fd_out);
 		close(shell->fd_in);
+		free(path);
 	}
 	if(shell->flag_heredoc_file)
 		unlink(".tempheredoc");
