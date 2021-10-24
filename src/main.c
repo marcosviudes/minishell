@@ -1,18 +1,4 @@
 #include <minishell.h>
-#include <curses.h>
-#include <term.h>
-
-void	free_command(t_shell *shell)
-{
-	ft_lstclear(&shell->cmd_list, &free_table);
-	(void)shell;
-}
-
-void	free_all(t_shell *shell)
-{
-	//free(shell->prompt);
-	free(shell);
-}
 
 int	symbol_error(t_info *info)
 {
@@ -49,7 +35,7 @@ void	loop_shell(t_shell *shell)
 	aux = NULL;
 	while (TRUE)
 	{
-//		system("leaks minishell");
+		system("leaks minishell");
 		shell->mode = M_READING;
 		shell->pid = -1;
 		if (shell->line)
@@ -78,6 +64,7 @@ void	loop_shell(t_shell *shell)
 //			system("leaks minishell");
 		}
 		shell->open_marks = 0;
+		frees_function(shell);
 	}
 }
 
@@ -100,6 +87,5 @@ int	main(int argc, char **argv, char **envp)
 	shell = init_structure(shell, envp);
 	g_shell = shell;
 	loop_shell(shell);
-	free_all(shell);
 	return (0);
 }

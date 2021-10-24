@@ -2,14 +2,14 @@
 
 static int	sort_env(t_shell *shell)
 {
-	int		lines;
+	int		len;
 	int		i;
 	t_sort	*ordered_list;
 
 	i = 0;
 	ordered_list = NULL;
-	lines = count_lines(shell->ownenvp);
-	while (i < lines)
+	len = count_lines(shell->ownenvp);
+	while (i < len)
 	{
 		add_line_to_list(shell->ownenvp[i], &ordered_list);
 		i++;

@@ -3,13 +3,13 @@
 void	transf_reading(char **reading, t_shell *shell)
 {
 	int		i;
-	char	*finalstring;
+	char	*str_aux;
 	char	*pdolar;
 
 	if (*reading)
 		pdolar = ft_strchr(*reading, '$');
-	finalstring = malloc(sizeof(char));
-	finalstring[0] = '\0';
+	str_aux = malloc(sizeof(char));
+	str_aux[0] = '\0';
 	i = 0;
 	while (i < (int)ft_strlen(*reading))
 	{
@@ -17,14 +17,14 @@ void	transf_reading(char **reading, t_shell *shell)
 		{
 			if (reading[0][i + 1] == '?')
 			{
-				finalstring = ft_strjoin(finalstring,
+				str_aux = ft_strjoin(str_aux,
 						ft_itoa(shell->return_value));
 				pdolar = ft_strchr(pdolar + 1, '$');
 				i++;
 			}
 			else
 			{
-				finalstring = ft_strjoin(finalstring,
+				str_aux = ft_strjoin(str_aux,
 						get_dolar_string(pdolar, &i, shell));
 				pdolar = ft_strchr(pdolar + 1, '$');
 			}
@@ -32,12 +32,12 @@ void	transf_reading(char **reading, t_shell *shell)
 		}
 		else
 		{
-			finalstring = ft_strjoinchar(finalstring, (reading[0][i]));
+			str_aux = ft_strjoinchar(str_aux, (reading[0][i]));
 			i++;
 		}
 	}
 	free(*reading);
-	*reading = finalstring;
+	*reading = str_aux;
 	i = 0;
 }
 

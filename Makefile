@@ -37,6 +37,7 @@ SRC			= main.c\
 			builtins/export2.c\
 			builtins/echo_pwd.c\
 			builtins/exit_unset_env.c\
+			free_functions/free_function_1.c\
 			signal/signal_managment.c\
 			$(LIST_DIR)dllst_clear.c\
 			$(LIST_DIR)dllst_first.c\
