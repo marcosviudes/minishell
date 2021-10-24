@@ -34,10 +34,17 @@ static void	free_info(t_shell *shell)
 	}
 }
 
+static void free_shell(t_shell *shell)
+{
+	free_info(shell);
+	free(shell->phrase);
+	ft_free_matrix(shell->line_splitted);
+	
+}
+
 void	frees_function(t_shell *shell)
 {
 	//free(shell->line);
 	//free(shell->line_splitted);
-	free_info(shell);
-	//free(shell);
+	free_shell(shell);
 }
