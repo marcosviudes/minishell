@@ -6,7 +6,7 @@
 /*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 20:52:32 by mviudes           #+#    #+#             */
-/*   Updated: 2021/10/14 12:50:09 by cnavarro         ###   ########.fr       */
+/*   Updated: 2021/10/24 12:34:52 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	dllstddel_first(t_dllist **first)
 {
-	t_dllist *temp;
+	t_dllist	*temp;
 
 	if (!first || !*first)
 		return ;

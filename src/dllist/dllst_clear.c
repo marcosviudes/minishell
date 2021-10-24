@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dllst_clear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*   By: cnavarro <cnavarro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 21:25:05 by mviudes           #+#    #+#             */
-/*   Updated: 2021/05/15 15:17:24 by mviudes          ###   ########.fr       */
+/*   Updated: 2021/10/24 12:34:07 by cnavarro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,5 @@ void	ft_dllstclear(t_dllist **lst, void(*del)(void*))
 {
 	(void)lst;
 	(void)del;
-	
 	return ;
 }

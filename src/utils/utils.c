@@ -50,4 +50,3 @@ int	count_lines(char **table)
 		i++;
 	return (i);
 }
-

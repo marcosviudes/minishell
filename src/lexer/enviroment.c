@@ -91,7 +91,8 @@ void	env_transform(t_shell *shell)
 					pdolar = ft_strchr(pdolar + 1, '$');
 					i++;
 				}
-				else if (aux->string[i + 1] == ' ' || aux->string[i + 1] == '\0')
+				else if (aux->string[i + 1] == ' '
+					|| aux->string[i + 1] == '\0')
 				{
 					finalstring = ft_strjoinchar(finalstring, '$');
 					pdolar = ft_strchr(pdolar + 1, '$');
