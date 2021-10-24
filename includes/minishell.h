@@ -55,6 +55,9 @@ typedef struct s_info
 
 typedef struct s_shell
 {
+	char			*phrase;
+	char			*finalstring;
+	char			*pdolar;
 	int				flag_heredoc_file;
 	int				mode;
 	int				open_marks;

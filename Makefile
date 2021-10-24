@@ -23,6 +23,7 @@ SRC			= main.c\
 			lexer/quotation_marks.c\
 			lexer/listing.c\
 			lexer/enviroment.c\
+			lexer/enviroment2.c\
 			lexer/arg_unions.c\
 			parse/parse.c\
 			parse/heredoc.c\

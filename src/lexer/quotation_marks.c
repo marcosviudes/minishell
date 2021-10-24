@@ -1,85 +1,97 @@
 #include <minishell.h>
 
+void	double_marks2(t_shell *shell, int *i_aux, int *count, int *i)
+{
+	while (shell->line[*i_aux] != 34 && shell->line[*i_aux] != '\0')
+	{
+		(*i_aux)++;
+		(*count)++;
+	}
+	if (shell->line[*i_aux] == '\0')
+	{
+		shell->open_marks = 1;
+		printf("Open quotation marks\n");
+		return ;
+	}
+	shell->phrase = ft_calloc(sizeof(char), *count + 2);
+	(*i_aux) = 0;
+	while (*i_aux <= *count)
+	{
+		shell->phrase[*i_aux] = shell->line[*i];
+		(*i_aux)++;
+		(*i)++;
+	}
+	shell->phrase[*i_aux] = 34;
+}
+
 int	double_marks(t_shell *shell, int i)
 {
 	int		i_aux;
 	int		count;
-	char	*phrase;
 	char	**aux;
 
 	count = 0;
 	i_aux = i;
 	i_aux++;
-	while (shell->line[i_aux] != 34 && shell->line[i_aux] != '\0')
-	{
-		i_aux++;
-		count++;
-	}
-	if (shell->line[i_aux] == '\0')
-	{
-		shell->open_marks = 1;
-		printf("Open quotation marks\n");
+	double_marks2(shell, &i_aux, &count, &i);
+	if (shell->open_marks == 1)
 		return (-1);
-	}
-	phrase = malloc(sizeof(char) * (count + 3));
-	i_aux = 0;
-	while (i_aux <= count)
-	{
-		phrase[i_aux] = shell->line[i];
-		i_aux++;
-		i++;
-	}
-	phrase[i_aux++] = 34;
-	phrase[i_aux] = '\0';
 	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1])
 			|| shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
 	aux = shell->line_splitted;
-	shell->line_splitted = ft_insert_string(shell->line_splitted, phrase);
+	shell->line_splitted = ft_insert_string(shell->line_splitted,
+			shell->phrase);
 	ft_free_matrix(aux);
-	free(phrase);
 	return (i);
+}
+
+void	simple_marks2(t_shell *shell, int *i_aux, int *count, int *i)
+{
+	while (shell->line[*i_aux] != 39 && shell->line[*i_aux] != '\0')
+	{
+		(*i_aux)++;
+		(*count)++;
+	}
+	if (shell->line[*i_aux] == '\0')
+	{
+		shell->open_marks = 1;
+		printf("Open quotation marks\n");
+		return ;
+	}
+	shell->phrase = ft_calloc(sizeof(char), *count + 2);
+	(*i_aux) = 0;
+	while (*i_aux <= *count)
+	{
+		shell->phrase[*i_aux] = shell->line[*i];
+		(*i_aux)++;
+		(*i)++;
+	}
+	shell->phrase[*i_aux] = 39;
 }
 
 int	simple_marks(t_shell *shell, int i)
 {
 	int		i_aux;
 	int		count;
-	char	*phrase;
 	char	**aux;
 
 	count = 0;
 	i_aux = i;
 	i_aux++;
-	while (shell->line[i_aux] != 39 && shell->line[i_aux] != '\0')
-	{
-		i_aux++;
-		count++;
-	}
-	if (shell->line[i_aux] == '\0')
-	{
-		shell->open_marks = 1;
-		printf("Open quotation marks\n");
+	simple_marks2(shell, &i_aux, &count, &i);
+	if (shell->open_marks == 1)
 		return (-1);
-	}
-	phrase = ft_calloc(sizeof(char), count + 2);
-	i_aux = 0;
-	while (i_aux <= count)
-	{
-		phrase[i_aux] = shell->line[i];
-		i_aux++;
-		i++;
-	}
-	phrase[i_aux] = 39;
 	if (shell->line[i + 1] != ' ' && (ft_isalnum(shell->line[i + 1])
 			|| shell->line[i + 1] == '\'' || shell->line[i + 1] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
 	aux = shell->line_splitted;
-	shell->line_splitted = ft_insert_string(shell->line_splitted, phrase);
+	shell->line_splitted = ft_insert_string(shell->line_splitted,
+			shell->phrase);
 	ft_free_matrix(aux);
 	return (i);
 }

@@ -49,7 +49,7 @@ void	loop_shell(t_shell *shell)
 	aux = NULL;
 	while (TRUE)
 	{
-		system("leaks minishell");
+//		system("leaks minishell");
 		shell->mode = M_READING;
 		shell->pid = -1;
 		if (shell->line)
