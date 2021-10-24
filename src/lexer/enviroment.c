@@ -28,7 +28,6 @@ static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 static void	env_transform2(t_info *aux, t_shell *shell)
 {
 	int	i;
-	char *aux;
 
 	i = 0;
 	while (i < (int)ft_strlen(aux->string))
@@ -39,10 +38,8 @@ static void	env_transform2(t_info *aux, t_shell *shell)
 		}
 		else
 		{
-			aux = shell->finalstring;
 			shell->finalstring = ft_strjoinchar(shell->finalstring,
 					aux->string[i]);
-			free(aux);
 			i++;
 		}
 	}
