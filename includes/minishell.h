@@ -40,7 +40,7 @@
 # define M_PARSE		2
 # define M_EXECUTE		3
 
-typedef struct s_info t_info;
+typedef struct s_info	t_info;
 
 typedef struct s_info
 {
@@ -113,14 +113,14 @@ char	*get_dolar_string(char *pdolar, int *count, t_shell *shell);
 void	parse(t_shell *shell);
 void	parse_command(t_shell *shell, t_info *temp, t_cmd_table *table);
 void	parse_redirection(t_shell *shell, t_table_redir *temp_redir,
-						t_info *temp, t_cmd_table *table);
+			t_info *temp, t_cmd_table *table);
 void	parse_indirection(t_shell *shell, t_table_redir *temp_redir,
-						t_info *temp, t_cmd_table *table);
+			t_info *temp, t_cmd_table *table);
 void	parse_heredoc(t_shell *shell, t_table_redir *temp_redir,
-						t_info *temp, t_cmd_table *table);
+			t_info *temp, t_cmd_table *table);
 void	parse_symbols(t_shell *shell, t_cmd_table **table, t_info *temp);
 void	parse_words(t_shell *shell, t_table_redir *temp_redir,
-					t_info *temp, t_cmd_table *table);
+			t_info *temp, t_cmd_table *table);
 void	print_command(void *cmd);
 void	info_free(t_info *info);
 void	print_command(void *cmd);
