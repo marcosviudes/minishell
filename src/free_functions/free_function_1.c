@@ -39,7 +39,7 @@ static void free_shell(t_shell *shell)
 	free_info(shell);
 	free(shell->phrase);
 	ft_free_matrix(shell->line_splitted);
-	
+	ft_lstclear(&shell->cmd_list, &free_table);
 }
 
 void	frees_function(t_shell *shell)
