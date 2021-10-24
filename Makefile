@@ -23,6 +23,7 @@ SRC			= main.c\
 			lexer/quotation_marks.c\
 			lexer/listing.c\
 			lexer/enviroment.c\
+			lexer/enviroment2.c\
 			lexer/arg_unions.c\
 			parse/parse.c\
 			parse/heredoc.c\
@@ -36,17 +37,8 @@ SRC			= main.c\
 			builtins/export2.c\
 			builtins/echo_pwd.c\
 			builtins/exit_unset_env.c\
+			free_functions/free_function_1.c\
 			signal/signal_managment.c\
-			$(LIST_DIR)dllst_clear.c\
-			$(LIST_DIR)dllst_first.c\
-			$(LIST_DIR)dllst_last.c\
-			$(LIST_DIR)dllst_new.c\
-			$(LIST_DIR)dllst_next.c\
-			$(LIST_DIR)dllst_prev.c\
-			$(LIST_DIR)dllstadd_back.c\
-			$(LIST_DIR)dllstadd_front.c\
-			$(LIST_DIR)dllstdel_first.c\
-			$(LIST_DIR)dllstdel_last.c
 
 TEST		= $(TEST_DIR)test1.c\
 			$(TEST_DIR)test2.c

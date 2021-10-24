@@ -72,6 +72,30 @@ int	search_for_line(char **envp)
 	return (-1);
 }
 
+static char	**del_and_join(char **table, char *joined, int i)
+{
+	char	**aux;
+	int		this_i;
+
+	aux = malloc(sizeof(char *) * (count_lines(table) + 1));
+	this_i = 0;
+	while(this_i < i)
+	{
+		aux[this_i] = ft_strdup(table[this_i]);
+		this_i++;
+	}
+	aux[this_i] = ft_strjoin(table[this_i], joined);
+	this_i++;
+	while (table[this_i])
+	{
+		aux[this_i] = ft_strdup(table[this_i]);
+		this_i++;
+	}
+	aux[this_i] = NULL;
+	ft_free_matrix(table);
+	return(aux);
+}
+
 char	*pathing(char *command, char **envp)
 {
 	char	*the_path;
@@ -82,13 +106,12 @@ char	*pathing(char *command, char **envp)
 	the_path = NULL;
 	if (search_for_line(envp) == -1)
 		return (NULL);
-	paths = ft_split(envp[search_for_line(envp)], ':');
-	paths[0] = ft_strchr(paths[0], '/');
+	paths = ft_split(&envp[search_for_line(envp)][5], ':');
 	i = 0;
 	while (paths[i])
 	{
-		paths[i] = ft_strjoin(paths[i], "/");
-		paths[i] = ft_strjoin(paths[i], command);
+		paths = del_and_join(paths, "/", i);
+		paths = del_and_join(paths, command, i);
 		fd = open(paths[i], O_RDONLY);
 		if (fd >= 0)
 		{

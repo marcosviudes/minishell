@@ -1,120 +1,64 @@
 #include <minishell.h>
 
-static char	*final_phrase(char *phrase, int len)
+static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 {
-	char	*end_game;
-	int		i;
-
-	end_game = ft_calloc(sizeof(char), (ft_strlen(phrase) - len + 1));
-	i = 0;
-	len++;
-	while (phrase[i + len])
+	if (aux->string[*i + 1] == '?')
 	{
-		end_game[i] = phrase[i + len];
-		i++;
+		shell->finalstring = ft_strjoin(shell->finalstring,
+				ft_itoa(shell->return_value));
+		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
+		(*i)++;
 	}
-	return (end_game);
+	else if (aux->string[*i + 1] == ' '
+		|| aux->string[*i + 1] == '\0')
+	{
+		shell->finalstring = ft_strjoinchar(shell->finalstring, '$');
+		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
+		(*i)++;
+	}
+	else
+	{
+		shell->finalstring = ft_strjoin(shell->finalstring,
+				get_dolar_string(shell->pdolar, i, shell));
+		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
+	}
+	(*i)++;
 }
 
-static char	*converse(char *str, int *count, t_shell *shell)
+static void	env_transform2(t_info *aux, t_shell *shell)
 {
-	int		i;
-	char	*ret;
-	char	*aux;
+	int	i;
 
-	aux = ft_strjoin(str, "=");
-	ret = NULL;
 	i = 0;
-	while (shell->ownenvp[i])
+	while (i < (int)ft_strlen(aux->string))
 	{
-		if (ft_strnstr(shell->ownenvp[i], aux, ft_strlen(aux)))
+		if (aux->string[i] == '$' && aux->marks != 2)
 		{
-			ret = final_phrase(shell->ownenvp[i], ft_strlen(str));
-			*count = *count + (ft_strlen(str));
-			return (ret);
+			env_transform3(shell, aux, &i);
 		}
-		i++;
+		else
+		{
+			shell->finalstring = ft_strjoinchar(shell->finalstring,
+					aux->string[i]);
+			i++;
+		}
 	}
-	ret = ft_strdup("");
-	*count = *count + ft_strlen(aux);
-	return (ret);
-}
-
-char	*get_dolar_string(char *pdolar, int *count, t_shell *shell)
-{
-	char	*var;
-	char	*aux;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	aux = ft_strtrim(pdolar, "$");
-	while (ft_isalnum(aux[i]))
-		i++;
-	var = malloc(sizeof(char) * (i + 1));
-	while (j < i)
-	{
-		var[j] = aux[j];
-		j++;
-	}
-	var[j] = '\0';
-	free(aux);
-	aux = converse(var, count, shell);
-	free(var);
-	return (aux);
 }
 
 void	env_transform(t_shell *shell)
 {
 	t_info	*aux;
-	char	*pdolar;
-	char	*finalstring;
-	int		i;
 
 	aux = shell->info;
-	i = 0;
 	while (aux != NULL && aux->string != NULL)
 	{
 		if (aux->string)
-			pdolar = ft_strchr(aux->string, '$');
-		finalstring = malloc(sizeof(char));
-		finalstring[0] = '\0';
-		while (i < (int)ft_strlen(aux->string))
-		{
-			if (aux->string[i] == '$' && aux->marks != 2)
-			{
-				if (aux->string[i + 1] == '?')
-				{
-					finalstring = ft_strjoin(finalstring,
-							ft_itoa(shell->return_value));
-					pdolar = ft_strchr(pdolar + 1, '$');
-					i++;
-				}
-				else if (aux->string[i + 1] == ' '
-					|| aux->string[i + 1] == '\0')
-				{
-					finalstring = ft_strjoinchar(finalstring, '$');
-					pdolar = ft_strchr(pdolar + 1, '$');
-					i++;
-				}
-				else
-				{
-					finalstring = ft_strjoin(finalstring,
-							get_dolar_string(pdolar, &i, shell));
-					pdolar = ft_strchr(pdolar + 1, '$');
-				}
-				i++;
-			}
-			else
-			{
-				finalstring = ft_strjoinchar(finalstring, (aux->string[i]));
-				i++;
-			}
-		}
-		i = 0;
+			shell->pdolar = ft_strchr(aux->string, '$');
+		shell->finalstring = malloc(sizeof(char));
+		shell->finalstring[0] = '\0';
+		env_transform2(aux, shell);
 		free(aux->string);
-		aux->string = finalstring;
+		aux->string = shell->finalstring;
 		aux = aux->next;
 	}
 }

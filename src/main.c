@@ -1,19 +1,4 @@
 #include <minishell.h>
-#include <curses.h>
-#include <term.h>
-
-
-void	free_command(t_shell *shell)
-{
-	ft_lstclear(&shell->cmd_list, &free_table);
-	(void)shell;
-}
-
-void	free_all(t_shell *shell)
-{
-	//free(shell->prompt);
-	free(shell);
-}
 
 int	symbol_error(t_info *info)
 {
@@ -68,19 +53,22 @@ void	loop_shell(t_shell *shell)
 		if (shell->open_marks != 1 && !symbol_error(shell->info))
 		{
 	//		system("leaks minishell");
+			shell->open_marks = 0;
+			shell->heredoc_value = 0;
+//			system("leaks minishell");
 			env_transform(shell);
-	//		system("leaks minishell");
+//			system("leaks minishell");
 			arg_unions(shell);
-	//		system("leaks minishell");
+//			system("leaks minishell");
 			aux = shell->info;
 			parse(shell);
-	//		system("leaks minishell");
+//			system("leaks minishell");
 			if (shell->heredoc_value == 0)
 				execute(shell);
-	//		system("leaks minishell");
+//			system("leaks minishell");
 		}
 		shell->open_marks = 0;
-		shell->heredoc_value = 0;
+		//frees_function(shell);
 	}
 }
 
@@ -103,6 +91,5 @@ int	main(int argc, char **argv, char **envp)
 	shell = init_structure(shell, envp);
 	g_shell = shell;
 	loop_shell(shell);
-	free_all(shell);
 	return (0);
 }

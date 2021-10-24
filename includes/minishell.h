@@ -1,12 +1,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>			//necesarioi para fork;
+# include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/stat.h>
-# include <sys/wait.h>			//necesario para wait();
+# include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <sys/types.h>
 # include <dirent.h>
@@ -14,7 +14,8 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include <curses.h>
+# include <term.h>
 # include <libft.h>
 # include <get_next_line.h>
 # include <dllst.h>
@@ -56,6 +57,9 @@ typedef struct s_info
 typedef struct s_shell
 {
 	int				heredoc_value;
+	char			*phrase;
+	char			*finalstring;
+	char			*pdolar;
 	int				flag_heredoc_file;
 	int				mode;
 	int				open_marks;
@@ -166,6 +170,7 @@ char	*ft_getenvcpy(char *header, t_shell *shell);
 int		its_not_special(char digit);
 char	**fill_env(char **envp);
 
-//FREEE
+//FREE
 void	free_table(void *arg);
+void	frees_function(t_shell *shell);
 #endif
