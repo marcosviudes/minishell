@@ -63,19 +63,19 @@ void	loop_shell(t_shell *shell)
 		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
-		system("leaks minishell");
+//		system("leaks minishell");
 		if (shell->open_marks != 1 && !symbol_error(shell->info))
 		{
-			system("leaks minishell");
+//			system("leaks minishell");
 			env_transform(shell);
-			system("leaks minishell");
+//			system("leaks minishell");
 			arg_unions(shell);
-			system("leaks minishell");
+//			system("leaks minishell");
 			aux = shell->info;
 			parse(shell);
-			system("leaks minishell");
+//			system("leaks minishell");
 			execute(shell);
-			system("leaks minishell");
+//			system("leaks minishell");
 		}
 		shell->open_marks = 0;
 	}

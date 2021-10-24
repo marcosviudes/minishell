@@ -65,54 +65,59 @@ char	*get_dolar_string(char *pdolar, int *count, t_shell *shell)
 	return (aux);
 }
 
+void	env_transform2(t_info *aux, char *finalstring, char *pdolar, t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < (int)ft_strlen(aux->string))
+	{
+		if (aux->string[i] == '$' && aux->marks != 2)
+		{
+			if (aux->string[i + 1] == '?')
+			{
+				finalstring = ft_strjoin(finalstring,
+						ft_itoa(shell->return_value));
+				pdolar = ft_strchr(pdolar + 1, '$');
+				i++;
+			}
+			else if (aux->string[i + 1] == ' '
+				|| aux->string[i + 1] == '\0')
+			{
+				finalstring = ft_strjoinchar(finalstring, '$');
+				pdolar = ft_strchr(pdolar + 1, '$');
+				i++;
+			}
+			else
+			{
+				finalstring = ft_strjoin(finalstring,
+						get_dolar_string(pdolar, &i, shell));
+				pdolar = ft_strchr(pdolar + 1, '$');
+			}
+			i++;
+		}
+		else
+		{
+			finalstring = ft_strjoinchar(finalstring, (aux->string[i]));
+			i++;
+		}
+	}
+}
+
 void	env_transform(t_shell *shell)
 {
 	t_info	*aux;
 	char	*pdolar;
 	char	*finalstring;
-	int		i;
 
 	aux = shell->info;
-	i = 0;
 	while (aux != NULL && aux->string != NULL)
 	{
 		if (aux->string)
 			pdolar = ft_strchr(aux->string, '$');
 		finalstring = malloc(sizeof(char));
 		finalstring[0] = '\0';
-		while (i < (int)ft_strlen(aux->string))
-		{
-			if (aux->string[i] == '$' && aux->marks != 2)
-			{
-				if (aux->string[i + 1] == '?')
-				{
-					finalstring = ft_strjoin(finalstring,
-							ft_itoa(shell->return_value));
-					pdolar = ft_strchr(pdolar + 1, '$');
-					i++;
-				}
-				else if (aux->string[i + 1] == ' '
-					|| aux->string[i + 1] == '\0')
-				{
-					finalstring = ft_strjoinchar(finalstring, '$');
-					pdolar = ft_strchr(pdolar + 1, '$');
-					i++;
-				}
-				else
-				{
-					finalstring = ft_strjoin(finalstring,
-							get_dolar_string(pdolar, &i, shell));
-					pdolar = ft_strchr(pdolar + 1, '$');
-				}
-				i++;
-			}
-			else
-			{
-				finalstring = ft_strjoinchar(finalstring, (aux->string[i]));
-				i++;
-			}
-		}
-		i = 0;
+		env_transform2(aux,finalstring, pdolar, shell);
 		free(aux->string);
 		aux->string = finalstring;
 		aux = aux->next;
