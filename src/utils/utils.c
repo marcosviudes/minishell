@@ -18,7 +18,7 @@ char	**ft_insert_string(char **table, char *str)
 	j = 0;
 	aux = NULL;
 	if (table == NULL)
-		return(table_returned(table, str));
+		return (table_returned(table, str));
 	else
 	{
 		while (table[i] != NULL)
