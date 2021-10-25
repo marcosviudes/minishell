@@ -4,6 +4,7 @@ static int	sort_env(t_shell *shell)
 {
 	int		len;
 	int		i;
+
 	t_sort	*ordered_list;
 
 	i = 0;
@@ -46,7 +47,7 @@ static void	add_env_else(t_shell *shell, char *newenv, int i)
 	aux2 = pre_equal(newenv);
 	while (shell->ownenvp[i])
 	{
-		if (ft_strncmp(aux2, shell->ownenvp[i], ft_strlen(aux2)) == 0)
+		if (ft_strncmp(aux2, shell->ownenvp[i], ft_strlen(aux2) + 1) == 0)
 		{
 			free(shell->ownenvp[i]);
 			shell->ownenvp[i] = ft_strdup(newenv);
@@ -66,7 +67,7 @@ static void	add_env(char *newenv, t_shell *shell)
 	{
 		while (shell->ownenvp[i])
 		{
-			if (ft_strncmp(newenv, shell->ownenvp[i], ft_strlen(newenv)) == 0)
+			if (ft_strncmp(newenv, shell->ownenvp[i], ft_strlen(newenv) + 1) == 0)
 				return ;
 			i++;
 		}

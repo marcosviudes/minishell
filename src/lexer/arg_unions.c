@@ -27,6 +27,8 @@ void	arg_unions(t_shell *shell)
 	list = shell->info;
 	aux = list;
 	aux = list;
+	if (list == NULL)
+		return ;
 	while (list->next != NULL)
 	{
 		if (list->union_next == 1)

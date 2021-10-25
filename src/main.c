@@ -43,10 +43,10 @@ void	loop_shell(t_shell *shell)
 		shell->line = NULL;
 		signal_init();
 		shell->line = readline("terminator$ ");
-		if(shell->line == NULL)
+		if (shell->line == NULL)
 			exit(write(1, "exit\n", 5));
 		add_history(shell->line);
-		if (!shell->line)
+		if (shell->line == NULL)
 			continue ;
 		//	//	system("leaks minishell");
 		lexical_analyzer(shell);
