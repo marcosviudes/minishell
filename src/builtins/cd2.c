@@ -16,6 +16,5 @@ int	only_cd(t_shell *shell)
 	*aux = ft_strjoin("PWD=", content);
 	chdir(content);
 	free(content);
-	//ft_free_matrix(aux); 
 	return (0);
 }

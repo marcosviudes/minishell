@@ -2,9 +2,9 @@
 
 char	**ft_matrixdup(char **arr)
 {
-	int i;
+	int		i;
 	char	**ret;
-	
+
 	i = 0;
 	ret = malloc(sizeof(char *) * (count_lines(arr) + 1));
 	while (arr[i])
@@ -31,7 +31,7 @@ char	**order_envs(char **envs)
 		while (ordered[j])
 		{
 			if (ft_strncmp(ordered[j - 1], ordered[j],
-				(ft_strlen(ordered[j - 1]) + 1)) > 0)
+					(ft_strlen(ordered[j - 1]) + 1)) > 0)
 			{
 				tmp = ordered[j - 1];
 				ordered[j - 1] = ordered[j];
