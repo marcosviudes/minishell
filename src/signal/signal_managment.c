@@ -1,17 +1,17 @@
 #include <minishell.h>
-# include <readline/readline.h>
+#include <readline/readline.h>
 
-void signal_init(void)
+void	signal_init(void)
 {
 	signal(SIGQUIT, signal_handler_sigquit);
 	signal(SIGINT, signal_handler_sigint);
 }
 
-void signal_handler_sigquit(int signum)  //backslash
+void	signal_handler_sigquit(int signum)
 {
 	(void)signum;
-	
-	if (g_shell->pid > 0){
+	if (g_shell->pid > 0)
+	{
 		write(1, "\nQuit:\r\n", 8);
 		kill(g_shell->pid, SIGQUIT);
 		rl_point = 0;
@@ -27,10 +27,9 @@ void signal_handler_sigquit(int signum)  //backslash
 	}
 }
 
-void signal_handler_sigint(int signum)
+void	signal_handler_sigint(int signum)
 {	
 	(void)signum;
-
 	if (g_shell->mode == M_HEREDOC)
 	{
 		g_shell->heredoc_value = 1;
@@ -43,7 +42,8 @@ void signal_handler_sigint(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
-	else{
+	else
+	{
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
