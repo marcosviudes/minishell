@@ -23,7 +23,8 @@ static void	free_info(t_info *info)
 
 static void	free_shell(t_shell *shell)
 {
-	free_info(shell->info);
+	if (shell->info)
+		free_info(shell->info);
 	shell->info = NULL;
 	free(shell->phrase);
 	shell->phrase = NULL;

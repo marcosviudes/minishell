@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-int	symbol_error(t_info *info)
+int	symbol_error(t_info *info, t_shell *shell)
 {
 	t_info	*aux;
 
@@ -30,6 +30,17 @@ int	symbol_error(t_info *info)
 		}
 		aux = aux->next;
 	}
+//	if	(ft_strncmp(shell->line, "", 2) == 0)
+//		return (1);
+	int	i;
+
+	i = 0;
+	while (shell->line[i] == ' ' || shell->line[i] == '\t'
+			||	shell->line[i] == '\n' || shell->line[i] == '\v'
+				||	shell->line[i] == '\f' || shell->line[i] == '\r')
+		i++;
+	if (shell->line[i] == '\0')
+		return (1);
 	return (0);
 }
 
@@ -53,7 +64,7 @@ void	loop_shell(t_shell *shell)
 		if (!shell->line)
 			continue ;
 		lexical_analyzer(shell);
-		if (shell->open_marks != 1 && !symbol_error(shell->info))
+		if (shell->open_marks != 1 && !symbol_error(shell->info, shell))
 		{
 			shell->open_marks = 0;
 			shell->heredoc_value = 0;
