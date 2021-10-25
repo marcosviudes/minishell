@@ -2,21 +2,17 @@
 
 static int	sort_env(t_shell *shell)
 {
-	int		len;
+	char	**ordered_list;
 	int		i;
-	t_sort	*ordered_list;
 
 	i = 0;
-	ordered_list = NULL;
-	len = count_lines(shell->ownenvp);
-	while (i < len)
+	ordered_list = order_envs(shell->ownenvp);
+	while (ordered_list[i])
 	{
-		add_line_to_list(shell->ownenvp[i], &ordered_list);
+		printf("%s\n", ordered_list[i]);
 		i++;
 	}
-	sort_list(ordered_list);
-	print_order_list(ordered_list);
-	free_list(ordered_list);
+	ft_free_matrix(ordered_list);
 	return (0);
 }
 

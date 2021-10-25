@@ -23,6 +23,11 @@ int	symbol_error(t_info *info)
 				return (1);
 			}
 		}
+		if(aux->type == 's' && aux->next == NULL)
+		{
+			printf("bash: syntax error near unexpected token `%s'\n", aux->string);
+			return (1);
+		}
 		aux = aux->next;
 	}
 	return (0);

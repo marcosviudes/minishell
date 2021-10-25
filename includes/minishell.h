@@ -170,10 +170,7 @@ int		ft_cd(char **argv, t_shell *shell);
 int		only_cd(t_shell *shell);
 int		ft_unset(char **argv, t_shell *shell);
 void	ft_exit(char **argv, int father);
-void	sort_list(t_sort *list);
-void	print_order_list(t_sort *list);
-void	free_list(t_sort *list);
-void	add_line_to_list(char *line, t_sort **ordered_list);
+char	**order_envs(char **envs);
 
 //utils
 int		count_lines(char **table);
