@@ -34,7 +34,6 @@ static char	*get_path(char *oldpwd, char *arg)
 		else if (!(ft_strncmp(splitted[i], ".", 2) == 0))
 		{
 			aux = ft_strjoinchar(ret, '/');
-			free(ret);
 			ret = aux;
 			ret = ft_strjoin(aux, splitted[i]);
 			free(aux);
@@ -85,10 +84,17 @@ int	ft_cd(char **argv, t_shell *shell)
 {
 	char	*path;
 	char	*oldpwd;
+	int		ret;
 
 	if (*argv == NULL)
-		return (only_cd(shell));
+	{
+		ret = only_cd(shell);
+		return (ret);
+	}
 	oldpwd = ft_getenvcontent("PWD=", shell);
 	path = get_path(oldpwd, argv[0]);
-	return (ft_chdir(path, oldpwd, shell));
+	ret = ft_chdir(path, oldpwd, shell);
+	free(path);
+	free(oldpwd);
+	return (ret);
 }
