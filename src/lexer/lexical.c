@@ -97,11 +97,7 @@ void	lexical_analyzer(t_shell *shell)
 	int	i;
 	int	count;
 
-//	shell->info = malloc(sizeof(t_info));
-//	shell->info->next = NULL;
 	count = 0;
 	i = 0;
-	//	//	system("leaks minishell");
 	lexical_analyzer2(shell, count, i);
-	//	//	system("leaks minishell");
 }

@@ -40,19 +40,12 @@ void	add_node(t_shell *shell, int i, char car)
 	new->is_union = 0;
 	new->next = NULL;
 	count = 0;
-	if(shell->info == NULL)
+	if (shell->info == NULL)
 		shell->info = new;
-	else{
-		while (aux->next != NULL)
-			aux = aux->next;/*	
-	if (aux->string == NULL)
-		aux = ft_memcpy(aux, new, sizeof(t_info));
 	else
 	{
-		aux->next = ft_calloc(sizeof(t_info), 1);
-		aux->next = ft_memcpy(aux->next, new, sizeof(t_info));
-	}
-	free(new);*/
+		while (aux->next != NULL)
+			aux = aux->next;
 		aux->next = new;
 	}
 }
