@@ -21,7 +21,7 @@ static void	free_info(t_info *info)
 	info = NULL;
 }
 
-static void free_shell(t_shell *shell)
+static void	free_shell(t_shell *shell)
 {
 	free_info(shell->info);
 	shell->info = NULL;
