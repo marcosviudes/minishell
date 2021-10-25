@@ -24,7 +24,7 @@ static void	create_newenvp(char *str, t_shell *shell)
 	table = malloc(sizeof(char *) * (count_lines(shell->ownenvp) + 1));
 	while (shell->ownenvp[i + j])
 	{
-		if (ft_strncmp(str, shell->ownenvp[i + j], ft_strlen(str)) != 0)
+		if (ft_strncmp(str, shell->ownenvp[i + j], (ft_strlen(str) + 1)) != 0)
 		{
 			table[i] = ft_strdup(shell->ownenvp[i + j]);
 			i++;

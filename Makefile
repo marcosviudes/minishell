@@ -37,7 +37,7 @@ SRC			= main.c\
 			builtins/cd.c\
 			builtins/cd2.c\
 			builtins/export.c\
-			builtins/export2.c\
+			builtins/sort_export.c\
 			builtins/echo_pwd.c\
 			builtins/exit_unset_env.c\
 			free_functions/free_function_1.c\
