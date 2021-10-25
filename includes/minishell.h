@@ -18,10 +18,6 @@
 # include <term.h>
 # include <libft.h>
 
-# define BUFSIZE		8
-# define BUFFER_SIZE	8
-# define TERM_NAME		"terminator$ "
-
 # define GREAT			1
 # define LESS			2
 # define GREAT_GREAT	3
@@ -131,7 +127,7 @@ void	info_add_prev(t_info *info);
 void	print_list(t_info *info);
 void	print_redir(void *redir);
 void	free_table(void *arg);
-int	ft_heredoc(t_shell *shell, t_info *temp);
+int		ft_heredoc(t_shell *shell, t_info *temp);
 //void		prompt_config(t_shell *shell, char *prompt_str);
 
 //signal
@@ -148,7 +144,7 @@ int		search_for_line(char **envp);
 char	*pathing(char *command, char **envp);
 void	execute_single_bin(t_shell *shell, t_cmd_table *table);
 void	redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell);
-void 	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path);
+void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path);
 void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands);
 
 int		is_absolute_path(char *command);
@@ -160,7 +156,6 @@ int		redirection(t_list *redir);
 int		indirection(t_list *redir);
 
 char	*get_final_path(t_shell *shell, t_cmd_table *table);
-
 
 //builtings
 int		ft_export(char **argv, t_shell *shell);
