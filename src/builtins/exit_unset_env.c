@@ -84,7 +84,7 @@ void	ft_exit(char **argv, int father)
 	if (count_lines(argv) > 1)
 	{
 		printf("exit: too many arguments\n");
-		exit(255);
+		return;
 	}
 	exit((ft_atoi(argv[0]) % 255));
 }

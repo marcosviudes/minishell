@@ -17,8 +17,6 @@
 # include <curses.h>
 # include <term.h>
 # include <libft.h>
-# include <get_next_line.h>
-# include <dllst.h>
 
 # define BUFSIZE		8
 # define BUFFER_SIZE	8
@@ -144,6 +142,24 @@ void	signal_handler_sigint(int signum);
 
 //executer
 void	execute(t_shell *shell);
+int		isbuiltin(char *string);
+void	execute_builtin(t_cmd_table *temp, char *command, t_shell *shell);
+int		search_for_line(char **envp);
+char	*pathing(char *command, char **envp);
+void	execute_single_bin(t_shell *shell, t_cmd_table *table);
+void	redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell);
+void 	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path);
+void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands);
+
+int		is_absolute_path(char *command);
+int		search_for_line(char **envp);
+char	*pathing(char *command, char **envp);
+
+int		open_file(char *file_name, int mode);
+int		redirection(t_list *redir);
+int		indirection(t_list *redir);
+
+
 
 //builtings
 int		ft_export(char **argv, t_shell *shell);

@@ -1,229 +1,17 @@
 #include <minishell.h>
 #include <termios.h>
 
-int	is_absolute_path(char *command)
-{
-	if (*command == '/' || *command == '.')
-		if (access(command, X_OK | F_OK) == 0)
-			return (1);
-	return (0);
-}
-int	isbuiltin(char *string)
-{
-	if (ft_strncmp(string, "echo", 5) == 0)
-		return (1);
-	if (ft_strncmp(string, "cd", 3) == 0)
-		return (1);
-	if (ft_strncmp(string, "pwd", 4) == 0)
-		return (1);
-	if (ft_strncmp(string, "export", 7) == 0)
-		return (1);
-	if (ft_strncmp(string, "unset", 6) == 0)
-		return (1);
-	if (ft_strncmp(string, "env", 4) == 0)
-		return (1);
-	if (ft_strncmp(string, "exit", 5) == 0)
-		return (1);
-	return (0);
-}
-
-void	execute_builtin(t_cmd_table *temp, char *command, t_shell *shell)
-{
-	if (ft_strncmp(command, "echo", 5) == 0)
-		shell->return_value = ft_echo(&temp->args[1]);
-	if (ft_strncmp(command, "cd", 3) == 0)
-		shell->return_value = ft_cd(&temp->args[1], shell);
-	if (ft_strncmp(command, "pwd", 4) == 0)
-		shell->return_value = ft_pwd(shell);
-	if (ft_strncmp(command, "export", 7) == 0)
-		shell->return_value = ft_export(&temp->args[1], shell);
-	if (ft_strncmp(command,"unset", 5) == 0)
-		shell->return_value = ft_unset(&temp->args[1], shell);
-	if (ft_strncmp(command,"env", 3) == 0)
-		shell->return_value = ft_env(shell);
-	if (ft_strncmp(command,"exit", 4) == 0)
-		ft_exit(&temp->args[1], 1);
-}
-
-int	open_file(char *file_name, int mode)
-{
-	if(access(file_name, F_OK ) == 0 && access(file_name, R_OK | W_OK) != 0)
-		return(-1);
-	if(mode == APPEND_ON)
-		return(open(file_name, O_APPEND | O_WRONLY | O_CREAT, 00644));
-	else
-		return(open(file_name, O_TRUNC | O_WRONLY | O_CREAT, 00644));
-	
-}
-
-int	search_for_line(char **envp)
-{
-	int		i;
-	char	*cosa;
-
-	i = 0;
-	while (envp[i])
-	{
-		cosa = ft_strnstr(envp[i], "PATH=", 5);
-		if (cosa != NULL)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-static char	**del_and_join(char **table, char *joined, int i)
-{
-	char	**aux;
-	int		this_i;
-
-	aux = malloc(sizeof(char *) * (count_lines(table) + 1));
-	this_i = 0;
-	while(this_i < i)
-	{
-		aux[this_i] = ft_strdup(table[this_i]);
-		this_i++;
-	}
-	aux[this_i] = ft_strjoin(table[this_i], joined);
-	this_i++;
-	while (table[this_i])
-	{
-		aux[this_i] = ft_strdup(table[this_i]);
-		this_i++;
-	}
-	aux[this_i] = NULL;
-	ft_free_matrix(table);
-	return(aux);
-}
-
-char	*pathing(char *command, char **envp)
-{
-	char	*the_path;
-	char	**paths;
-	int		i;
-	int		fd;
-
-	the_path = NULL;
-	if (search_for_line(envp) == -1)
-		return (NULL);
-	paths = ft_split(&envp[search_for_line(envp)][5], ':');
-	i = 0;
-	while (paths[i])
-	{
-		paths = del_and_join(paths, "/", i);
-		paths = del_and_join(paths, command, i);
-		fd = open(paths[i], O_RDONLY);
-		if (fd >= 0)
-		{
-			the_path = ft_strdup(paths[i]);
-			ft_free_matrix(paths);
-			close(fd);
-			return (the_path);
-		}
-		i++;
-	}
-	ft_free_matrix(paths);
-	return (NULL);
-}
-
-
-
-int	redirection(t_list *redir)
-{
-	t_table_redir	redir_table;
-	int				fd;
-	int				i;
-
-	i = 0;
-	if (redir)
-	{
-		while (redir)
-		{
-			redir_table = *(t_table_redir*)redir->content;
-			if (i > 0)
-				close(fd);
-			fd = open_file(redir_table.file, redir_table.append);
-			if (fd == -1)
-				return (-1);
-			i++;
-			redir = redir->next;
-		}
-		return (fd);
-	}
-	return(STDOUT_FILENO);
-}
-
-int	indirection(t_list *redir)
-{
-	t_table_redir redir_table;
-	int		fd;
-	int		i;
-
-	i = 0;
-	if(redir) 
-	{
-		while(redir)
-		{
-			redir_table = *(t_table_redir*)redir->content;
-			if(i > 0)
-				close(fd);
-			if(access(redir_table.file, F_OK ) == 0 && access(redir_table.file, R_OK | W_OK) != 0)
-				return(-1);
-			fd = open(redir_table.file, O_RDWR , 00644);
-			if(fd == -1)
-				return(1);
-			i++;
-			redir = redir->next;
-		}
-		return(fd);
-	}
-	return(STDIN_FILENO);
-}
-
-void execute_single_bin(t_shell *shell, t_cmd_table *table)
-{
-	char	*path;
-//	pid_t	pid;
-	int		ret;
-	int		status;
-	struct	termios	old;
-
-	ret = 0;
-	path = NULL;
-	if (is_absolute_path(table->command))
-		path = table->command;
-	else
-		path = pathing(table->command, shell->ownenvp);
-	tcgetattr(0, &old);
-	shell->pid = fork();
-	if(shell->pid == 0){
-		//signal_init();
-		signal(SIGQUIT, SIG_DFL);
-		//signal(SIGQUIT, SIG_ERR);
-		ret = execve(path, table->args, shell->ownenvp);
-		printf("bash: %s: command not found\n", table->command);
-		exit(127);
-	}
-	free(path);
-	wait(&status);
-	tcsetattr(0, TCSANOW, &old);
-	if(WIFEXITED(status))
-		shell->return_value = WEXITSTATUS(status);
-	return ;
-}
-
 void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell)
 {
-	if(i != 0)
+	if (i != 0)
 	{
 		close(last_fd[WRITE_END]);
 		dup2(last_fd[READ_END], STDIN_FILENO);
 	}
-	if(i < num_commands)
+	if (i < num_commands)
 		dup2(fd[WRITE_END], STDOUT_FILENO);
 	if (i == num_commands)
 		dup2(shell->fd_out, STDOUT_FILENO);
-
 }
 
 void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
@@ -249,34 +37,34 @@ void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, 
 
 	outfile = redirection(temp_cmd_table->outfile);
 	infile = indirection(temp_cmd_table->infile);
-	if(i == 0)
+	if (i == 0)
 	{
-		if(temp_cmd_table->outfile)
+		if (temp_cmd_table->outfile)
 		{
 			dup2(outfile, STDOUT_FILENO);
 			close(fd[WRITE_END]);
 		}
-		if(temp_cmd_table->infile){
+		if (temp_cmd_table->infile){
 			dup2(infile , STDIN_FILENO);
 		}
 	}
-	if(i == num_commands)
+	if (i == num_commands)
 	{
-		if(temp_cmd_table->outfile){
+		if (temp_cmd_table->outfile){
 			dup2(outfile, STDOUT_FILENO);
 		}
-		if(temp_cmd_table->infile)
+		if (temp_cmd_table->infile)
 			close(last_fd[READ_END]);
 		dup2(infile , STDIN_FILENO);
 	}
 	else
 	{
-		if(temp_cmd_table->outfile)
+		if (temp_cmd_table->outfile)
 		{
 			close(fd[WRITE_END]);
 			dup2(outfile, STDOUT_FILENO);
 		}
-		if(temp_cmd_table->infile)
+		if (temp_cmd_table->infile)
 		{
 			close(last_fd[READ_END]);
 			dup2(infile , STDIN_FILENO);
@@ -305,19 +93,19 @@ void execute(t_shell *shell)
 		temp_cmd_table = (t_cmd_table *)shell->cmd_list->content;
 		outfile = redirection(temp_cmd_table->outfile);
 		infile = indirection(temp_cmd_table->infile);
-		if(outfile == -1 || infile == -1)
+		if (outfile == -1 || infile == -1)
 			{
 				perror("terminator");
 				return;
 			}
-		if(!temp_cmd_table->command){
-			if(outfile != STDOUT_FILENO)
+		if (!temp_cmd_table->command){
+			if (outfile != STDOUT_FILENO)
 				close(outfile);
 			return ;
 		}
 		dup2(outfile, STDOUT_FILENO);
 		dup2(infile, STDIN_FILENO);
-		if(temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
+		if (temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
 			execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		else
 			execute_single_bin(shell, temp_cmd_table);
@@ -333,9 +121,11 @@ void execute(t_shell *shell)
 		int		status;
 		int		fd[2];
 		int		last_fd[2];
+		struct	termios	old;
 
 		i = 0;
 		num_commands--;
+		tcgetattr(0, &old);
 		while (temp_node)
 		{
 			temp_cmd_table = (t_cmd_table*)temp_node->content;
@@ -348,8 +138,7 @@ void execute(t_shell *shell)
 			redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
 			shell->pid = fork();
 			if (shell->pid == 0){
-				//signal(SIGQUIT, SIG_DFL);
-				//signal_init();
+				signal(SIGQUIT, SIG_DFL);
 				child_process(shell, temp_cmd_table, path);
 			}
 			last_fd[READ_END] = fd[READ_END];
@@ -367,7 +156,7 @@ void execute(t_shell *shell)
 		while (i < num_commands + 1)
 		{
 			wait(&status);
-			if(WIFEXITED(status))
+			if (WIFEXITED(status))
 				shell->return_value = WEXITSTATUS(status);
 			i++;
 		}
@@ -380,7 +169,8 @@ void execute(t_shell *shell)
 		close(shell->fd_out);
 		close(shell->fd_in);
 		free(path);
+		tcsetattr(0, TCSANOW, &old);
 	}
-	if(shell->flag_heredoc_file)
+	if (shell->flag_heredoc_file)
 		unlink(".tempheredoc");
 }

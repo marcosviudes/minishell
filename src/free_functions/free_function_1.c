@@ -51,6 +51,7 @@ static void free_shell(t_shell *shell)
 	shell->info = NULL;
 	//	system("leaks minishell");
 	free(shell->phrase);
+	shell->phrase = NULL;
 	//	system("leaks minishell");
 	ft_free_matrix(shell->line_splitted);
 	shell->line_splitted = NULL;

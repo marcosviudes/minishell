@@ -15,8 +15,11 @@ LIST_DIR	= dllist/
 TEST_DIR	= $(SRC_DIR)test/
 
 SRC			= main.c\
-			get_next_line.c\
+			executer/execute_single_bin.c\
+			executer/executer_builtins.c\
 			executer/executer.c\
+			executer/pathing.c\
+			executer/redirections_files.c\
 			utils/utils.c\
 			utils/utils2.c\
 			lexer/lexical.c\

@@ -11,7 +11,7 @@ void signal_handler_sigquit(int signum)  //backslash
 {
 	(void)signum;
 	
-	if(g_shell->pid > 0){
+	if (g_shell->pid > 0){
 		write(1, "\nQuit:\r\n", 8);
 		kill(g_shell->pid, SIGQUIT);
 		rl_point = 0;
@@ -31,13 +31,13 @@ void signal_handler_sigint(int signum)
 {	
 	(void)signum;
 
-	if(g_shell->mode == M_HEREDOC)
+	if (g_shell->mode == M_HEREDOC)
 	{
 		g_shell->heredoc_value = 1;
 		rl_redisplay();
 		write(1, "\n", 1);
 	}
-	else if(g_shell->pid != -1)
+	else if (g_shell->pid != -1)
 	{
 		kill(g_shell->pid, SIGINT);
 		rl_replace_line("", 0);
