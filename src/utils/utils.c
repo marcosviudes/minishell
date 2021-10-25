@@ -1,5 +1,13 @@
 #include <minishell.h>
 
+static char	**table_returned(char **table, char *str)
+{
+	table = malloc(sizeof(char *) * 2);
+	table[0] = ft_strdup(str);
+	table[1] = NULL;
+	return (table);
+}
+
 char	**ft_insert_string(char **table, char *str)
 {
 	int		i;
@@ -10,12 +18,7 @@ char	**ft_insert_string(char **table, char *str)
 	j = 0;
 	aux = NULL;
 	if (table == NULL)
-	{
-		table = malloc(sizeof(char *) * 2);
-		table[0] = ft_strdup(str);
-		table[1] = NULL;
-		return (table);
-	}
+		return(table_returned(table, str));
 	else
 	{
 		while (table[i] != NULL)

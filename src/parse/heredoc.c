@@ -54,8 +54,8 @@ int	ft_heredoc(t_shell *shell, t_info *temp)
 	while (reading && !(ft_strncmp(reading,
 				temp->string, ft_strlen(temp->string)) == 0))
 	{
-		if(shell->heredoc_value)
-			return(1);
+		if (shell->heredoc_value)
+			return (1);
 		if (ft_strchr(reading, '$') && !(temp->is_union == 1
 				|| temp->marks != 0))
 			transf_reading(&reading, shell);

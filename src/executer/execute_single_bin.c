@@ -4,6 +4,7 @@ char	*get_final_path(t_shell *shell, t_cmd_table *table)
 {
 	char	*path;
 
+	path = NULL;
 	if (is_absolute_path(table->command))
 		path = table->command;
 	else

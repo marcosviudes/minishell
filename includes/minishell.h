@@ -159,6 +159,7 @@ int		open_file(char *file_name, int mode);
 int		redirection(t_list *redir);
 int		indirection(t_list *redir);
 
+char	*get_final_path(t_shell *shell, t_cmd_table *table);
 
 
 //builtings

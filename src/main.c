@@ -35,7 +35,6 @@ void	loop_shell(t_shell *shell)
 	aux = NULL;
 	while (TRUE)
 	{
-		//	//	system("leaks minishell");
 		shell->mode = M_READING;
 		shell->pid = -1;
 		if (shell->line)
@@ -48,29 +47,19 @@ void	loop_shell(t_shell *shell)
 		add_history(shell->line);
 		if (!shell->line)
 			continue ;
-		//	//	system("leaks minishell");
 		lexical_analyzer(shell);
-		//	//	system("leaks minishell");
 		if (shell->open_marks != 1 && !symbol_error(shell->info))
 		{
-	//		//	//	system("leaks minishell");
 			shell->open_marks = 0;
 			shell->heredoc_value = 0;
-//			//	//	system("leaks minishell");
 			env_transform(shell);
-			//	//	system("leaks minishell");
 			arg_unions(shell);
-				//	system("leaks minishell");
-//			aux = shell->info;
 			parse(shell);
-			//	//	system("leaks minishell");
 			if (shell->heredoc_value == 0)
 				execute(shell);
 		}
 		shell->open_marks = 0;
-			//	system("leaks minishell");
 		frees_function(shell);
-			//	system("leaks minishell");
 	}
 }
 
