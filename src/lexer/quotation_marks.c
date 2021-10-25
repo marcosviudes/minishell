@@ -28,7 +28,6 @@ int	double_marks(t_shell *shell, int i)
 {
 	int		i_aux;
 	int		count;
-	char	**aux;
 
 	count = 0;
 	i_aux = i;
@@ -41,10 +40,8 @@ int	double_marks(t_shell *shell, int i)
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
-	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted,
 			shell->phrase);
-	ft_free_matrix(aux);
 	return (i);
 }
 
@@ -76,7 +73,6 @@ int	simple_marks(t_shell *shell, int i)
 {
 	int		i_aux;
 	int		count;
-	char	**aux;
 
 	count = 0;
 	i_aux = i;
@@ -89,10 +85,8 @@ int	simple_marks(t_shell *shell, int i)
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
-	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted,
 			shell->phrase);
-	ft_free_matrix(aux);
 	return (i);
 }
 

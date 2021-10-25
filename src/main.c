@@ -35,7 +35,7 @@ void	loop_shell(t_shell *shell)
 	aux = NULL;
 	while (TRUE)
 	{
-//		system("leaks minishell");
+		//	//	system("leaks minishell");
 		shell->mode = M_READING;
 		shell->pid = -1;
 		if (shell->line)
@@ -48,36 +48,55 @@ void	loop_shell(t_shell *shell)
 		add_history(shell->line);
 		if (!shell->line)
 			continue ;
+		//	//	system("leaks minishell");
 		lexical_analyzer(shell);
-//		system("leaks minishell");
+		//	//	system("leaks minishell");
 		if (shell->open_marks != 1 && !symbol_error(shell->info))
 		{
-	//		system("leaks minishell");
+	//		//	//	system("leaks minishell");
 			shell->open_marks = 0;
 			shell->heredoc_value = 0;
-//			system("leaks minishell");
+//			//	//	system("leaks minishell");
 			env_transform(shell);
-//			system("leaks minishell");
+			//	//	system("leaks minishell");
 			arg_unions(shell);
-//			system("leaks minishell");
-			aux = shell->info;
+				//	system("leaks minishell");
+//			aux = shell->info;
 			parse(shell);
-//			system("leaks minishell");
+			//	//	system("leaks minishell");
 			if (shell->heredoc_value == 0)
 				execute(shell);
-//			system("leaks minishell");
 		}
 		shell->open_marks = 0;
-		//frees_function(shell);
+			//	system("leaks minishell");
+		frees_function(shell);
+			//	system("leaks minishell");
 	}
 }
 
 t_shell	*init_structure(t_shell *shell, char **envp)
 {
 	shell = malloc(sizeof(t_shell));
+	shell->heredoc_value = 0;
+	shell->phrase = NULL;
+	shell->finalstring = NULL;
+	shell->pdolar = NULL;
+	shell->flag_heredoc_file = 0;
+	shell->mode = M_READING;
+	shell->open_marks = 0;
 	shell->ownenvp = fill_env(envp);
+	shell->flag_command = 0;
+	shell->flag_redirection = 0;
+	shell->prompt_len = 0;
+	shell->line_splitted = NULL;
+	shell->pdolar = NULL;
 	shell->return_value = 0;
 	shell->line = NULL;
+	shell->num_of_pipes = 0;
+	shell->pdolar = NULL;
+	shell->union_next = 0;
+	shell->cmd_list = NULL;
+	shell->info = NULL;
 	return (shell);
 }
 

@@ -39,15 +39,24 @@ static void	free_info(t_info *info)
 	if (info->next)
 		free_info(info->next);
 	free(info->string);
+	info->string = NULL;
 	free(info);
+	info = NULL;
 }
 
 static void free_shell(t_shell *shell)
 {
+	//	system("leaks minishell");
 	free_info(shell->info);
+	shell->info = NULL;
+	//	system("leaks minishell");
 	free(shell->phrase);
+	//	system("leaks minishell");
 	ft_free_matrix(shell->line_splitted);
+	shell->line_splitted = NULL;
+	//	//	system("leaks minishell");
 	ft_lstclear(&shell->cmd_list, &free_table);
+	//	system("leaks minishell");
 }
 
 void	frees_function(t_shell *shell)

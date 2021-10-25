@@ -4,19 +4,34 @@ char	**ft_insert_string(char **table, char *str)
 {
 	int		i;
 	char	**aux;
+	int		j;
 
 	i = 0;
-	while (table[i] != NULL)
-		i++;
-	aux = ft_calloc(sizeof(char *), i + 2);
-	i = 0;
-	while (table[i] != NULL)
+	j = 0;
+	aux = NULL;
+	if (table == NULL)
 	{
-		aux[i] = ft_strdup(table[i]);
-		i++;
+		table = malloc(sizeof(char *) * 2);
+		table[0] = ft_strdup(str);
+		table[1] = NULL;
+		return (table);
 	}
-	aux[i] = ft_strdup(str);
-	return (aux);
+	else
+	{
+		while (table[i] != NULL)
+			i++;
+		aux = malloc(sizeof(char *) * (i + 2));
+		while (j < i)
+		{
+			aux[j] = ft_strdup(table[j]);
+			j++;
+		}
+		aux[j] = ft_strdup(str);
+		j++;
+		aux[j] = NULL;
+		ft_free_matrix(table);
+		return (aux);
+	}
 }
 
 void	ft_free_matrix(char **matrix)

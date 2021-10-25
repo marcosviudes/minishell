@@ -42,7 +42,6 @@ static char	*pre_equal(char *str)
 static void	add_env_else(t_shell *shell, char *newenv, int i)
 {
 	char	*aux2;
-	char	**aux;
 
 	aux2 = pre_equal(newenv);
 	while (shell->ownenvp[i])
@@ -55,15 +54,12 @@ static void	add_env_else(t_shell *shell, char *newenv, int i)
 		}
 		i++;
 	}
-	aux = shell->ownenvp;
 	shell->ownenvp = ft_insert_string(shell->ownenvp, newenv);
-	ft_free_matrix(aux);
 }
 
 static void	add_env(char *newenv, t_shell *shell)
 {
 	int		i;
-	char	**aux;
 
 	i = 0;
 	if (!ft_strchr(newenv, '='))
@@ -74,9 +70,7 @@ static void	add_env(char *newenv, t_shell *shell)
 				return ;
 			i++;
 		}
-		aux = shell->ownenvp;
 		shell->ownenvp = ft_insert_string(shell->ownenvp, newenv);
-		ft_free_matrix(aux);
 	}
 	else
 		add_env_else(shell, newenv, i);

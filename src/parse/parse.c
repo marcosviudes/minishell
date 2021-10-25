@@ -42,12 +42,18 @@ void	parse(t_shell *shell)
 	t_cmd_table		*table;
 	t_table_redir	*temp_redir;
 
+		//	system("leaks minishell");
 	temp_redir = NULL;
+		//	system("leaks minishell");
 	shell->cmd_list = NULL;
+		//	system("leaks minishell");
 	shell->flag_command = 1;
 	shell->flag_redirection = 0;
+		//	system("leaks minishell");
 	table = NULL;
+		//	system("leaks minishell");
 	temp = shell->info;
+		//	system("leaks minishell");
 	while (temp != NULL)
 	{
 		if (!table)
@@ -59,8 +65,10 @@ void	parse(t_shell *shell)
 		if(g_shell->heredoc_value)
 			return ;
 		temp = temp->next;
+		//	//	system("leaks minishell");
 	}
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(table));
+	//	//	system("leaks minishell");
 	return;
 	//ft_lstiter(shell->cmd_list, &print_command);
 }

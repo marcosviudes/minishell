@@ -30,7 +30,9 @@ void	add_node(t_shell *shell, int i, char car)
 	t_info	*aux;
 
 	aux = shell->info;
-	new = ft_calloc(sizeof(t_info), 1);
+	new = malloc(sizeof(t_info));
+	if (!new)
+		return ;
 	new->type = car;
 	new->marks = get_marks(shell->line_splitted[i]);
 	new->string = get_string(shell->line_splitted[i], new->marks);
@@ -38,9 +40,11 @@ void	add_node(t_shell *shell, int i, char car)
 	new->is_union = 0;
 	new->next = NULL;
 	count = 0;
-	if (aux)
+	if(shell->info == NULL)
+		shell->info = new;
+	else{
 		while (aux->next != NULL)
-			aux = aux->next;
+			aux = aux->next;/*	
 	if (aux->string == NULL)
 		aux = ft_memcpy(aux, new, sizeof(t_info));
 	else
@@ -48,5 +52,7 @@ void	add_node(t_shell *shell, int i, char car)
 		aux->next = ft_calloc(sizeof(t_info), 1);
 		aux->next = ft_memcpy(aux->next, new, sizeof(t_info));
 	}
-	free(new);
+	free(new);*/
+		aux->next = new;
+	}
 }

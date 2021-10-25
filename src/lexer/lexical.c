@@ -5,7 +5,6 @@ int	create_symbol(t_shell *shell, int i)
 	int		count;
 	int		i_aux;
 	char	*word;
-	char	**aux;
 
 	if ((shell->line[i] == '<' && shell->line[i + 1] == '<')
 		|| (shell->line[i] == '>' && shell->line[i + 1] == '>'))
@@ -20,26 +19,20 @@ int	create_symbol(t_shell *shell, int i)
 		count++;
 		i++;
 	}
-	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
 	free(word);
-	ft_free_matrix(aux);
 	return (i);
 }
 
 static void	create_word2(t_shell *shell, int i, char *word)
 {
-	char	**aux;
-
 	if (shell->line[i] != ' ' && (ft_isalnum(shell->line[i])
 			|| shell->line[i] == '\'' || shell->line[i] == '\"'))
 		shell->union_next = 1;
 	else
 		shell->union_next = 0;
-	aux = shell->line_splitted;
 	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
 	free(word);
-	ft_free_matrix(aux);
 }
 
 int	create_word(t_shell *shell, int i)
@@ -104,9 +97,11 @@ void	lexical_analyzer(t_shell *shell)
 	int	i;
 	int	count;
 
-	shell->line_splitted = ft_calloc(sizeof(char *), 1);
-	shell->info = ft_calloc(sizeof(t_info), 1);
+//	shell->info = malloc(sizeof(t_info));
+//	shell->info->next = NULL;
 	count = 0;
 	i = 0;
+	//	//	system("leaks minishell");
 	lexical_analyzer2(shell, count, i);
+	//	//	system("leaks minishell");
 }
