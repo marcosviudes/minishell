@@ -80,6 +80,7 @@ int	ft_heredoc(t_shell *shell, t_info *temp)
 
 	shell->mode = M_HEREDOC;
 	shell->heredoc_value = 0;
+	shell->flag_heredoc_file = 1;
 	fd_temp = open(".tempheredoc", O_WRONLY | O_CREAT
 			| O_APPEND | O_TRUNC, S_IRWXU);
 	reading = readline("> ");

@@ -12,7 +12,7 @@ void	signal_handler_sigquit(int signum)
 	(void)signum;
 	if (g_shell->pid > 0)
 	{
-		write(1, "\nQuit:\r\n", 8);
+		write(1, "Quit: 3\r\n", 10);
 		kill(g_shell->pid, SIGQUIT);
 		rl_point = 0;
 		rl_replace_line("", 0);

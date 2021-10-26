@@ -11,7 +11,7 @@ int	create_symbol(t_shell *shell, int i)
 		i_aux = 2;
 	else
 		i_aux = 1;
-	word = ft_calloc(sizeof(char), i_aux);
+	word = ft_calloc(sizeof(char), i_aux + 1);
 	count = 0;
 	while (count < i_aux)
 	{
@@ -19,6 +19,7 @@ int	create_symbol(t_shell *shell, int i)
 		count++;
 		i++;
 	}
+	word[count] = '\0';
 	shell->line_splitted = ft_insert_string(shell->line_splitted, word);
 	free(word);
 	return (i);

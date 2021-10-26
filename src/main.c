@@ -44,11 +44,23 @@ int	symbol_error(t_info *info, t_shell *shell)
 	return (0);
 }
 
+
+char *program_name;
+void	bye()
+{
+	char *out;
+
+	out = ft_strjoin("leaks ", &program_name[2]);
+	printf("%s\n", out);
+	system((const char *)out);
+}
+
 void	loop_shell(t_shell *shell)
 {
-	t_info	*aux;
+//	t_info	*aux;
 
-	aux = NULL;
+//	aux = NULL;
+	atexit(bye);
 	while (TRUE)
 	{
 		shell->mode = M_READING;
@@ -109,6 +121,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
+	program_name = ft_strdup(argv[0]);
 	(void)argc;
 	(void)argv;
 	shell = NULL;

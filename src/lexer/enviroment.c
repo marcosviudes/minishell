@@ -2,7 +2,7 @@
 
 static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 {
-	char *cad;
+	char	*cad;
 
 	if (aux->string[*i + 1] == '?')
 	{

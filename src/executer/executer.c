@@ -1,7 +1,7 @@
 #include <minishell.h>
 #include <termios.h>
 
-void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell)
+void	redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell)
 {
 	if (i != 0)
 	{
@@ -14,13 +14,13 @@ void redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell
 		dup2(shell->fd_out, STDOUT_FILENO);
 }
 
-void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
+void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
 	int	ret;
 
 	if (isbuiltin(temp_cmd_table->command))
 	{
-		execute_builtin(temp_cmd_table , temp_cmd_table->command, shell);
+		execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		exit(0);
 	}
 	signal(SIGQUIT, SIG_DFL);
@@ -31,7 +31,6 @@ void child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 
 void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands)
 {
-
 	int	outfile;
 	int	infile;
 
@@ -44,18 +43,16 @@ void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, 
 			dup2(outfile, STDOUT_FILENO);
 			close(fd[WRITE_END]);
 		}
-		if (temp_cmd_table->infile){
-			dup2(infile , STDIN_FILENO);
-		}
+		if (temp_cmd_table->infile)
+			dup2(infile, STDIN_FILENO);
 	}
 	if (i == num_commands)
 	{
-		if (temp_cmd_table->outfile){
+		if (temp_cmd_table->outfile)
 			dup2(outfile, STDOUT_FILENO);
-		}
 		if (temp_cmd_table->infile)
 			close(last_fd[READ_END]);
-		dup2(infile , STDIN_FILENO);
+		dup2(infile, STDIN_FILENO);
 	}
 	else
 	{
@@ -67,28 +64,27 @@ void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, 
 		if (temp_cmd_table->infile)
 		{
 			close(last_fd[READ_END]);
-			dup2(infile , STDIN_FILENO);
+			dup2(infile, STDIN_FILENO);
 		}
 	}
-	
-		
 }
 
-void execute_commands_single(t_shell *shell)
+void	execute_commands_single(t_shell *shell)
 {
-	t_cmd_table *temp_cmd_table;
-	int	outfile;
-	int	infile;
+	t_cmd_table	*temp_cmd_table;
+	int			outfile;
+	int			infile;
 
 	temp_cmd_table = (t_cmd_table *)shell->cmd_list->content;
 	outfile = redirection(temp_cmd_table->outfile);
 	infile = indirection(temp_cmd_table->infile);
 	if (outfile == -1 || infile == -1)
-		{
-			perror("terminator");
-			return;
-		}
-	if (!temp_cmd_table->command){
+	{
+		perror("terminator");
+		return ;
+	}
+	if (!temp_cmd_table->command)
+	{
 		if (outfile != STDOUT_FILENO)
 			close(outfile);
 		return ;
@@ -116,37 +112,35 @@ void	wait_for_childs(t_shell *shell, int num_commands)
 	}
 }
 
-void execute_commands_multiple(t_shell *shell, int num_commands)
+void	execute_commands_multiple(t_shell *shell, int num_commands)
 {
-	int		i;
-	char	*path;
-	int		fd[2];
-	int		last_fd[2];
+	int			i;
+	char		*path;
+	int			fd[2];
+	int			last_fd[2];
+	t_cmd_table	*temp_cmd_table;
+	t_list		*temp_node;
 
-	t_cmd_table *temp_cmd_table;
-	t_list *temp_node = shell->cmd_list;
-
+	temp_node = shell->cmd_list;
 	i = 0;
 	num_commands--;
-
 	while (temp_node)
 	{
-		temp_cmd_table = (t_cmd_table*)temp_node->content;
+		temp_cmd_table = (t_cmd_table *)temp_node->content;
 		path = get_final_path(shell, temp_cmd_table);
 		pipe(fd);
 		redirfds(i, num_commands, fd, last_fd, shell);
 		redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
 		shell->pid = fork();
-		if (shell->pid == 0){
+		if (shell->pid == 0)
+		{
 			signal(SIGQUIT, SIG_DFL);
 			child_process(shell, temp_cmd_table, path);
 		}
 		last_fd[READ_END] = fd[READ_END];
 		last_fd[WRITE_END] = fd[WRITE_END];
-
 		fd[READ_END] = 0;
 		fd[WRITE_END] = 1;
-
 		temp_node = temp_node->next;
 		free(path);
 		i++;
@@ -158,13 +152,13 @@ void execute_commands_multiple(t_shell *shell, int num_commands)
 	close(fd[WRITE_END]);
 }
 
-void execute(t_shell *shell)
+void	execute(t_shell *shell)
 {
-	int			num_commands;
-	t_cmd_table *temp_cmd_table;
-	struct	termios	old;
+	int				num_commands;
+	t_cmd_table		*temp_cmd_table;
+	struct termios	old;
+
 	tcgetattr(0, &old);
-	
 	shell->mode = M_EXECUTE;
 	shell->fd_in = dup(STDIN_FILENO);
 	shell->fd_out = dup(STDOUT_FILENO);
