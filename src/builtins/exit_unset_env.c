@@ -26,7 +26,7 @@ static void	create_newenvp(char *str, t_shell *shell)
 	{
 		if (ft_strncmp(str, shell->ownenvp[i + j], (ft_strlen(str))) != 0
 			&& !(shell->ownenvp[i + j][ft_strlen(str) + 1] == '\0'
-				|| shell->ownenvp[i + j][ft_strlen(str) + 1] == '='))
+			|| shell->ownenvp[i + j][ft_strlen(str) + 1] == '='))
 		{
 			table[i] = ft_strdup(shell->ownenvp[i + j]);
 			i++;

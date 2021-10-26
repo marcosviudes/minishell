@@ -46,11 +46,13 @@ static void	add_env_else(t_shell *shell, char *newenv, int i)
 		{
 			free(shell->ownenvp[i]);
 			shell->ownenvp[i] = ft_strdup(newenv);
+			free(aux2);
 			return ;
 		}
 		i++;
 	}
 	shell->ownenvp = ft_insert_string(shell->ownenvp, newenv);
+	free(aux2);
 }
 
 static void	add_env(char *newenv, t_shell *shell)

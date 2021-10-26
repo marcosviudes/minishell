@@ -2,7 +2,7 @@
 
 int	is_absolute_path(char *command)
 {
-	if(command != NULL)
+	if (command != NULL)
 		if (*command == '/' || *command == '.')
 			if (access(command, X_OK | F_OK) == 0)
 				return (1);
@@ -66,8 +66,8 @@ char	*pathing(char *command, char **envp)
 	int		i;
 	int		fd;
 
-	if(command == NULL)
-		return(NULL);
+	if (command == NULL)
+		return (NULL);
 	if (search_for_line(envp) == -1)
 		return (NULL);
 	paths = ft_split(&envp[search_for_line(envp)][5], ':');

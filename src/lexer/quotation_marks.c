@@ -13,6 +13,7 @@ void	double_marks2(t_shell *shell, int *i_aux, int *count, int *i)
 		printf("Open quotation marks\n");
 		return ;
 	}
+	free(shell->phrase);
 	shell->phrase = ft_calloc(sizeof(char), *count + 2);
 	(*i_aux) = 0;
 	while (*i_aux <= *count)
@@ -58,6 +59,7 @@ void	simple_marks2(t_shell *shell, int *i_aux, int *count, int *i)
 		printf("Open quotation marks\n");
 		return ;
 	}
+	free(shell->phrase);
 	shell->phrase = ft_calloc(sizeof(char), *count + 2);
 	(*i_aux) = 0;
 	while (*i_aux <= *count)

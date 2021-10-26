@@ -21,7 +21,7 @@ static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 	{
 		otro = shell->finalstring;
 		lib = ft_itoa(shell->return_value);
-		shell->finalstring = ft_strjoin(otro , lib);
+		shell->finalstring = ft_strjoin(otro, lib);
 		free(otro);
 		free(lib);
 		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
