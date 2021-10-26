@@ -1,5 +1,17 @@
 #include <minishell.h>
 
+static void	finalstring_fill(t_shell *shell)
+{
+	char	*lib;
+	char	*otro;
+
+	otro = shell->finalstring;
+	lib = ft_itoa(shell->return_value);
+	shell->finalstring = ft_strjoin(otro, lib);
+	free(otro);
+	free(lib);
+}
+
 static void	env_transform4(t_shell *shell, char *cad)
 {
 	char	*lib;
@@ -14,16 +26,10 @@ static void	env_transform4(t_shell *shell, char *cad)
 static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 {
 	char	*cad;
-	char	*lib;
-	char	*otro;
 
 	if (aux->string[*i + 1] == '?')
 	{
-		otro = shell->finalstring;
-		lib = ft_itoa(shell->return_value);
-		shell->finalstring = ft_strjoin(otro, lib);
-		free(otro);
-		free(lib);
+		finalstring_fill(shell);
 		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
 		(*i)++;
 	}

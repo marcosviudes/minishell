@@ -7,7 +7,6 @@ static char	*transf_reading_bucle2(char **reading,
 	char	*str_aux;
 	char	*lib;
 
-	aux = NULL;
 	str_aux = ft_strdup("");
 	if (reading[0][(*i) + 1] == '?')
 	{
