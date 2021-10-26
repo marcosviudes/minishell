@@ -1,28 +1,48 @@
 #include <minishell.h>
 
-char *transf_reading_bucle(char **reading, char *str_aux, char *pdolar, t_shell *shell)
+static char	*transf_reading_bucle2(char **reading,
+		char **pdolar, t_shell *shell, int *i)
 {
-	int	i;
 	char	*aux;
+	char	*str_aux;
+	char	*lib;
+
+	aux = NULL;
+	str_aux = ft_strdup("");
+	if (reading[0][(*i) + 1] == '?')
+	{
+		str_aux = ft_strjoin(str_aux,
+				ft_itoa(shell->return_value));
+		*pdolar = ft_strchr(*(pdolar) + 1, '$');
+		(*i)++;
+	}
+	else
+	{
+		aux = get_dolar_string(*pdolar, i, shell);
+		lib = str_aux;
+		str_aux = ft_strjoin(str_aux, aux);
+		free(lib);
+		free(aux);
+		*pdolar = ft_strchr(*(pdolar) + 1, '$');
+	}
+	return (str_aux);
+}
+
+char	*transf_reading_bucle(char **reading, char *str_aux,
+		char *pdolar, t_shell *shell)
+{
+	int		i;
+	char	*aux;
+	char	*lib;
+
+	aux = ft_strdup("");
 	i = 0;
 	while (i < (int)ft_strlen(*reading))
 	{
 		if (reading[0][i] == '$')
 		{
-			if (reading[0][i + 1] == '?')
-			{
-				str_aux = ft_strjoin(str_aux,
-						ft_itoa(shell->return_value));
-				pdolar = ft_strchr(pdolar + 1, '$');
-				i++;
-			}
-			else
-			{
-				aux = get_dolar_string(pdolar, &i, shell);
-				str_aux = ft_strjoin(str_aux, aux);
-				free(aux);
-				pdolar = ft_strchr(pdolar + 1, '$');
-			}
+			free(str_aux);
+			str_aux = transf_reading_bucle2(reading, &pdolar, shell, &i);
 			i++;
 		}
 		else
@@ -30,8 +50,12 @@ char *transf_reading_bucle(char **reading, char *str_aux, char *pdolar, t_shell 
 			str_aux = ft_strjoinchar(str_aux, (reading[0][i]));
 			i++;
 		}
+		lib = aux;
+		aux = ft_strjoin(aux, str_aux);
+		free(lib);
 	}
-	return (str_aux);
+	free(str_aux);
+	return (aux);
 }
 
 void	transf_reading(char **reading, t_shell *shell)
@@ -43,11 +67,9 @@ void	transf_reading(char **reading, t_shell *shell)
 	pdolar = NULL;
 	if (*reading)
 		pdolar = ft_strchr(*reading, '$');
-	str_aux = malloc(sizeof(char));
-	str_aux[0] = '\0';
+	str_aux = ft_strdup("");
 	aux = transf_reading_bucle(reading, str_aux, pdolar, shell);
 	free(*reading);
-	free(str_aux);
 	*reading = aux;
 }
 
