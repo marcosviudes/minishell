@@ -1,5 +1,16 @@
 #include <minishell.h>
 
+static void	env_transform4(t_shell *shell, char *cad)
+{
+	char	*lib;
+
+	lib = shell->finalstring;
+	shell->finalstring = ft_strjoin(shell->finalstring, cad);
+	free(lib);
+	free(cad);
+	shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
+}
+
 static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 {
 	char	*cad;
@@ -21,11 +32,7 @@ static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 	else
 	{
 		cad = get_dolar_string(shell->pdolar, i, shell);
-		if (shell->finalstring)
-			free(shell->finalstring);
-		shell->finalstring = ft_strjoin(shell->finalstring, cad);
-		free(cad);
-		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
+		env_transform4(shell, cad);
 	}
 	(*i)++;
 }
@@ -35,6 +42,9 @@ static void	env_transform2(t_info *aux, t_shell *shell)
 	int	i;
 
 	i = 0;
+	if (shell->finalstring)
+		free(shell->finalstring);
+	shell->finalstring = ft_strdup("");
 	while (i < (int)ft_strlen(aux->string))
 	{
 		if (aux->string[i] == '$' && aux->marks != 2)
