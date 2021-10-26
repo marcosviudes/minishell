@@ -92,7 +92,10 @@ int	ft_cd(char **argv, t_shell *shell)
 		return (ret);
 	}
 	oldpwd = ft_getenvcontent("PWD=", shell);
-	path = get_path(oldpwd, argv[0]);
+	if (argv[0][0] == '/')
+		path = ft_strdup(argv[0]);
+	else
+		path = get_path(oldpwd, argv[0]);
 	ret = ft_chdir(path, oldpwd, shell);
 	free(path);
 	free(oldpwd);
