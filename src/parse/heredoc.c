@@ -1,15 +1,9 @@
 #include <minishell.h>
 
-void	transf_reading(char **reading, t_shell *shell)
+char *transf_reading_bucle(char **reading, char *str_aux, char *pdolar, t_shell *shell)
 {
-	int		i;
-	char	*str_aux;
-	char	*pdolar;
+	int	i;
 
-	if (*reading)
-		pdolar = ft_strchr(*reading, '$');
-	str_aux = malloc(sizeof(char));
-	str_aux[0] = '\0';
 	i = 0;
 	while (i < (int)ft_strlen(*reading))
 	{
@@ -36,9 +30,24 @@ void	transf_reading(char **reading, t_shell *shell)
 			i++;
 		}
 	}
+	return (str_aux);
+}
+
+void	transf_reading(char **reading, t_shell *shell)
+{
+	char	*str_aux;
+	char	*pdolar;
+	char	*aux;
+
+	pdolar = NULL;
+	if (*reading)
+		pdolar = ft_strchr(*reading, '$');
+	str_aux = malloc(sizeof(char));
+	str_aux[0] = '\0';
+	aux = transf_reading_bucle(reading, str_aux, pdolar, shell);
 	free(*reading);
-	*reading = str_aux;
-	i = 0;
+	free(str_aux);
+	*reading = aux;
 }
 
 int	ft_heredoc(t_shell *shell, t_info *temp)
