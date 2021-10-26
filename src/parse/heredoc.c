@@ -11,8 +11,11 @@ static char	*transf_reading_bucle2(char **reading,
 	str_aux = ft_strdup("");
 	if (reading[0][(*i) + 1] == '?')
 	{
-		str_aux = ft_strjoin(str_aux,
-				ft_itoa(shell->return_value));
+		lib = str_aux;
+		aux = ft_itoa(shell->return_value);
+		str_aux = ft_strjoin(lib, aux);
+		free(aux);
+		free(lib);
 		*pdolar = ft_strchr(*(pdolar) + 1, '$');
 		(*i)++;
 	}

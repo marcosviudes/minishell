@@ -40,12 +40,14 @@ int	ft_echo(char **argv)
 	}
 	while (i < argc)
 	{
-		printf("%s", argv[i]);
+		ft_putstr_fd(argv[i], 1);
+		//printf("%s", argv[i]);
 		if (i + 1 != argc)
-			printf(" ");
+			ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (flag == 0)
-		printf("\n");
+		ft_putchar_fd('\n', 1);
+		//printf("\n");
 	return (0);
 }
