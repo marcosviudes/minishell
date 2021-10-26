@@ -24,7 +24,7 @@ void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 	int	ret;
 
 	signal(SIGQUIT, SIG_DFL);
-	if (isbuiltin(temp_cmd_table->command))
+	if (temp_cmd_table->command && isbuiltin(temp_cmd_table->command))
 	{
 		execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		exit(0);
