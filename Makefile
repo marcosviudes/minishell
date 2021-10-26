@@ -3,7 +3,7 @@ NAME		= minishell
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror -g3 #-fsanitize=address #-Wpedantic -O3
 DFLAGS		= -g
-INCLUDES	= -I ./includes -I./libft  -I ~/.brew/opt/readline/include
+INCLUDES	= -I ./includes -I./libft -I ~/.brew/opt/readline/include
 
 RM			= rm -rf
 MKDIR		= mkdir -p
@@ -19,7 +19,11 @@ SRC			= main.c\
 			executer/executer_builtins.c\
 			executer/executer.c\
 			executer/pathing.c\
-			executer/redirections_files.c\
+			executer/redirections_pipes.c\
+			executer/redirection_to_files.c\
+			executer/redirections_open_files.c\
+			executer/redirections_fd_close.c\
+			executer/wait_for_childs.c\
 			utils/utils.c\
 			utils/utils2.c\
 			lexer/lexical.c\

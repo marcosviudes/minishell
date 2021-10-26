@@ -163,6 +163,10 @@ int		redirection(t_list *redir);
 int		indirection(t_list *redir);
 
 char	*get_final_path(t_shell *shell, t_cmd_table *table);
+void	fd_copy_restore(int fd[2], int last_fd[2]);
+void	wait_for_childs(t_shell *shell, int num_commands);
+void	fd_close(int fd[2], int last_fd[2]);
+void	fd_default_restore(t_shell *shell);
 
 //builtings
 int		ft_export(char **argv, t_shell *shell);
