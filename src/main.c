@@ -1,67 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 01:22:59 by mviudes           #+#    #+#             */
+/*   Updated: 2021/10/27 01:22:59 by mviudes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-int	symbol_error2(t_info *aux)
+void	loop_shell_2(t_shell *shell)
 {
-	while (aux)
-	{
-		if (aux->type == 's' && aux->next != NULL)
-		{
-			if (aux->next->type == 's')
-			{
-				printf("bash: syntax error near unexpected token `%s'\n",
-					aux->string);
-				return (1);
-			}
-		}
-		if (aux->type == 's' && aux->next == NULL)
-		{
-			printf("bash: syntax error near unexpected token `%s'\n",
-				aux->string);
-			return (1);
-		}
-		aux = aux->next;
-	}
-	return (0);
-}
-
-int	symbol_error(t_info *info, t_shell *shell)
-{
-	t_info	*aux;
-	int		i;
-	int		ret;
-
-	aux = info;
-	if (aux)
-	{
-		if (aux->type == 's' && aux->next == NULL)
-		{
-			printf("bash: syntax error near unexpected token `%s'\n",
-				aux->string);
-			return (1);
-		}
-	}
-	ret = symbol_error2(aux);
-	if (ret == 1)
-		return (1);
-	i = 0;
-	while (shell->line[i] == ' ' || shell->line[i] == '\t'
-		|| shell->line[i] == '\n' || shell->line[i] == '\v'
-		|| shell->line[i] == '\f' || shell->line[i] == '\r')
-		i++;
-	if (shell->line[i] == '\0')
-		return (1);
-	return (0);
-}
-
-char	*program_name;
-
-void	bye(void)
-{
-	char	*out;
-
-	out = ft_strjoin("leaks ", &program_name[2]);
-	printf("%s\n", out);
-	system((const char *)out);
+	shell->open_marks = 0;
+	shell->heredoc_value = 0;
+	env_transform(shell);
+	arg_unions(shell);
+	parse(shell);
+	if (shell->heredoc_value == 0)
+		execute(shell);
 }
 
 void	loop_shell(t_shell *shell)
@@ -82,15 +41,7 @@ void	loop_shell(t_shell *shell)
 			continue ;
 		lexical_analyzer(shell);
 		if (shell->open_marks != 1 && !symbol_error(shell->info, shell))
-		{
-			shell->open_marks = 0;
-			shell->heredoc_value = 0;
-			env_transform(shell);
-			arg_unions(shell);
-			parse(shell);
-			if (shell->heredoc_value == 0)
-				execute(shell);
-		}
+			loop_shell_2(shell);
 		shell->open_marks = 0;
 		frees_function(shell);
 	}
@@ -126,7 +77,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
-	program_name = ft_strdup(argv[0]);
 	(void)argc;
 	(void)argv;
 	shell = NULL;

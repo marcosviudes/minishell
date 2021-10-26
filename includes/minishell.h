@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mviudes <mviudes@student.42madrid.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 01:26:06 by mviudes           #+#    #+#             */
+/*   Updated: 2021/10/27 01:26:06 by mviudes          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -189,6 +201,7 @@ char	**ft_getenvptr(char *header, t_shell *shell);
 char	*ft_getenvcpy(char *header, t_shell *shell);
 int		its_not_special(char digit);
 char	**fill_env(char **envp);
+int		symbol_error(t_info *info, t_shell *shell);
 
 //FREE
 void	free_table(void *arg);

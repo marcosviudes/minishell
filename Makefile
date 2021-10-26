@@ -26,6 +26,7 @@ SRC			= main.c\
 			executer/wait_for_childs.c\
 			utils/utils.c\
 			utils/utils2.c\
+			utils/symbol_error.c\
 			lexer/lexical.c\
 			lexer/quotation_marks.c\
 			lexer/listing.c\
