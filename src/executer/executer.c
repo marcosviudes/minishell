@@ -1,19 +1,19 @@
 #include <minishell.h>
 #include <termios.h>
 
-void	redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell)
+void	redirfds(t_cmd_table *temp_cmd_table,
+		int fd[2], int last_fd[2], t_shell *shell)
 {
-	if (i != 0)
+	if (temp_cmd_table->num_command != IS_NODE_FIRST)
 	{
 		close(last_fd[WRITE_END]);
 		dup2(last_fd[READ_END], STDIN_FILENO);
 		close(last_fd[READ_END]);
 	}
-	if (i < num_commands){
+	if (temp_cmd_table->num_command == IS_NODE_MIDLE
+		|| temp_cmd_table->num_command == IS_NODE_FIRST)
 		dup2(fd[WRITE_END], STDOUT_FILENO);
-//		close(fd[WRITE_END]);
-	}
-	if (i == num_commands)
+	if (temp_cmd_table->num_command == IS_NODE_LAST)
 	{
 		dup2(shell->fd_out, STDOUT_FILENO);
 	}
@@ -34,6 +34,63 @@ void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 	exit(127);
 }
 
+void	redir_files_first(t_cmd_table *temp_cmd_table
+			, int fd[2], int last_fd[2])
+{
+	int	outfile;
+	int	infile;
+
+	outfile = redirection(temp_cmd_table->outfile);
+	infile = indirection(temp_cmd_table->infile);
+	(void)last_fd;
+	if (temp_cmd_table->outfile)
+	{
+		dup2(outfile, STDOUT_FILENO);
+		close(fd[WRITE_END]);
+	}
+	if (temp_cmd_table->infile)
+	{
+		dup2(infile, STDIN_FILENO);
+	}
+}
+
+void	redir_files_middle(t_cmd_table *temp_cmd_table,
+			int fd[2], int last_fd[2])
+{
+	int	outfile;
+	int	infile;
+
+	(void)fd;
+	outfile = redirection(temp_cmd_table->outfile);
+	infile = indirection(temp_cmd_table->infile);
+	if (temp_cmd_table->outfile)
+	{
+		dup2(outfile, STDOUT_FILENO);
+	}
+	if (temp_cmd_table->infile)
+		close(last_fd[READ_END]);
+	dup2(infile, STDIN_FILENO);
+}
+
+void	redir_files_last(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
+{
+	int	outfile;
+	int	infile;
+
+	outfile = redirection(temp_cmd_table->outfile);
+	infile = indirection(temp_cmd_table->infile);
+	if (temp_cmd_table->outfile)
+	{
+		close(fd[WRITE_END]);
+		dup2(outfile, STDOUT_FILENO);
+	}
+	if (temp_cmd_table->infile)
+	{
+		close(last_fd[READ_END]);
+		dup2(infile, STDIN_FILENO);
+	}
+}
+
 void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
 {
 	int	outfile;
@@ -41,46 +98,12 @@ void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
 
 	outfile = redirection(temp_cmd_table->outfile);
 	infile = indirection(temp_cmd_table->infile);
-	fprintf(stderr, "\ntemp_cmd_table->mum_command = %i\n", temp_cmd_table->num_command);
 	if (temp_cmd_table->num_command == IS_NODE_FIRST)
-	{
-		if (temp_cmd_table->outfile)
-		{
-			dup2(outfile, STDOUT_FILENO);
-			close(fd[WRITE_END]);
-			close(outfile);
-		}
-		if (temp_cmd_table->infile){
-			dup2(infile, STDIN_FILENO);
-			close(infile);
-		}
-	}
-	if (temp_cmd_table->num_command == IS_NODE_LAST)
-	{
-		if (temp_cmd_table->outfile){
-			dup2(outfile, STDOUT_FILENO);
-			close(outfile);
-		}
-		if (temp_cmd_table->infile)
-			close(last_fd[READ_END]);
-		dup2(infile, STDIN_FILENO);
-
-	}
+		redir_files_first(temp_cmd_table, fd, last_fd);
+	else if (temp_cmd_table->num_command == IS_NODE_LAST)
+		redir_files_middle(temp_cmd_table, fd, last_fd);
 	else
-	{
-		if (temp_cmd_table->outfile)
-		{
-			close(fd[WRITE_END]);
-			dup2(outfile, STDOUT_FILENO);
-			close(outfile);
-		}
-		if (temp_cmd_table->infile)
-		{
-			close(last_fd[READ_END]);
-			dup2(infile, STDIN_FILENO);
-			close(infile);
-		}
-	}
+		redir_files_last(temp_cmd_table, fd, last_fd);
 }
 
 void	execute_commands_single(t_shell *shell)
@@ -152,29 +175,27 @@ void	fd_default_restore(t_shell *shell)
 
 void	set_first_last(t_shell *shell)
 {
-	int		flag;
-	t_list	*cmd_list;
-	t_cmd_table *temp_cmd_table;
+	int			flag;
+	t_list		*cmd_list;
+	t_cmd_table	*temp_cmd_table;
 
 	flag = 0;
 	cmd_list = shell->cmd_list;
-	while(cmd_list != NULL)
+	while (cmd_list != NULL)
 	{
 		temp_cmd_table = (t_cmd_table *)cmd_list->content;
 		temp_cmd_table->num_command = IS_NODE_MIDLE;
-		if(flag == 0)
+		if (flag == 0)
 			temp_cmd_table->num_command = IS_NODE_FIRST;
 		flag = 1;
-		if(!cmd_list->next && temp_cmd_table)
+		if (!cmd_list->next && temp_cmd_table)
 			temp_cmd_table->num_command = IS_NODE_LAST;
-
 		cmd_list = cmd_list->next;
 	}
 }
 
 void	execute_commands_multiple(t_shell *shell, int num_commands)
 {
-	int			i;
 	char		*path;
 	int			fd[2];
 	int			last_fd[2];
@@ -182,7 +203,6 @@ void	execute_commands_multiple(t_shell *shell, int num_commands)
 	t_list		*temp_node;
 
 	temp_node = shell->cmd_list;
-	i = 0;
 	num_commands--;
 	set_first_last(shell);
 	while (temp_node)
@@ -190,11 +210,7 @@ void	execute_commands_multiple(t_shell *shell, int num_commands)
 		temp_cmd_table = (t_cmd_table *)temp_node->content;
 		path = get_final_path(shell, temp_cmd_table);
 		pipe(fd);
-		fprintf(stderr, "\nfd = %p\n", fd);
-		fprintf(stderr, "\nfd = %p\n", fd);
-		fprintf(stderr, "\nlast_fd = %p\n", last_fd);
-		fprintf(stderr, "\nlast_fd = %p\n", last_fd);
-		redirfds(i, num_commands, fd, last_fd, shell);
+		redirfds(temp_cmd_table, fd, last_fd, shell);
 		redir_files(temp_cmd_table, fd, last_fd);
 		shell->pid = fork();
 		if (shell->pid == 0)
@@ -202,7 +218,6 @@ void	execute_commands_multiple(t_shell *shell, int num_commands)
 		fd_copy_restore(fd, last_fd);
 		temp_node = temp_node->next;
 		free(path);
-		i++;
 	}
 	wait_for_childs(shell, num_commands);
 	fd_close(fd, last_fd);
