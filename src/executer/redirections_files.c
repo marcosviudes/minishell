@@ -54,7 +54,7 @@ int	indirection(t_list *redir)
 				return (-1);
 			fd = open(redir_table.file, O_RDWR, 00644);
 			if (fd == -1)
-				return (1);
+				return (-1);
 			i++;
 			redir = redir->next;
 		}

@@ -100,7 +100,7 @@ t_shell	*init_structure(t_shell *shell, char **envp)
 {
 	shell = malloc(sizeof(t_shell));
 	shell->heredoc_value = 0;
-	shell->phrase = NULL;
+	shell->phrase = ft_strdup("");
 	shell->finalstring = NULL;
 	shell->pdolar = NULL;
 	shell->flag_heredoc_file = 0;
