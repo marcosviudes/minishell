@@ -29,24 +29,26 @@ void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 	exit(127);
 }
 
-void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands)
+void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
 {
 	int	outfile;
 	int	infile;
 
 	outfile = redirection(temp_cmd_table->outfile);
 	infile = indirection(temp_cmd_table->infile);
-	if (i == 0)
+	fprintf(stderr, "\ntemp_cmd_table->mum_command = %i\n", temp_cmd_table->num_command);
+	if (temp_cmd_table->num_command == IS_NODE_FIRST)
 	{
 		if (temp_cmd_table->outfile)
 		{
 			dup2(outfile, STDOUT_FILENO);
 			close(fd[WRITE_END]);
 		}
-		if (temp_cmd_table->infile)
+		if (temp_cmd_table->infile){
 			dup2(infile, STDIN_FILENO);
+		}
 	}
-	if (i == num_commands)
+	if (temp_cmd_table->num_command == IS_NODE_LAST)
 	{
 		if (temp_cmd_table->outfile)
 			dup2(outfile, STDOUT_FILENO);
@@ -136,6 +138,28 @@ void	fd_default_restore(t_shell *shell)
 	close(shell->fd_in);
 }
 
+void	set_first_last(t_shell *shell)
+{
+	int		flag;
+	t_list	*cmd_list;
+	t_cmd_table *temp_cmd_table;
+
+	flag = 0;
+	cmd_list = shell->cmd_list;
+	while(cmd_list != NULL)
+	{
+		temp_cmd_table = (t_cmd_table *)cmd_list->content;
+		temp_cmd_table->num_command = IS_NODE_MIDLE;
+		if(flag == 0)
+			temp_cmd_table->num_command = IS_NODE_FIRST;
+		flag = 1;
+		if(!cmd_list->next && temp_cmd_table)
+			temp_cmd_table->num_command = IS_NODE_LAST;
+
+		cmd_list = cmd_list->next;
+	}
+}
+
 void	execute_commands_multiple(t_shell *shell, int num_commands)
 {
 	int			i;
@@ -148,13 +172,14 @@ void	execute_commands_multiple(t_shell *shell, int num_commands)
 	temp_node = shell->cmd_list;
 	i = 0;
 	num_commands--;
+	set_first_last(shell);
 	while (temp_node)
 	{
 		temp_cmd_table = (t_cmd_table *)temp_node->content;
 		path = get_final_path(shell, temp_cmd_table);
 		pipe(fd);
 		redirfds(i, num_commands, fd, last_fd, shell);
-		redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
+		redir_files(temp_cmd_table, fd, last_fd);
 		shell->pid = fork();
 		if (shell->pid == 0)
 			child_process(shell, temp_cmd_table, path);

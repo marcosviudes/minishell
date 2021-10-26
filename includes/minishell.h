@@ -35,6 +35,10 @@
 # define M_PARSE		2
 # define M_EXECUTE		3
 
+# define IS_NODE_FIRST	0
+# define IS_NODE_MIDLE	1
+# define IS_NODE_LAST	2
+
 typedef struct s_info	t_info;
 
 typedef struct s_info
@@ -79,6 +83,7 @@ typedef struct s_cmd_table
 {
 	char		*command;
 	char		**args;
+	int			num_command;
 	t_list		*outfile;
 	t_list		*infile;
 }				t_cmd_table;
@@ -145,7 +150,7 @@ char	*pathing(char *command, char **envp);
 void	execute_single_bin(t_shell *shell, t_cmd_table *table);
 void	redirfds(int i, int num_commands, int fd[2], int last_fd[2], t_shell *shell);
 void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path);
-void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], int i, int num_commands);
+void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2]);
 
 int		is_absolute_path(char *command);
 int		search_for_line(char **envp);
