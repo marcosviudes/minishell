@@ -41,13 +41,11 @@ int	ft_echo(char **argv)
 	while (i < argc)
 	{
 		ft_putstr_fd(argv[i], 1);
-		//printf("%s", argv[i]);
 		if (i + 1 != argc)
 			ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (flag == 0)
 		ft_putchar_fd('\n', 1);
-		//printf("\n");
 	return (0);
 }
