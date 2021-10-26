@@ -18,12 +18,12 @@ void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 {
 	int	ret;
 
+	signal(SIGQUIT, SIG_DFL);
 	if (isbuiltin(temp_cmd_table->command))
 	{
 		execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		exit(0);
 	}
-	signal(SIGQUIT, SIG_DFL);
 	ret = execve(path, temp_cmd_table->args, shell->ownenvp);
 	printf("bash: %s: command not found\n", temp_cmd_table->command);
 	exit(127);
@@ -112,6 +112,30 @@ void	wait_for_childs(t_shell *shell, int num_commands)
 	}
 }
 
+void	fd_copy_restore(int fd[2], int last_fd[2])
+{
+	last_fd[READ_END] = fd[READ_END];
+	last_fd[WRITE_END] = fd[WRITE_END];
+	fd[READ_END] = 0;
+	fd[WRITE_END] = 1;
+}
+
+void	fd_close(int fd[2], int last_fd[2])
+{
+	close(last_fd[READ_END]);
+	close(last_fd[WRITE_END]);
+	close(fd[READ_END]);
+	close(fd[WRITE_END]);
+}
+
+void	fd_default_restore(t_shell *shell)
+{
+	dup2(shell->fd_out, STDOUT_FILENO);
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_out);
+	close(shell->fd_in);
+}
+
 void	execute_commands_multiple(t_shell *shell, int num_commands)
 {
 	int			i;
@@ -133,23 +157,14 @@ void	execute_commands_multiple(t_shell *shell, int num_commands)
 		redir_files(temp_cmd_table, fd, last_fd, i, num_commands);
 		shell->pid = fork();
 		if (shell->pid == 0)
-		{
-			signal(SIGQUIT, SIG_DFL);
 			child_process(shell, temp_cmd_table, path);
-		}
-		last_fd[READ_END] = fd[READ_END];
-		last_fd[WRITE_END] = fd[WRITE_END];
-		fd[READ_END] = 0;
-		fd[WRITE_END] = 1;
+		fd_copy_restore(fd, last_fd);
 		temp_node = temp_node->next;
 		free(path);
 		i++;
 	}
 	wait_for_childs(shell, num_commands);
-	close(last_fd[READ_END]);
-	close(last_fd[WRITE_END]);
-	close(fd[READ_END]);
-	close(fd[WRITE_END]);
+	fd_close(fd, last_fd);
 }
 
 void	execute(t_shell *shell)
@@ -168,10 +183,7 @@ void	execute(t_shell *shell)
 		execute_commands_single(shell);
 	else
 		execute_commands_multiple(shell, num_commands);
-	dup2(shell->fd_out, STDOUT_FILENO);
-	dup2(shell->fd_in, STDIN_FILENO);
-	close(shell->fd_out);
-	close(shell->fd_in);
+	fd_default_restore(shell);
 	if (shell->flag_heredoc_file)
 		unlink(".tempheredoc");
 	shell->flag_heredoc_file = 0;
