@@ -180,5 +180,6 @@ void execute(t_shell *shell)
 	close(shell->fd_in);
 	if (shell->flag_heredoc_file)
 		unlink(".tempheredoc");
+	shell->flag_heredoc_file = 0;
 	tcsetattr(0, TCSANOW, &old);
 }

@@ -6,7 +6,7 @@ char	*get_final_path(t_shell *shell, t_cmd_table *table)
 
 	path = NULL;
 	if (is_absolute_path(table->command))
-		path = table->command;
+		path = ft_strdup(table->command);
 	else
 		path = pathing(table->command, shell->ownenvp);
 	return (path);
