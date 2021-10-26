@@ -29,7 +29,8 @@ void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path)
 		execute_builtin(temp_cmd_table, temp_cmd_table->command, shell);
 		exit(0);
 	}
-	ret = execve(path, temp_cmd_table->args, shell->ownenvp);
+	if(shell->execute == 1)
+		ret = execve(path, temp_cmd_table->args, shell->ownenvp);
 	printf("bash: %s: command not found\n", temp_cmd_table->command);
 	exit(127);
 }
@@ -91,13 +92,19 @@ void	redir_files_last(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
 	}
 }
 
-void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
+void	redir_files(t_shell *shell, t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2])
 {
 	int	outfile;
 	int	infile;
 
 	outfile = redirection(temp_cmd_table->outfile);
 	infile = indirection(temp_cmd_table->infile);
+	if (outfile == -1 || infile == -1)
+	{
+		perror("terminator");
+		shell->execute = 0;
+		return ;
+	}
 	if (temp_cmd_table->num_command == IS_NODE_FIRST)
 		redir_files_first(temp_cmd_table, fd, last_fd);
 	else if (temp_cmd_table->num_command == IS_NODE_LAST)
@@ -118,6 +125,7 @@ void	execute_commands_single(t_shell *shell)
 	if (outfile == -1 || infile == -1)
 	{
 		perror("terminator");
+		shell->execute = 0;
 		return ;
 	}
 	if (!temp_cmd_table->command)
@@ -211,7 +219,7 @@ void	execute_commands_multiple(t_shell *shell, int num_commands)
 		path = get_final_path(shell, temp_cmd_table);
 		pipe(fd);
 		redirfds(temp_cmd_table, fd, last_fd, shell);
-		redir_files(temp_cmd_table, fd, last_fd);
+		redir_files(shell, temp_cmd_table, fd, last_fd);
 		shell->pid = fork();
 		if (shell->pid == 0)
 			child_process(shell, temp_cmd_table, path);
@@ -235,6 +243,7 @@ void	execute(t_shell *shell)
 	shell->fd_out = dup(STDOUT_FILENO);
 	num_commands = ft_lstsize(shell->cmd_list);
 	temp_cmd_table = NULL;
+	shell->execute = 1;
 	if (num_commands == 1)
 		execute_commands_single(shell);
 	else

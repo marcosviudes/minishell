@@ -54,6 +54,7 @@ typedef struct s_info
 
 typedef struct s_shell
 {
+	int				execute;
 	int				heredoc_value;
 	char			*phrase;
 	char			*finalstring;
@@ -150,7 +151,7 @@ char	*pathing(char *command, char **envp);
 void	execute_single_bin(t_shell *shell, t_cmd_table *table);
 void	redirfds(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2], t_shell *shell);
 void	child_process(t_shell *shell, t_cmd_table *temp_cmd_table, char *path);
-void	redir_files(t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2]);
+void	redir_files(t_shell *shell, 	t_cmd_table *temp_cmd_table, int fd[2], int last_fd[2]);
 
 int		is_absolute_path(char *command);
 int		search_for_line(char **envp);

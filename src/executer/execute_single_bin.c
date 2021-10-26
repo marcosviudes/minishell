@@ -25,7 +25,8 @@ void	execute_single_bin(t_shell *shell, t_cmd_table *table)
 	if (shell->pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		ret = execve(path, table->args, shell->ownenvp);
+		if(shell->execute == 1)
+			ret = execve(path, table->args, shell->ownenvp);
 		printf("bash: %s: command not found\n", table->command);
 		exit(127);
 	}
