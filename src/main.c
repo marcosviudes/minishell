@@ -1,54 +1,63 @@
 #include <minishell.h>
 
-int	symbol_error(t_info *info, t_shell *shell)
+int	symbol_error2(t_info *aux)
 {
-	t_info	*aux;
-
-	aux = info;
-	if (aux)
-	{
-		if (aux->type == 's' && aux->next == NULL)
-		{
-			printf("bash: syntax error near unexpected token `%s'\n", aux->string);
-			return (1);
-		}
-	}
 	while (aux)
 	{
 		if (aux->type == 's' && aux->next != NULL)
 		{
 			if (aux->next->type == 's')
 			{
-				printf("bash: syntax error near unexpected token `%s'\n", aux->string);
+				printf("bash: syntax error near unexpected token `%s'\n",
+					aux->string);
 				return (1);
 			}
 		}
-		if(aux->type == 's' && aux->next == NULL)
+		if (aux->type == 's' && aux->next == NULL)
 		{
-			printf("bash: syntax error near unexpected token `%s'\n", aux->string);
+			printf("bash: syntax error near unexpected token `%s'\n",
+				aux->string);
 			return (1);
 		}
 		aux = aux->next;
 	}
-//	if	(ft_strncmp(shell->line, "", 2) == 0)
-//		return (1);
-	int	i;
+	return (0);
+}
 
+int	symbol_error(t_info *info, t_shell *shell)
+{
+	t_info	*aux;
+	int		i;
+	int		ret;
+
+	aux = info;
+	if (aux)
+	{
+		if (aux->type == 's' && aux->next == NULL)
+		{
+			printf("bash: syntax error near unexpected token `%s'\n",
+				aux->string);
+			return (1);
+		}
+	}
+	ret = symbol_error2(aux);
+	if (ret == 1)
+		return (1);
 	i = 0;
 	while (shell->line[i] == ' ' || shell->line[i] == '\t'
-			||	shell->line[i] == '\n' || shell->line[i] == '\v'
-				||	shell->line[i] == '\f' || shell->line[i] == '\r')
+		|| shell->line[i] == '\n' || shell->line[i] == '\v'
+		|| shell->line[i] == '\f' || shell->line[i] == '\r')
 		i++;
 	if (shell->line[i] == '\0')
 		return (1);
 	return (0);
 }
 
+char	*program_name;
 
-char *program_name;
-void	bye()
+void	bye(void)
 {
-	char *out;
+	char	*out;
 
 	out = ft_strjoin("leaks ", &program_name[2]);
 	printf("%s\n", out);
@@ -57,10 +66,6 @@ void	bye()
 
 void	loop_shell(t_shell *shell)
 {
-//	t_info	*aux;
-
-//	aux = NULL;
-	//atexit(bye);
 	while (TRUE)
 	{
 		shell->mode = M_READING;
@@ -70,7 +75,7 @@ void	loop_shell(t_shell *shell)
 		shell->line = NULL;
 		signal_init();
 		shell->line = readline("terminator$ ");
-		if(shell->line == NULL)
+		if (shell->line == NULL)
 			exit(write(1, "exit\n", 5));
 		add_history(shell->line);
 		if (!shell->line)
