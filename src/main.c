@@ -60,7 +60,7 @@ void	loop_shell(t_shell *shell)
 //	t_info	*aux;
 
 //	aux = NULL;
-//	atexit(bye);
+	//atexit(bye);
 	while (TRUE)
 	{
 		shell->mode = M_READING;
