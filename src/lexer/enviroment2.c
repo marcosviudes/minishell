@@ -31,12 +31,14 @@ static char	*converse(char *str, int *count, t_shell *shell)
 		{
 			ret = final_phrase(shell->ownenvp[i], ft_strlen(str));
 			*count = *count + (ft_strlen(str));
+			free(aux);
 			return (ret);
 		}
 		i++;
 	}
 	ret = ft_strdup("");
 	*count = *count + ft_strlen(aux);
+	free(aux);
 	return (ret);
 }
 

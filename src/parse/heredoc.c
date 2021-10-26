@@ -3,7 +3,7 @@
 char *transf_reading_bucle(char **reading, char *str_aux, char *pdolar, t_shell *shell)
 {
 	int	i;
-
+	char	*aux;
 	i = 0;
 	while (i < (int)ft_strlen(*reading))
 	{
@@ -18,8 +18,9 @@ char *transf_reading_bucle(char **reading, char *str_aux, char *pdolar, t_shell 
 			}
 			else
 			{
-				str_aux = ft_strjoin(str_aux,
-						get_dolar_string(pdolar, &i, shell));
+				aux = get_dolar_string(pdolar, &i, shell);
+				str_aux = ft_strjoin(str_aux, aux);
+				free(aux);
 				pdolar = ft_strchr(pdolar + 1, '$');
 			}
 			i++;
@@ -72,6 +73,7 @@ int	ft_heredoc(t_shell *shell, t_info *temp)
 		free(reading);
 		reading = readline("> ");
 	}
+	free(reading);
 	close(fd_temp);
 	shell->mode = M_PARSE;
 	return (0);

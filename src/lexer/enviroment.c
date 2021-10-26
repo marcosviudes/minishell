@@ -2,6 +2,8 @@
 
 static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 {
+	char *cad;
+
 	if (aux->string[*i + 1] == '?')
 	{
 		shell->finalstring = ft_strjoin(shell->finalstring,
@@ -18,8 +20,11 @@ static void	env_transform3(t_shell *shell, t_info *aux, int *i)
 	}
 	else
 	{
-		shell->finalstring = ft_strjoin(shell->finalstring,
-				get_dolar_string(shell->pdolar, i, shell));
+		cad = get_dolar_string(shell->pdolar, i, shell);
+		if (shell->finalstring)
+			free(shell->finalstring);
+		shell->finalstring = ft_strjoin(shell->finalstring, cad);
+		free(cad);
 		shell->pdolar = ft_strchr(shell->pdolar + 1, '$');
 	}
 	(*i)++;
